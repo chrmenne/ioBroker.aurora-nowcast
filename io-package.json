@@ -63,6 +63,7 @@
 		"loglevel": "info",
 		"tier": 3,
 		"mode": "schedule",
+                "schedule": "* * * * *",
 		"allowInit": true,
 		"type": "weather",
 		"compact": true,

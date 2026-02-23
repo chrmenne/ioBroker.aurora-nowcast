@@ -2,10 +2,7 @@
   "name": "iobroker.aurora-borealis",
   "version": "0.0.1",
   "description": "Provides forecast data for the appearances of aurora borealis (northern lights) for a given location, based on NOAA information.",
-  "author": {
-    "name": "Christian Menne",
-    "email": "publicdevelopment@christianmenne.de"
-  },
+  "author": "Christian Menne <publicdevelopment@christianmenne.de>",
   "contributors": [],
   "homepage": "https://github.com/chrmenne/ioBroker.aurora-borealis",
   "license": "GPL-3.0",
@@ -16,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/chrmenne/ioBroker.aurora-borealis.git"
+    "url": "git+https://github.com/chrmenne/ioBroker.aurora-borealis.git"
   },
   "engines": {
     "node": ">= 22"
@@ -36,6 +33,7 @@
     "@tsconfig/node22": "^22.0.5",
     "@types/iobroker": "npm:@iobroker/types@^7.1.0",
     "@types/node": "^22.19.11",
+    "nodemon": "^3.1.14",
     "typescript": "~5.9.3"
   },
   "main": "main.js",
@@ -62,5 +60,9 @@
   "bugs": {
     "url": "https://github.com/chrmenne/ioBroker.aurora-borealis/issues"
   },
-  "readmeFilename": "README.md"
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "type": "commonjs"
 }
