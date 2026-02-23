@@ -1,0 +1,44 @@
+{
+	"cli": true,
+	"target": "directory",
+	"adapterName": "aurora-borealis",
+	"title": "Aurora Borealis Forecast",
+	"description": "Provides forecast data for the appearances of aurora borealis (northern lights) for a given location, based on NOAA information.",
+	"keywords": [
+		"noaa",
+		"northern lights",
+		"aurora borealis"
+	],
+	"expert": "yes",
+	"features": [
+		"adapter"
+	],
+	"adminFeatures": [],
+	"type": "weather",
+	"startMode": "schedule",
+	"scheduleStartOnChange": "yes",
+	"connectionType": "cloud",
+	"dataSource": "poll",
+	"connectionIndicator": "no",
+	"language": "JavaScript",
+	"nodeVersion": "22",
+	"adminUi": "none",
+	"tools": [
+		"ESLint",
+		"type checking"
+	],
+	"eslintConfig": "official",
+	"releaseScript": "yes",
+	"devServer": "local",
+	"indentation": "Tab",
+	"quotes": "double",
+	"authorName": "Christian Menne",
+	"authorGithub": "chrmenne",
+	"authorEmail": "publicdevelopment@christianmenne.de",
+	"gitRemoteProtocol": "HTTPS",
+	"gitCommit": "yes",
+	"defaultBranch": "main",
+	"license": "GNU GPLv3",
+	"dependabot": "yes",
+	"creatorVersion": "3.1.2"
+}

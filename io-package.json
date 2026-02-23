@@ -1,0 +1,91 @@
+{
+	"common": {
+		"name": "aurora-borealis",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "Aurora Borealis Forecast",
+			"de": "Aurora Borealis-Vorhersage",
+			"ru": "Прогноз северного сияния",
+			"pt": "Previsão da Aurora Boreal",
+			"nl": "Aurora Borealis-voorspelling",
+			"fr": "Prévisions des aurores boréales",
+			"it": "Previsioni per l'aurora boreale",
+			"es": "Pronóstico de la aurora boreal",
+			"pl": "Prognoza zorzy polarnej",
+			"uk": "Прогноз полярного сяйва",
+			"zh-cn": "北极光预报"
+		},
+		"desc": {
+			"en": "Provides forecast data for the appearances of aurora borealis (northern lights) for a given location, based on NOAA information.",
+			"de": "Bietet Prognosedaten für das Auftreten von Aurora Borealis (Nordlichtern) für einen bestimmten Standort, basierend auf NOAA-Informationen.",
+			"ru": "Предоставляет данные прогноза появления северного сияния (северного сияния) для данного места на основе информации NOAA.",
+			"pt": "Fornece dados de previsão para o aparecimento de aurora boreal (aurora boreal) em um determinado local, com base nas informações da NOAA.",
+			"nl": "Biedt voorspellingsgegevens voor de verschijning van aurora borealis (noorderlicht) voor een bepaalde locatie, gebaseerd op NOAA-informatie.",
+			"fr": "Fournit des données de prévision sur les apparitions d'aurores boréales (aurores boréales) pour un emplacement donné, sur la base des informations de la NOAA.",
+			"it": "Fornisce dati di previsione per la comparsa dell'aurora boreale (aurora boreale) per una determinata località, in base alle informazioni NOAA.",
+			"es": "Proporciona datos de pronóstico para la aparición de auroras boreales (auroras boreales) para una ubicación determinada, según información de la NOAA.",
+			"pl": "Dostarcza dane prognozy pojawienia się zorzy polarnej (zorzy polarnej) dla danej lokalizacji w oparciu o informacje NOAA.",
+			"uk": "Надає прогнозовані дані про появу полярного сяйва (північного сяйва) для певного місця на основі інформації NOAA.",
+			"zh-cn": "根据 NOAA 信息，提供给定位置的北极光出现的预报数据。"
+		},
+		"authors": [
+			"Christian Menne <publicdevelopment@christianmenne.de>"
+		],
+		"keywords": [
+			"noaa",
+			"northern lights",
+			"aurora borealis"
+		],
+		"licenseInformation": {
+			"type": "free",
+			"license": "GPL-3.0"
+		},
+		"platform": "Javascript/Node.js",
+		"icon": "aurora-borealis.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/chrmenne/ioBroker.aurora-borealis/main/admin/aurora-borealis.png",
+		"readme": "https://github.com/chrmenne/ioBroker.aurora-borealis/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"mode": "schedule",
+		"allowInit": true,
+		"type": "weather",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "none"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=6.0.11"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=7.0.23"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}
