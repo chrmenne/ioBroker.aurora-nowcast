@@ -86,8 +86,8 @@
 	"native": {
 		"interval": 300,
 		"useSystemLocation": true,
-		"latitude": 0,
-		"longitude": 0
+		"latitude": null,
+		"longitude": null
 	},
 	"objects": [],
 	"instanceObjects": []

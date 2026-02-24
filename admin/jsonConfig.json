@@ -1,47 +1,55 @@
 {
-  "type": "panel",
-  "items": {
-    "interval": {
-      "type": "number",
-      "label": "Polling interval (seconds)"
-    },
-	"location": {
-	      "newLine": true,
-	      "type": "header",
-	      "text": "Use system location or specify coordinates",
-	      "size": 3
-	    },
+	"type": "panel",
+	"items": {
+		"location": {
+			"newLine": true,
+			"type": "header",
+			"text": "Use system location or specify coordinates",
+			"size": 3
+		},
 	    "useSystemLocation": {
-	      "newLine": true,
-	      "type": "checkbox",
-	      "label": "Use system location",
-	      "xs": 12,
-	      "sm": 12,
-	      "md": 6,
-	      "lg": 4,
-	      "xl": 4
+			"newLine": true,
+			"type": "checkbox",
+			"label": "Use system location",
+			"xs": 12,
+			"sm": 12,
+			"md": 6,
+			"lg": 4,
+			"xl": 4
 	    },
 	    "latitude": {
-	      "newLine": true,
-	      "type": "number",
-	      "label": "Latitude",
-	      "hidden": "data.useSystemLocation",
-	      "xs": 12,
-	      "sm": 12,
-	      "md": 6,
-	      "lg": 2,
-	      "xl": 2
+			"newLine": true,
+			"type": "number",
+			"label": "Latitude (degrees)",
+			"help": "Geographic latitude in decimal degrees. North is positive, south is negative. Example: 52.5 (N) for Berlin, -34.6 (S) for Buenos Aires.",
+			"placeholder": "e.g. 52.2",
+			"min": -90,
+			"max": 90,
+			"step": 0.1,
+			"required": true,
+			"hidden": "data.useSystemLocation",
+			"xs": 12,
+			"sm": 12,
+			"md": 6,
+			"lg": 2,
+			"xl": 2
 	    },
 	    "longitude": {
-	      "newLine": false,
-	      "type": "number",
-	      "label": "Longitude",
-	      "hidden": "data.useSystemLocation",
-	      "xs": 12,
-	      "sm": 12,
-	      "md": 6,
-	      "lg": 2,
-	      "xl": 2
+			"newLine": false,
+			"type": "number",
+			"label": "Longitude (degrees)",
+			"help": "Geographic longitude in decimal degrees. East is positive, west is negative. Example: 13.4 (E) for Berlin, -58.4 (W) for Buenos Aires.",
+			"placeholder": "e.g. 13.4",
+			"min": -180,
+			"max": 180,
+			"step": 0.1,
+			"required": true,
+			"hidden": "data.useSystemLocation",
+			"xs": 12,
+			"sm": 12,
+			"md": 6,
+			"lg": 2,
+			"xl": 2
 	    }
-  }
+	}
 }
