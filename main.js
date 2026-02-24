@@ -95,10 +95,21 @@ class AuroraBorealis extends utils.Adapter {
 				},
 				native: {},
 			});
-			await this.setObjectNotExistsAsync("timestamp", {
+			await this.setObjectNotExistsAsync("observation_time", {
 				type: "state",
 				common: {
-					name: "Last report timestamp",
+					name: "Observation time",
+					type: "number",
+					role: "date",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("forecast_time", {
+				type: "state",
+				common: {
+					name: "Forecast time",
 					type: "number",
 					role: "date",
 					read: true,
@@ -135,8 +146,15 @@ class AuroraBorealis extends utils.Adapter {
 			const probability = this.getAuroraProbabilityFromOvationData(ovationJson, ovationIndex);
 			this.log.debug(`Probability: ${probability}`);
 
-			await this.setState("probability", { val: 0, ack: true });
-			await this.setState("timestamp", { val: Date.now(), ack: true });
+			await this.setState("probability", { val: probability, ack: true });
+			await this.setState("observation_time", {
+				val: new Date(ovationJson["Observation Time"]).getTime(),
+				ack: true,
+			});
+			await this.setState("forecast_time", {
+				val: new Date(ovationJson["Forecast Time"]).getTime(),
+				ack: true,
+			});
 		} catch (e) {
 			this.log.error(e);
 			this.stop(1);
@@ -159,7 +177,6 @@ class AuroraBorealis extends utils.Adapter {
 			callback();
 		}
 	}
-
 
 	/**
 	 * Is called if a subscribed state changes
