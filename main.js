@@ -1,8 +1,6 @@
 "use strict";
 
 /*
- * 
- *
  * Created with @iobroker/create-adapter v3.1.2
  */
 
@@ -29,68 +27,125 @@ class AuroraBorealis extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 	}
 
+	fetchNoaaData() {
+		this.log.info("Fetching");
+	}
+
+	getNoaaIndex(lon, lat) {
+		let rLat = Math.round(lat);
+		let rLon = Math.round(lon);
+		if (rLon < 0) {
+			rLon += 360;
+		}
+		return rLon * 181 + (90 + rLat);
+	}
+
+	async fetchOvation() {
+		const controller = new AbortController();
+		const timeout = setTimeout(() => controller.abort(), 10000);
+		let json;
+		try {
+			const res = await fetch("https://services.swpc.noaa.gov/json/ovation_aurora_latest.json", {
+				signal: controller.signal,
+				headers: {
+					"User-Agent": "ioBroker-aurora-borealis",
+				},
+			});
+			if (!res.ok) {
+				throw new Error(`NOAA HTTP ${res.status}`);
+			}
+			json = await res.json();
+		} catch (e) {
+			if (e.name === "AbortError") {
+				throw new Error("NOAA request timeout");
+			}
+			throw e;
+		} finally {
+			clearTimeout(timeout);
+		}
+		return json;
+	}
+
+	getAuroraProbabilityFromOvationData(json, index) {
+		if (!json?.coordinates || !Array.isArray(json.coordinates)) {
+			throw new Error("Invalid NOAA payload");
+		}
+		const cell = json.coordinates[index];
+		if (!cell || cell.length < 3) {
+			throw new Error("NOAA grid lookup failed");
+		}
+		return cell[2]; // probability %
+	}
+
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
 		// Initialize your adapter here
+		try {
+			await this.setObjectNotExistsAsync("probability", {
+				type: "state",
+				common: {
+					name: "Aurora probability",
+					type: "number",
+					role: "value",
+					unit: "%",
+					min: 0,
+					max: 100,
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("timestamp", {
+				type: "state",
+				common: {
+					name: "Last report timestamp",
+					type: "number",
+					role: "date",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
 
-		// The adapters config (in the instance object everything under the attribute "native") is accessible via
-		// this.config:
-		this.log.debug("config option1: ${this.config.option1}");
-		this.log.debug("config option2: ${this.config.option2}");
+			let lon;
+			let lat;
 
-		this.log.debug("First run");
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
+			if (this.config.useSystemLocation) {
+				const sysConfig = await this.getForeignObjectAsync("system.config");
+				if (sysConfig?.common?.latitude && sysConfig?.common?.longitude) {
+					lon = sysConfig?.common?.longitude;
+					lat = sysConfig?.common?.latitude;
+				} else {
+					this.log.error("System coordinates are configured to be used, but not set.");
+					this.stop(1);
+				}
+			} else if (this.config.latitude && this.config.longitude) {
+				lon = this.config.longitude;
+				lat = this.config.latitude;
+			} else {
+				this.log.error("Neither system nor specific coordinates are set.");
+				this.stop(1);
+			}
 
-		IMPORTANT: State roles should be chosen carefully based on the state's purpose.
-		           Please refer to the state roles documentation for guidance:
-		           https://www.iobroker.net/#en/documentation/dev/stateroles.md
-		*/
-		await this.setObjectNotExistsAsync("intensity", {
-			type: "state",
-			common: {
-				name: "intensity",
-				type: "number",
-				role: "value",
-				read: true,
-				write: false,
-			},
-			native: {},
-		});
+			const ovationIndex = this.getNoaaIndex(lon, lat);
+			this.log.debug(`Lon: ${lon}, Lat: ${lat}`);
+			this.log.debug(`Index: ${ovationIndex}`);
 
-		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-		this.subscribeStates("intensity");
-		
-		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-		// this.subscribeStates("lights.*");
-		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-		// this.subscribeStates("*");
+			const ovationJson = await this.fetchOvation();
+			const probability = this.getAuroraProbabilityFromOvationData(ovationJson, ovationIndex);
+			this.log.debug(`Probability: ${probability}`);
 
-		/*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
-		// the variable testVariable is set to true as command (ack=false)
-		//await this.setState("testVariable", true);
+			await this.setState("probability", { val: 0, ack: true });
+			await this.setState("timestamp", { val: Date.now(), ack: true });
+		} catch (e) {
+			this.log.error(e);
+			this.stop(1);
+			return;
+		}
 
-		// same thing, but the value is flagged "ack"
-		// ack should be always set to true if the value is received from or acknowledged from the target system
-		await this.setState("intensity", { val: 0, ack: true });
-
-		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		// await this.setState("testVariable", { val: true, ack: true, expire: 30 });
-
-		// examples for the checkPassword/checkGroup functions
-		//const pwdResult = await this.checkPasswordAsync("admin", "iobroker");
-		//this.log.info(`check user admin pw iobroker: ${pwdResult}`);
-
-		//const groupResult = await this.checkGroupAsync("admin", "admin");
-		//this.log.info(`check group user admin group admin: ${groupResult}`);
-		this.terminate(); // für CRON-Adapter
+		this.terminate(0);
 	}
 
 	/**

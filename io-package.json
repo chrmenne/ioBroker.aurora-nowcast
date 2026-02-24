@@ -63,14 +63,14 @@
 		"loglevel": "info",
 		"tier": 3,
 		"mode": "schedule",
-                "schedule": "* * * * *",
+                "schedule": "*/5 * * * *",
 		"allowInit": true,
 		"type": "weather",
 		"compact": true,
 		"connectionType": "cloud",
 		"dataSource": "poll",
 		"adminUI": {
-			"config": "none"
+			"config": "json"
 		},
 		"dependencies": [
 			{
@@ -84,8 +84,10 @@
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"interval": 300,
+		"useSystemLocation": true,
+		"latitude": 0,
+		"longitude": 0
 	},
 	"objects": [],
 	"instanceObjects": []
