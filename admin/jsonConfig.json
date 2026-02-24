@@ -1,0 +1,47 @@
+{
+  "type": "panel",
+  "items": {
+    "interval": {
+      "type": "number",
+      "label": "Polling interval (seconds)"
+    },
+	"location": {
+	      "newLine": true,
+	      "type": "header",
+	      "text": "Use system location or specify coordinates",
+	      "size": 3
+	    },
+	    "useSystemLocation": {
+	      "newLine": true,
+	      "type": "checkbox",
+	      "label": "Use system location",
+	      "xs": 12,
+	      "sm": 12,
+	      "md": 6,
+	      "lg": 4,
+	      "xl": 4
+	    },
+	    "latitude": {
+	      "newLine": true,
+	      "type": "number",
+	      "label": "Latitude",
+	      "hidden": "data.useSystemLocation",
+	      "xs": 12,
+	      "sm": 12,
+	      "md": 6,
+	      "lg": 2,
+	      "xl": 2
+	    },
+	    "longitude": {
+	      "newLine": false,
+	      "type": "number",
+	      "label": "Longitude",
+	      "hidden": "data.useSystemLocation",
+	      "xs": 12,
+	      "sm": 12,
+	      "md": 6,
+	      "lg": 2,
+	      "xl": 2
+	    }
+  }
+}
