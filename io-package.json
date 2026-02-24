@@ -18,30 +18,30 @@
 			}
 		},
 		"titleLang": {
-			"en": "Aurora Borealis Forecast",
-			"de": "Aurora Borealis-Vorhersage",
-			"ru": "Прогноз северного сияния",
-			"pt": "Previsão da Aurora Boreal",
-			"nl": "Aurora Borealis-voorspelling",
-			"fr": "Prévisions des aurores boréales",
-			"it": "Previsioni per l'aurora boreale",
-			"es": "Pronóstico de la aurora boreal",
-			"pl": "Prognoza zorzy polarnej",
-			"uk": "Прогноз полярного сяйва",
-			"zh-cn": "北极光预报"
+			"en": "Aurora Borealis Nowcast",
+			"de": "Aurora Borealis Nowcast",
+			"ru": "Текущая активность северного сияния (nowcast)",
+			"pt": "Atividade atual da aurora boreal (nowcast)",
+			"nl": "Actuele noorderlichtactiviteit (nowcast)",
+			"fr": "Activité actuelle des aurores boréales (nowcast)",
+			"it": "Attività attuale dell'aurora boreale (nowcast)",
+			"es": "Actividad actual de la aurora boreal (nowcast)",
+			"pl": "Bieżąca aktywność zorzy polarnej (nowcast)",
+			"uk": "Поточна активність полярного сяйва (nowcast)",
+		  	"zh-cn": "北极光当前活动（nowcast）"
 		},
 		"desc": {
-			"en": "Provides forecast data for the appearances of aurora borealis (northern lights) for a given location, based on NOAA information.",
-			"de": "Bietet Prognosedaten für das Auftreten von Aurora Borealis (Nordlichtern) für einen bestimmten Standort, basierend auf NOAA-Informationen.",
-			"ru": "Предоставляет данные прогноза появления северного сияния (северного сияния) для данного места на основе информации NOAA.",
-			"pt": "Fornece dados de previsão para o aparecimento de aurora boreal (aurora boreal) em um determinado local, com base nas informações da NOAA.",
-			"nl": "Biedt voorspellingsgegevens voor de verschijning van aurora borealis (noorderlicht) voor een bepaalde locatie, gebaseerd op NOAA-informatie.",
-			"fr": "Fournit des données de prévision sur les apparitions d'aurores boréales (aurores boréales) pour un emplacement donné, sur la base des informations de la NOAA.",
-			"it": "Fornisce dati di previsione per la comparsa dell'aurora boreale (aurora boreale) per una determinata località, in base alle informazioni NOAA.",
-			"es": "Proporciona datos de pronóstico para la aparición de auroras boreales (auroras boreales) para una ubicación determinada, según información de la NOAA.",
-			"pl": "Dostarcza dane prognozy pojawienia się zorzy polarnej (zorzy polarnej) dla danej lokalizacji w oparciu o informacje NOAA.",
-			"uk": "Надає прогнозовані дані про появу полярного сяйва (північного сяйва) для певного місця на основі інформації NOAA.",
-			"zh-cn": "根据 NOAA 信息，提供给定位置的北极光出现的预报数据。"
+		  	"en": "Provides current (nowcast) data on aurora borealis (northern lights) activity for a given location, based on NOAA information. This is not a forecast.",
+		  	"de": "Stellt aktuelle (Nowcast-)Daten zur Aktivität der Aurora Borealis (Nordlichter) für einen bestimmten Standort auf Basis von NOAA-Informationen bereit. Es handelt sich nicht um eine Vorhersage.",
+		  	"ru": "Предоставляет текущие данные (nowcast) об активности северного сияния для заданного местоположения на основе информации NOAA. Это не прогноз.",
+		  	"pt": "Fornece dados atuais (nowcast) sobre a atividade da aurora boreal para um determinado local, com base nas informações da NOAA. Não é uma previsão.",
+		  	"nl": "Biedt actuele (nowcast-)gegevens over de activiteit van het noorderlicht voor een bepaalde locatie, op basis van NOAA-informatie. Dit is geen voorspelling.",
+		  	"fr": "Fournit des données actuelles (nowcast) sur l'activité des aurores boréales pour un emplacement donné, basées sur les informations de la NOAA. Il ne s'agit pas d'une prévision.",
+		  	"it": "Fornisce dati attuali (nowcast) sull'attività dell'aurora boreale per una determinata località, in base alle informazioni NOAA. Non si tratta di una previsione.",
+		  	"es": "Proporciona datos actuales (nowcast) sobre la actividad de las auroras boreales para una ubicación determinada, según información de la NOAA. No es un pronóstico.",
+		  	"pl": "Dostarcza aktualne dane (nowcast) o aktywności zorzy polarnej dla danej lokalizacji na podstawie informacji NOAA. Nie jest to prognoza.",
+		  	"uk": "Надає поточні дані (nowcast) про активність полярного сяйва для певного місця на основі інформації NOAA. Це не прогноз.",
+		  	"zh-cn": "根据 NOAA 信息，提供指定位置的北极光活动当前（nowcast）数据。这不是预测。"
 		},
 		"authors": [
 			"Christian Menne <publicdevelopment@christianmenne.de>"
@@ -49,7 +49,8 @@
 		"keywords": [
 			"noaa",
 			"northern lights",
-			"aurora borealis"
+			"aurora borealis",
+			"space weather"
 		],
 		"licenseInformation": {
 			"type": "free",
@@ -84,8 +85,8 @@
 		]
 	},
 	"native": {
-		"interval": 300,
 		"useSystemLocation": true,
+		"ovationUrl": "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json",
 		"latitude": null,
 		"longitude": null
 	},
