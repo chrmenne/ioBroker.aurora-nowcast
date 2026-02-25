@@ -1,29 +1,101 @@
 "use strict";
 
-/**
- * This is a dummy TypeScript test file using chai and mocha
- *
- * It's automatically excluded from npm and its build output is excluded from both git and npm.
- * It is advised to test all your modules with accompanying *.test.js-files
- */
-
-// tslint:disable:no-unused-expression
-
 const { expect } = require("chai");
-// import { functionToTest } from "./moduleToTest";
+const { EventEmitter } = require("node:events");
+const Module = require("node:module");
 
-describe("module to test => function to test", () => {
-	// initializing logic
-	const expected = 5;
+class FakeAdapter extends EventEmitter {
+	constructor(options = {}) {
+		super();
+		this.name = options.name;
+		this.config = options.config || {};
+		this.log = {
+			debug: () => {},
+			info: () => {},
+			error: () => {},
+		};
+	}
+}
 
-	it(`should return ${expected}`, () => {
-		const result = 5;
-		// assign result a value from functionToTest
-		expect(result).to.equal(expected);
-		// or using the should() syntax
-		result.should.equal(expected);
+const originalLoad = Module._load;
+Module._load = function mockedLoad(request, parent, isMain) {
+	if (request === "@iobroker/adapter-core") {
+		return { Adapter: FakeAdapter };
+	}
+	return originalLoad.call(this, request, parent, isMain);
+};
+
+const createAdapter = require("./main");
+Module._load = originalLoad;
+
+describe("main.js helper methods", () => {
+	it("calculates NOAA index for positive longitude", () => {
+		const adapter = createAdapter({});
+		expect(adapter.getNoaaIndex(10.2, 52.7)).to.equal(18397);
 	});
-	// ... more tests => it
-});
 
-// ... more test suites => describe
+	it("converts negative longitude before index calculation", () => {
+		const adapter = createAdapter({});
+		expect(adapter.getNoaaIndex(-10.4, 52.2)).to.equal(72482);
+	});
+
+	it("reads aurora probability from NOAA coordinate cell", () => {
+		const adapter = createAdapter({});
+		const payload = { coordinates: [[0, 0, 1], [1, 1, 42]] };
+
+		expect(adapter.getAuroraProbabilityFromOvationData(payload, 1)).to.equal(42);
+	});
+
+	it("throws for malformed NOAA payload", () => {
+		const adapter = createAdapter({});
+
+		expect(() => adapter.getAuroraProbabilityFromOvationData({}, 0)).to.throw("Invalid NOAA payload");
+		expect(() =>
+			adapter.getAuroraProbabilityFromOvationData({ coordinates: [[0, 0]] }, 0),
+		).to.throw("NOAA grid lookup failed");
+	});
+
+	it("fetches ovation JSON with user agent header", async () => {
+		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
+		const expected = { coordinates: [[0, 0, 77]] };
+		let requestedOptions;
+
+		const originalFetch = global.fetch;
+		global.fetch = async (url, options) => {
+			expect(url).to.equal("https://example.invalid/noaa");
+			requestedOptions = options;
+			return {
+				ok: true,
+				json: async () => expected,
+			};
+		};
+
+		try {
+			const data = await adapter.fetchOvation();
+			expect(data).to.deep.equal(expected);
+			expect(requestedOptions.headers["User-Agent"]).to.equal("ioBroker-aurora-borealis");
+			expect(requestedOptions.signal).to.exist;
+		} finally {
+			global.fetch = originalFetch;
+		}
+	});
+
+	it("throws meaningful error for non-OK NOAA responses", async () => {
+		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
+		const originalFetch = global.fetch;
+		global.fetch = async () => ({ ok: false, status: 503 });
+
+		try {
+			let error;
+			try {
+				await adapter.fetchOvation();
+			} catch (e) {
+				error = e;
+			}
+			expect(error).to.be.instanceOf(Error);
+			expect(error.message).to.equal("NOAA HTTP 503");
+		} finally {
+			global.fetch = originalFetch;
+		}
+	});
+});
