@@ -3,6 +3,7 @@
 const { expect } = require("chai");
 const { EventEmitter } = require("node:events");
 const Module = require("node:module");
+const noaaResponseExample = require("./test/resources/noaa_response_example.json");
 
 class FakeAdapter extends EventEmitter {
 	constructor(options = {}) {
@@ -37,6 +38,29 @@ describe("main.js helper methods", () => {
 	it("converts negative longitude before index calculation", () => {
 		const adapter = createAdapter({});
 		expect(adapter.getNoaaIndex(-10.4, 52.2)).to.equal(72482);
+	});
+
+	it("rounds decimal inputs before indexing", () => {
+		const adapter = createAdapter({});
+		expect(adapter.getNoaaIndex(12.49, 48.5)).to.equal(adapter.getNoaaIndex(12, 49));
+		expect(adapter.getNoaaIndex(12.5, 48.49)).to.equal(adapter.getNoaaIndex(13, 48));
+	});
+
+	it("handles longitude boundary at -180 and 180 consistently", () => {
+		const adapter = createAdapter({});
+		expect(adapter.getNoaaIndex(-180, 0)).to.equal(adapter.getNoaaIndex(180, 0));
+		expect(adapter.getNoaaIndex(-180, -90)).to.equal(32580);
+		expect(adapter.getNoaaIndex(180, 90)).to.equal(32760);
+	});
+
+	it("uses stored NOAA response and validates lon/lat/probability triplet at computed index", () => {
+		const adapter = createAdapter({});
+		const index = adapter.getNoaaIndex(0.2, -89.4);
+		const triplet = noaaResponseExample.coordinates[index];
+
+		expect(index).to.equal(1);
+		expect(triplet).to.deep.equal([0, -89, 12]);
+		expect(adapter.getAuroraProbabilityFromOvationData(noaaResponseExample, index)).to.equal(12);
 	});
 
 	it("reads aurora probability from NOAA coordinate cell", () => {
