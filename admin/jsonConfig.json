@@ -4,30 +4,102 @@
 		"location": {
 			"newLine": true,
 			"type": "header",
-			"text": "Use system location or specify coordinates",
+			"text": {
+				"en": "Use system location or specify coordinates",
+				"de": "Systemstandort verwenden oder Koordinaten angeben",
+				"ru": "Использовать системное местоположение или указать координаты",
+				"pt": "Usar localização do sistema ou informar coordenadas",
+				"nl": "Systeemlocatie gebruiken of coördinaten opgeven",
+				"fr": "Utiliser la localisation du système ou indiquer des coordonnées",
+				"it": "Usa la posizione di sistema o specifica le coordinate",
+				"es": "Usar la ubicación del sistema o especificar coordenadas",
+				"pl": "Użyj lokalizacji systemowej lub podaj współrzędne",
+				"uk": "Використовувати системне розташування або вказати координати",
+				"zh-cn": "使用系统位置或指定坐标"
+			},
 			"size": 3
 		},
-	    "useSystemLocation": {
+		"useSystemLocation": {
 			"newLine": true,
 			"type": "checkbox",
-			"label": "Use system location",
+			"label": {
+				"en": "Use system location",
+				"de": "Systemstandort verwenden",
+				"ru": "Использовать системное местоположение",
+				"pt": "Usar localização do sistema",
+				"nl": "Systeemlocatie gebruiken",
+				"fr": "Utiliser la localisation du système",
+				"it": "Usa la posizione di sistema",
+				"es": "Usar la ubicación del sistema",
+				"pl": "Użyj lokalizacji systemowej",
+				"uk": "Використовувати системне розташування",
+				"zh-cn": "使用系统位置"
+			},
 			"xs": 12,
 			"sm": 12,
 			"md": 6,
 			"lg": 4,
 			"xl": 4
-	    },
-	    "latitude": {
+		},
+		"latitude": {
 			"newLine": true,
 			"type": "number",
-			"label": "Latitude (degrees)",
-			"help": "Geographic latitude in decimal degrees. North is positive, south is negative. Example: 52.5 (N) for Berlin, -34.6 (S) for Buenos Aires.",
-			"placeholder": "e.g. 52.2",
+			"label": {
+				"en": "Latitude (degrees)",
+				"de": "Breitengrad (Grad)",
+				"ru": "Широта (градусы)",
+				"pt": "Latitude (graus)",
+				"nl": "Breedtegraad (graden)",
+				"fr": "Latitude (degrés)",
+				"it": "Latitudine (gradi)",
+				"es": "Latitud (grados)",
+				"pl": "Szerokość geograficzna (stopnie)",
+				"uk": "Широта (градуси)",
+				"zh-cn": "纬度（度）"
+			},
+			"help": {
+				"en": "Geographic latitude in decimal degrees. North is positive, south is negative. Example: 52.5 (N) for Berlin, -34.6 (S) for Buenos Aires.",
+				"de": "Geografischer Breitengrad in Dezimalgrad. Norden ist positiv, Süden ist negativ. Beispiel: 52,5 (N) für Berlin, -34,6 (S) für Buenos Aires.",
+				"ru": "Географическая широта в десятичных градусах. Север — положительное значение, юг — отрицательное. Пример: 52.5 (с.ш.) для Берлина, -34.6 (ю.ш.) для Буэнос-Айреса.",
+				"pt": "Latitude geográfica em graus decimais. Norte é positivo, sul é negativo. Exemplo: 52,5 (N) para Berlim, -34,6 (S) para Buenos Aires.",
+				"nl": "Geografische breedtegraad in decimale graden. Noord is positief, zuid is negatief. Voorbeeld: 52,5 (N) voor Berlijn, -34,6 (Z) voor Buenos Aires.",
+				"fr": "Latitude géographique en degrés décimaux. Le nord est positif, le sud est négatif. Exemple : 52,5 (N) pour Berlin, -34,6 (S) pour Buenos Aires.",
+				"it": "Latitudine geografica in gradi decimali. Il nord è positivo, il sud è negativo. Esempio: 52,5 (N) per Berlino, -34,6 (S) per Buenos Aires.",
+				"es": "Latitud geográfica en grados decimales. El norte es positivo y el sur negativo. Ejemplo: 52,5 (N) para Berlín, -34,6 (S) para Buenos Aires.",
+				"pl": "Szerokość geograficzna w stopniach dziesiętnych. Północ ma wartość dodatnią, południe ujemną. Przykład: 52,5 (N) dla Berlina, -34,6 (S) dla Buenos Aires.",
+				"uk": "Географічна широта у десяткових градусах. Північ має додатне значення, південь — від’ємне. Приклад: 52.5 (пн.) для Берліна, -34.6 (пд.) для Буенос-Айреса.",
+				"zh-cn": "以十进制度表示的地理纬度。北纬为正，南纬为负。例如：柏林 52.5（北纬），布宜诺斯艾利斯 -34.6（南纬）。"
+			},
+			"placeholder": {
+				"en": "e.g. 52.2",
+				"de": "z. B. 52,2",
+				"ru": "например, 52.2",
+				"pt": "ex.: 52,2",
+				"nl": "bijv. 52,2",
+				"fr": "ex. : 52,2",
+				"it": "es.: 52,2",
+				"es": "p. ej., 52,2",
+				"pl": "np. 52,2",
+				"uk": "напр., 52.2",
+				"zh-cn": "例如 52.2"
+			},
 			"min": -90,
 			"max": 90,
 			"step": 0.1,
 			"validator": "data.useSystemLocation || (isFinite(Number(data.latitude)))",
-			"validatorErrorText": "Latitude is required when system location is disabled",
+			"validatorErrorText": {
+				"en": "Latitude is required when system location is disabled",
+				"de": "Wenn der Systemstandort deaktiviert ist, muss ein Breitengrad angegeben werden",
+				"ru": "Если системное местоположение отключено, широта обязательна",
+				"pt": "A latitude é obrigatória quando a localização do sistema está desativada",
+				"nl": "Breedtegraad is verplicht wanneer systeemlocatie is uitgeschakeld",
+				"fr": "La latitude est obligatoire lorsque la localisation du système est désactivée",
+				"it": "La latitudine è obbligatoria quando la posizione di sistema è disattivata",
+				"es": "La latitud es obligatoria cuando la ubicación del sistema está desactivada",
+				"pl": "Szerokość geograficzna jest wymagana, gdy lokalizacja systemowa jest wyłączona",
+				"uk": "Широта обов’язкова, коли системне розташування вимкнено",
+				"zh-cn": "禁用系统位置时，必须填写纬度"
+			},
 			"validatorNoSaveOnError": true,
 			"hidden": "data.useSystemLocation",
 			"xs": 12,
@@ -35,18 +107,66 @@
 			"md": 6,
 			"lg": 2,
 			"xl": 2
-	    },
-	    "longitude": {
+		},
+		"longitude": {
 			"newLine": false,
 			"type": "number",
-			"label": "Longitude (degrees)",
-			"help": "Geographic longitude in decimal degrees. East is positive, west is negative. Example: 13.4 (E) for Berlin, -58.4 (W) for Buenos Aires.",
-			"placeholder": "e.g. 13.4",
+			"label": {
+				"en": "Longitude (degrees)",
+				"de": "Längengrad (Grad)",
+				"ru": "Долгота (градусы)",
+				"pt": "Longitude (graus)",
+				"nl": "Lengtegraad (graden)",
+				"fr": "Longitude (degrés)",
+				"it": "Longitudine (gradi)",
+				"es": "Longitud (grados)",
+				"pl": "Długość geograficzna (stopnie)",
+				"uk": "Довгота (градуси)",
+				"zh-cn": "经度（度）"
+			},
+			"help": {
+				"en": "Geographic longitude in decimal degrees. East is positive, west is negative. Example: 13.4 (E) for Berlin, -58.4 (W) for Buenos Aires.",
+				"de": "Geografischer Längengrad in Dezimalgrad. Osten ist positiv, Westen ist negativ. Beispiel: 13,4 (O) für Berlin, -58,4 (W) für Buenos Aires.",
+				"ru": "Географическая долгота в десятичных градусах. Восток — положительное значение, запад — отрицательное. Пример: 13.4 (в.д.) для Берлина, -58.4 (з.д.) для Буэнос-Айреса.",
+				"pt": "Longitude geográfica em graus decimais. Leste é positivo, oeste é negativo. Exemplo: 13,4 (L) para Berlim, -58,4 (O) para Buenos Aires.",
+				"nl": "Geografische lengtegraad in decimale graden. Oost is positief, west is negatief. Voorbeeld: 13,4 (O) voor Berlijn, -58,4 (W) voor Buenos Aires.",
+				"fr": "Longitude géographique en degrés décimaux. L'est est positif, l'ouest est négatif. Exemple : 13,4 (E) pour Berlin, -58,4 (O) pour Buenos Aires.",
+				"it": "Longitudine geografica in gradi decimali. L'est è positivo, l'ovest è negativo. Esempio: 13,4 (E) per Berlino, -58,4 (O) per Buenos Aires.",
+				"es": "Longitud geográfica en grados decimales. El este es positivo y el oeste negativo. Ejemplo: 13,4 (E) para Berlín, -58,4 (O) para Buenos Aires.",
+				"pl": "Długość geograficzna w stopniach dziesiętnych. Wschód ma wartość dodatnią, zachód ujemną. Przykład: 13,4 (E) dla Berlina, -58,4 (W) dla Buenos Aires.",
+				"uk": "Географічна довгота у десяткових градусах. Схід має додатне значення, захід — від’ємне. Приклад: 13.4 (сх.) для Берліна, -58.4 (зх.) для Буенос-Айреса.",
+				"zh-cn": "以十进制度表示的地理经度。东经为正，西经为负。例如：柏林 13.4（东经），布宜诺斯艾利斯 -58.4（西经）。"
+			},
+			"placeholder": {
+				"en": "e.g. 13.4",
+				"de": "z. B. 13,4",
+				"ru": "например, 13.4",
+				"pt": "ex.: 13,4",
+				"nl": "bijv. 13,4",
+				"fr": "ex. : 13,4",
+				"it": "es.: 13,4",
+				"es": "p. ej., 13,4",
+				"pl": "np. 13,4",
+				"uk": "напр., 13.4",
+				"zh-cn": "例如 13.4"
+			},
 			"min": -180,
 			"max": 180,
 			"step": 0.1,
 			"validator": "data.useSystemLocation || (isFinite(Number(data.longitude)))",
-			"validatorErrorText": "Longitude is required when system location is disabled",
+			"validatorErrorText": {
+				"en": "Longitude is required when system location is disabled",
+				"de": "Wenn der Systemstandort deaktiviert ist, muss ein Längengrad angegeben werden",
+				"ru": "Если системное местоположение отключено, долгота обязательна",
+				"pt": "A longitude é obrigatória quando a localização do sistema está desativada",
+				"nl": "Lengtegraad is verplicht wanneer systeemlocatie is uitgeschakeld",
+				"fr": "La longitude est obligatoire lorsque la localisation du système est désactivée",
+				"it": "La longitudine è obbligatoria quando la posizione di sistema è disattivata",
+				"es": "La longitud es obligatoria cuando la ubicación del sistema está desactivada",
+				"pl": "Długość geograficzna jest wymagana, gdy lokalizacja systemowa jest wyłączona",
+				"uk": "Довгота обов’язкова, коли системне розташування вимкнено",
+				"zh-cn": "禁用系统位置时，必须填写经度"
+			},
 			"validatorNoSaveOnError": true,
 			"hidden": "data.useSystemLocation",
 			"xs": 12,
@@ -54,6 +174,6 @@
 			"md": 6,
 			"lg": 2,
 			"xl": 2
-	    }
+		}
 	}
 }
