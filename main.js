@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/check-tag-names */
 "use strict";
 
 /*
@@ -8,8 +9,14 @@
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 
-// Load your modules here, e.g.:
-// const fs = require("fs");
+/**
+ * The structure of the NOAA ovation data response
+ *
+ * @typedef {object} OvationData
+ * @property {string} observationTime - ISO timestamp of the observation time
+ * @property {string} forecastTime - ISO timestamp of the forecast time
+ * @property {Array.<[number, number, number]>} coordinates - Array of [lon, lat, probability] triplets
+ */
 
 class AuroraBorealis extends utils.Adapter {
 	/**
@@ -21,23 +28,32 @@ class AuroraBorealis extends utils.Adapter {
 			name: "aurora-borealis",
 		});
 		this.on("ready", this.onReady.bind(this));
-		this.on("stateChange", this.onStateChange.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
 
-	fetchNoaaData() {
-		this.log.info("Fetching");
-	}
-
-	getNoaaIndex(lon, lat) {
-		let rLat = Math.round(lat);
-		let rLon = Math.round(lon);
+	/**
+	 * Calculates the NOAA grid index for the given longitude and latitude.
+	 *
+	 * @param {number} longitude - the longitude in degrees, negative for west and positive for east
+	 * @param {number} latitude - the latitude in degrees, negative for south and positive for north
+	 * @returns {number} The NOAA grid index for the given coordinates
+	 */
+	getNoaaIndex(longitude, latitude) {
+		let rLat = Math.round(latitude);
+		let rLon = Math.round(longitude);
 		if (rLon < 0) {
 			rLon += 360;
 		}
 		return rLon * 181 + (90 + rLat);
 	}
 
+	/**
+	 * Fetches aurora borealis ovation data from NOAA.
+	 *
+	 * @async
+	 * @throws Will throw an error if the request fails or times out
+	 * @returns {Promise<OvationData>} The ovation data containing observation time, forecast time, and coordinates
+	 */
 	async fetchOvation() {
 		const controller = new AbortController();
 		const timeout = setTimeout(() => controller.abort(), 10000);
@@ -61,14 +77,22 @@ class AuroraBorealis extends utils.Adapter {
 		} finally {
 			clearTimeout(timeout);
 		}
-		return json;
+		return /** @type {OvationData} */ (json);
 	}
 
-	getAuroraProbabilityFromOvationData(json, index) {
-		if (!json?.coordinates || !Array.isArray(json.coordinates)) {
+	/**
+	 * Extracts aurora probability from ovation data for a given grid index.
+	 *
+	 * @param {OvationData} data - The ovation data
+	 * @param {number} index - The NOAA grid index
+	 * @returns {number} The probability percentage
+	 * @throws Will throw an error if the payload is invalid or lookup fails
+	 */
+	getAuroraProbabilityFromOvationData(data, index) {
+		if (!data?.coordinates || !Array.isArray(data.coordinates)) {
 			throw new Error("Invalid NOAA payload");
 		}
-		const cell = json.coordinates[index];
+		const cell = data.coordinates[index];
 		if (!cell || cell.length < 3) {
 			throw new Error("NOAA grid lookup failed");
 		}
@@ -79,7 +103,7 @@ class AuroraBorealis extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
-		// Initialize your adapter here
+		// Initializing the adapter by creating the data points if not already present.
 		try {
 			await this.setObjectNotExistsAsync("probability", {
 				type: "state",
@@ -121,6 +145,7 @@ class AuroraBorealis extends utils.Adapter {
 			let lon;
 			let lat;
 
+			// get system coordinates if configured, otherwise use adapter config
 			if (this.config.useSystemLocation) {
 				const sysConfig = await this.getForeignObjectAsync("system.config");
 				if (sysConfig?.common?.latitude && sysConfig?.common?.longitude) {
@@ -128,14 +153,14 @@ class AuroraBorealis extends utils.Adapter {
 					lat = sysConfig?.common?.latitude;
 				} else {
 					this.log.error("System coordinates are configured to be used, but not set.");
-					this.stop(1);
+					this.terminate(1);
 				}
 			} else if (this.config.latitude && this.config.longitude) {
 				lon = this.config.longitude;
 				lat = this.config.latitude;
 			} else {
 				this.log.error("Neither system nor specific coordinates are set.");
-				this.stop(1);
+				this.terminate(1);
 			}
 
 			const ovationIndex = this.getNoaaIndex(lon, lat);
@@ -157,8 +182,7 @@ class AuroraBorealis extends utils.Adapter {
 			});
 		} catch (e) {
 			this.log.error(e);
-			this.stop(1);
-			return;
+			this.terminate(1);
 		}
 
 		this.terminate(0);
@@ -175,30 +199,6 @@ class AuroraBorealis extends utils.Adapter {
 		} catch (error) {
 			this.log.error(`Error during unloading: ${error.message}`);
 			callback();
-		}
-	}
-
-	/**
-	 * Is called if a subscribed state changes
-	 *
-	 * @param {string} id - State ID
-	 * @param {ioBroker.State | null | undefined} state - State object
-	 */
-	onStateChange(id, state) {
-		if (state) {
-			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-
-			if (state.ack === false) {
-				// This is a command from the user (e.g., from the UI or other adapter)
-				// and should be processed by the adapter
-				this.log.info(`User command received for ${id}: ${state.val}`);
-
-				// TODO: Add your control logic here
-			}
-		} else {
-			// The object was deleted or the state value has expired
-			this.log.info(`state ${id} deleted`);
 		}
 	}
 }

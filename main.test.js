@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use strict";
 
 const { expect } = require("chai");
@@ -19,7 +18,9 @@ class FakeAdapter extends EventEmitter {
 	}
 }
 
+// @ts-ignore
 const originalLoad = Module._load;
+// @ts-ignore
 Module._load = function mockedLoad(request, parent, isMain) {
 	if (request === "@iobroker/adapter-core") {
 		return { Adapter: FakeAdapter };
@@ -28,6 +29,7 @@ Module._load = function mockedLoad(request, parent, isMain) {
 };
 
 const createAdapter = require("./main");
+// @ts-ignore
 Module._load = originalLoad;
 
 describe("main.js helper methods", () => {
@@ -61,6 +63,7 @@ describe("main.js helper methods", () => {
 
 		expect(index).to.equal(1);
 		expect(triplet).to.deep.equal([0, -89, 0]);
+		// @ts-ignore
 		expect(adapter.getAuroraProbabilityFromOvationData(noaaResponseExample, index)).to.equal(0);
 	});
 
@@ -68,24 +71,29 @@ describe("main.js helper methods", () => {
 		const adapter = createAdapter({});
 		const payload = { coordinates: [[0, 0, 1], [1, 1, 42]] };
 
+		// @ts-ignore
 		expect(adapter.getAuroraProbabilityFromOvationData(payload, 1)).to.equal(42);
 	});
 
 	it("throws for malformed NOAA payload", () => {
 		const adapter = createAdapter({});
 
+		// @ts-ignore
 		expect(() => adapter.getAuroraProbabilityFromOvationData({}, 0)).to.throw("Invalid NOAA payload");
 		expect(() =>
+			// @ts-ignore
 			adapter.getAuroraProbabilityFromOvationData({ coordinates: [[0, 0]] }, 0),
 		).to.throw("NOAA grid lookup failed");
 	});
 
 	it("fetches ovation JSON with user agent header", async () => {
+		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
 		const expected = { coordinates: [[0, 0, 77]] };
 		let requestedOptions;
 
 		const originalFetch = global.fetch;
+		// @ts-ignore
 		global.fetch = async (url, options) => {
 			expect(url).to.equal("https://example.invalid/noaa");
 			requestedOptions = options;
@@ -98,7 +106,9 @@ describe("main.js helper methods", () => {
 		try {
 			const data = await adapter.fetchOvation();
 			expect(data).to.deep.equal(expected);
+			// @ts-ignore
 			expect(requestedOptions.headers["User-Agent"]).to.equal("ioBroker-aurora-borealis");
+			// @ts-ignore
 			expect(requestedOptions.signal).to.exist;
 		} finally {
 			global.fetch = originalFetch;
@@ -106,8 +116,10 @@ describe("main.js helper methods", () => {
 	});
 
 	it("throws meaningful error for non-OK NOAA responses", async () => {
+		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
 		const originalFetch = global.fetch;
+		// @ts-ignore
 		global.fetch = async () => ({ ok: false, status: 503 });
 
 		try {
