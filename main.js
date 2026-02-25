@@ -164,7 +164,7 @@ class AuroraBorealis extends utils.Adapter {
 			}
 
 			const ovationIndex = this.getNoaaIndex(lon, lat);
-			this.log.debug(`Lon: ${lon}, Lat: ${lat}`);
+			this.log.debug(`Latitude: ${lat} Longitude: ${lon}`);
 			this.log.debug(`Index: ${ovationIndex}`);
 
 			const ovationJson = await this.fetchOvation();

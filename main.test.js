@@ -62,9 +62,9 @@ describe("main.js helper methods", () => {
 		const triplet = noaaResponseExample.coordinates[index];
 
 		expect(index).to.equal(1);
-		expect(triplet).to.deep.equal([0, -89, 0]);
+		expect(triplet).to.deep.equal([0, -89, 99]);
 		// @ts-ignore
-		expect(adapter.getAuroraProbabilityFromOvationData(noaaResponseExample, index)).to.equal(0);
+		expect(adapter.getAuroraProbabilityFromOvationData(noaaResponseExample, index)).to.equal(99);
 	});
 
 	it("reads aurora probability from NOAA coordinate cell", () => {
