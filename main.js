@@ -142,22 +142,27 @@ class AuroraBorealis extends utils.Adapter {
 				native: {},
 			});
 
-			let lon;
 			let lat;
+			let lon;
 
 			// get system coordinates if configured, otherwise use adapter config
 			if (this.config.useSystemLocation) {
 				const sysConfig = await this.getForeignObjectAsync("system.config");
 				if (sysConfig?.common?.latitude && sysConfig?.common?.longitude) {
-					lon = sysConfig?.common?.longitude;
 					lat = sysConfig?.common?.latitude;
+					lon = sysConfig?.common?.longitude;
 				} else {
 					this.log.error("System coordinates are configured to be used, but not set.");
 					this.terminate(1);
 				}
-			} else if (this.config.latitude && this.config.longitude) {
-				lon = this.config.longitude;
+			} else if (
+				this.config.latitude != null &&
+				this.config.longitude != null &&
+				Number.isFinite(this.config.latitude) &&
+				Number.isFinite(this.config.longitude)
+			) {
 				lat = this.config.latitude;
+				lon = this.config.longitude;
 			} else {
 				this.log.error("Neither system nor specific coordinates are set.");
 				this.terminate(1);
