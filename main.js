@@ -152,8 +152,8 @@ class AuroraBorealis extends utils.Adapter {
 					lat = sysConfig?.common?.latitude;
 					lon = sysConfig?.common?.longitude;
 				} else {
-					this.log.error("System coordinates are configured to be used, but not set.");
-					this.terminate(1);
+					this.log.error("System coordinates are configured to be used, but not set. Aborting.");
+					return;
 				}
 			} else if (
 				this.config.latitude != null &&
@@ -164,8 +164,8 @@ class AuroraBorealis extends utils.Adapter {
 				lat = this.config.latitude;
 				lon = this.config.longitude;
 			} else {
-				this.log.error("Neither system nor specific coordinates are set.");
-				this.terminate(1);
+				this.log.error("Neither system nor specific coordinates are set. Aborting");
+				return;
 			}
 
 			const ovationIndex = this.getNoaaIndex(lat, lon);
