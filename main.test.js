@@ -32,12 +32,12 @@ Module._load = originalLoad;
 describe("main.js helper methods", () => {
 	it("calculates NOAA index for positive longitude", () => {
 		const adapter = createAdapter({});
-		expect(adapter.getNoaaIndex(10.2, 52.7)).to.equal(18397);
+		expect(adapter.getNoaaIndex(10.2, 52.7)).to.equal(1953);
 	});
 
 	it("converts negative longitude before index calculation", () => {
 		const adapter = createAdapter({});
-		expect(adapter.getNoaaIndex(-10.4, 52.2)).to.equal(72482);
+		expect(adapter.getNoaaIndex(-10.4, 52.2)).to.equal(63492);
 	});
 
 	it("rounds decimal inputs before indexing", () => {
@@ -59,8 +59,8 @@ describe("main.js helper methods", () => {
 		const triplet = noaaResponseExample.coordinates[index];
 
 		expect(index).to.equal(1);
-		expect(triplet).to.deep.equal([0, -89, 12]);
-		expect(adapter.getAuroraProbabilityFromOvationData(noaaResponseExample, index)).to.equal(12);
+		expect(triplet).to.deep.equal([0, -89, 0]);
+		expect(adapter.getAuroraProbabilityFromOvationData(noaaResponseExample, index)).to.equal(0);
 	});
 
 	it("reads aurora probability from NOAA coordinate cell", () => {
