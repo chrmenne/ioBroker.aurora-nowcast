@@ -32,13 +32,13 @@ class AuroraBorealis extends utils.Adapter {
 	}
 
 	/**
-	 * Calculates the NOAA grid index for the given longitude and latitude.
+	 * Calculates the NOAA grid index for the given latitude and longitude.
 	 *
-	 * @param {number} longitude - the longitude in degrees, negative for west and positive for east
 	 * @param {number} latitude - the latitude in degrees, negative for south and positive for north
+	 * @param {number} longitude - the longitude in degrees, negative for west and positive for east
 	 * @returns {number} The NOAA grid index for the given coordinates
 	 */
-	getNoaaIndex(longitude, latitude) {
+	getNoaaIndex(latitude, longitude) {
 		let rLat = Math.round(latitude);
 		let rLon = Math.round(longitude);
 		if (rLon < 0) {
@@ -163,7 +163,7 @@ class AuroraBorealis extends utils.Adapter {
 				this.terminate(1);
 			}
 
-			const ovationIndex = this.getNoaaIndex(lon, lat);
+			const ovationIndex = this.getNoaaIndex(lat, lon);
 			this.log.debug(`Lon: ${lon}, Lat: ${lat}`);
 			this.log.debug(`Index: ${ovationIndex}`);
 
