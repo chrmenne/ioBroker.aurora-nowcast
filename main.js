@@ -149,8 +149,8 @@ class AuroraBorealis extends utils.Adapter {
 			if (this.config.useSystemLocation) {
 				const sysConfig = await this.getForeignObjectAsync("system.config");
 				if (sysConfig?.common?.latitude && sysConfig?.common?.longitude) {
-					lat = sysConfig?.common?.latitude;
-					lon = sysConfig?.common?.longitude;
+					lat = sysConfig.common.latitude;
+					lon = sysConfig.common.longitude;
 				} else {
 					this.log.error("System coordinates are configured to be used, but not set. Aborting.");
 					return;
