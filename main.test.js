@@ -35,30 +35,30 @@ Module._load = originalLoad;
 describe("main.js helper methods", () => {
 	it("calculates NOAA index for positive longitude", () => {
 		const adapter = createAdapter({});
-		expect(adapter.getNoaaIndex(10.2, 52.7)).to.equal(1953);
+		expect(adapter.getNoaaIndex(52.7, 10.2)).to.equal(1953);
 	});
 
 	it("converts negative longitude before index calculation", () => {
 		const adapter = createAdapter({});
-		expect(adapter.getNoaaIndex(-10.4, 52.2)).to.equal(63492);
+		expect(adapter.getNoaaIndex(52.2, -10.4)).to.equal(63492);
 	});
 
 	it("rounds decimal inputs before indexing", () => {
 		const adapter = createAdapter({});
-		expect(adapter.getNoaaIndex(12.49, 48.5)).to.equal(adapter.getNoaaIndex(12, 49));
-		expect(adapter.getNoaaIndex(12.5, 48.49)).to.equal(adapter.getNoaaIndex(13, 48));
+		expect(adapter.getNoaaIndex(48.5, 12.49)).to.equal(adapter.getNoaaIndex(49, 12));
+		expect(adapter.getNoaaIndex(48.49, 12.5)).to.equal(adapter.getNoaaIndex(48, 13));
 	});
 
 	it("handles longitude boundary at -180 and 180 consistently", () => {
 		const adapter = createAdapter({});
-		expect(adapter.getNoaaIndex(-180, 0)).to.equal(adapter.getNoaaIndex(180, 0));
-		expect(adapter.getNoaaIndex(-180, -90)).to.equal(32580);
-		expect(adapter.getNoaaIndex(180, 90)).to.equal(32760);
+		expect(adapter.getNoaaIndex(0, -180)).to.equal(adapter.getNoaaIndex(0, 180));
+		expect(adapter.getNoaaIndex(-90, -180)).to.equal(32580);
+		expect(adapter.getNoaaIndex(90, 180)).to.equal(32760);
 	});
 
 	it("uses stored NOAA response and validates lon/lat/probability triplet at computed index", () => {
 		const adapter = createAdapter({});
-		const index = adapter.getNoaaIndex(0.2, -89.4);
+		const index = adapter.getNoaaIndex(-89.4, 0.2);
 		const triplet = noaaResponseExample.coordinates[index];
 
 		expect(index).to.equal(1);
