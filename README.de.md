@@ -23,82 +23,82 @@ Liefert **aktuelle (Nowcast) Daten** zur kurzfristigen Polarlicht-Aktivität an 
 
 ---
 
-## Features
+## Funktionen
 
-- Liefert Echtzeitdaten zur Polarlichtaktivität (NOAA OVATION model) an Nord- und Südpol
-- Calculates local aurora visibility likelihood for a configured location
-- Provides ioBroker states for automation, visualization and alerts
-- Optional usage of system location or manual latitude/longitude input
-- Suitable for dashboards, notifications and smart home scenarios
-
----
-
-## Configuration
-
-You can either:
-
-- Use the system location configured in ioBroker, or
-- Provide manual coordinates (latitude / longitude in decimal degrees)
-
-Manual coordinates are required if system location is disabled.
-
-Examples:
-
-| Location        | Latitude | Longitude |
-|-----------------|----------|-----------|
-| Berlin          | 52.5     | 13.4      |
-| Buenos Aires    | -34.6    | -58.4     |
-| Reykjavik       | 64.1     | -21.9     |
-
-North/East values are positive, South/West values are negative.
+- Liefert Echtzeitdaten zur Polarlichtaktivität (NOAA-OVATION-Modell) für Nord- und Südhalbkugel
+- Berechnet die lokale Wahrscheinlichkeit, Polarlichter am konfigurierten Standort zu sehen
+- Stellt ioBroker-States für Automatisierung, Visualisierung und Benachrichtigungen bereit
+- Optional nutzbar mit Systemstandort oder manueller Eingabe von Breiten-/Längengrad
+- Geeignet für Dashboards, Benachrichtigungen und Smart-Home-Szenarien
 
 ---
 
-## States
+## Konfiguration
 
-The adapter creates the following states:
+Du kannst entweder:
 
-| State               | Type    | Description                                                                 |
-|---------------------|---------|-----------------------------------------------------------------------------|
-| `probability`       | number  | Estimated aurora visibility probability at the configured location (%)      |
-| `observation_time`  | number  | Time of the upstream solar wind observation used as model input (UTC, ms)  |
-| `forecast_time`     | number  | Time for which the nowcasted geomagnetic response at Earth is calculated (UTC, ms) |
+- den in ioBroker konfigurierten Systemstandort verwenden, oder
+- abweichende Koordinaten (Breiten-/Längengrad in Dezimalgrad) angeben.
 
-These states can be used for:
+Die Angabe der Koordinaten ist erforderlich, wenn der Systemstandort deaktiviert ist.
 
-- Notifications (e.g. push messages)
-- Dashboard visualizations
-- Automation rules (e.g. activate camera when activity is high)
+Beispiele:
+
+| Ort             | Breitengrad | Längengrad |
+|-----------------|-------------|------------|
+| Berlin          | 52.5        | 13.4       |
+| Buenos Aires    | -34.6       | -58.4      |
+| Reykjavik       | 64.1        | -21.9      |
+
+Die Gradangaben für Nord und Ost sind positiv, für Süd und West dagegen negativ.
 
 ---
 
-## Data Source
+## Zustände
 
-This adapter uses publicly available data provided by the:
+Der Adapter erstellt die folgenden Zustände:
+
+| Zustand             | Typ     | Beschreibung                                                                |
+|---------------------|---------|------------------------------------------------------------------------------|
+| `probability`       | number  | Geschätzte Wahrscheinlichkeit für sichtbare Polarlichter am konfigurierten Ort (%) |
+| `observation_time`  | number  | Zeitpunkt der vorgeschalteten Sonnenwind-Beobachtung als Modelleingang (UTC, ms) |
+| `forecast_time`     | number  | Zeitpunkt, für den die nowcastete geomagnetische Reaktion der Erde berechnet wurde (UTC, ms) |
+
+Diese Zustände können verwendet werden für:
+
+- Benachrichtigungen (z. B. Push-Nachrichten)
+- Dashboard-Visualisierungen
+- Automatisierungsregeln (z. B. Kamera aktivieren, wenn die Aktivität hoch ist)
+
+---
+
+## Datenquelle
+
+Dieser Adapter nutzt öffentlich verfügbare Daten von:
 
 - NOAA Space Weather Prediction Center (SWPC)  
   https://www.swpc.noaa.gov/
 
-In particular, the OVATION aurora nowcast model and related real-time geomagnetic indices are used to estimate auroral activity for the configured location.
+Insbesondere werden das OVATION-Aurora-Nowcast-Modell und zugehörige geomagnetische Echtzeitindizes verwendet, um die Polarlichtaktivität für den konfigurierten Standort zu schätzen.
 
 ---
 
-## Disclaimer
+## Haftungsausschluss
 
-NOAA and SWPC are not affiliated with this project.
+NOAA und SWPC sind nicht mit diesem Projekt verbunden.
 
-The data used by this adapter is provided by NOAA for public use.  
-No guarantee is made regarding the accuracy, completeness or timeliness of the provided information.
+Die von diesem Adapter verwendeten Daten werden von NOAA zur öffentlichen Nutzung bereitgestellt.  
+Es wird keine Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität der bereitgestellten Informationen übernommen.
 
-Aurora visibility depends on multiple external factors (e.g. cloud cover, light pollution, IMF orientation) which are beyond the scope of this adapter.
+Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. B. Bewölkung, Lichtverschmutzung, IMF-Ausrichtung), die außerhalb des Einflussbereichs dieses Adapters liegen.
 
 ---
 
 ## Changelog
 
-### **WORK IN PROGRESS**
+### **IN ARBEIT**
 
-- Initial release
+- Erste Veröffentlichung
 
 ## License
 					GNU GENERAL PUBLIC LICENSE
