@@ -96,7 +96,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 ## Changelog
 
-### 1.0.0
+### **WORK IN PROGRESS**
 
 - First stable release
 

@@ -96,7 +96,7 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 ## Changelog
 
-### 1.0.0
+### **WORK IN PROGRESS**
 
 - Erstes stabiles Release
 
