@@ -2,30 +2,30 @@
 
 # ioBroker.aurora-borealis
 
-[![NPM version](https://img.shields.io/npm/v/iobroker.aurora-borealis.svg)](https://www.npmjs.com/package/iobroker.aurora-borealis)
+[![NPM-Version](https://img.shields.io/npm/v/iobroker.aurora-borealis.svg)](https://www.npmjs.com/package/iobroker.aurora-borealis)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.aurora-borealis.svg)](https://www.npmjs.com/package/iobroker.aurora-borealis)
-![Number of Installations](https://iobroker.live/badges/aurora-borealis-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/aurora-borealis-stable.svg)
+![Anzahl der Installations](https://iobroker.live/badges/aurora-borealis-installed.svg)
+![Aktuelle Version im Stable Repository](https://iobroker.live/badges/aurora-borealis-stable.svg)
 
 [![NPM](https://nodei.co/npm/iobroker.aurora-borealis.png?downloads=true)](https://nodei.co/npm/iobroker.aurora-borealis/)
 
-**Tests:** ![Test and Release](https://github.com/chrmenne/ioBroker.aurora-borealis/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test und Release](https://github.com/chrmenne/ioBroker.aurora-borealis/workflows/Test%20and%20Release/badge.svg)
 
 ---
 
-## Aurora Nowcast adapter for ioBroker
+## Aurora Borealis Nowcast-Adapter for ioBroker
 
-Provides **current (nowcast) data** on polar light activity for a given location, based on publicly available data from the NOAA Space Weather Prediction Center (SWPC).
+Liefert **aktuelle (Nowcast) Daten** zur kurzfristigen Polarlicht-Aktivität an einem vorgegebenen Ort, basierend auf den öffentlich verfügbaren Daten des NOAA Space Weather Prediction Center (SWPC).
 
-> **Note:**  
-> This adapter provides *current conditions / short-term nowcast data* based on real-time measurements and model outputs.  
-> It does **not** provide long-term forecasts.
+> **Hinweis:**  
+> Dieser Adapter liefert *aktuelle/kurzfristige Nowcast-Informationen* basierend auf Echtzeitmessungen und Modellen.  
+> Er liefert **keine** längerfristigen Vorhersagen.
 
 ---
 
 ## Features
 
-- Retrieves real-time aurora activity data (NOAA OVATION model) for both northern and southern hemisphere
+- Liefert Echtzeitdaten zur Polarlichtaktivität (NOAA OVATION model) an Nord- und Südpol
 - Calculates local aurora visibility likelihood for a configured location
 - Provides ioBroker states for automation, visualization and alerts
 - Optional usage of system location or manual latitude/longitude input

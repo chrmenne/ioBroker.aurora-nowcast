@@ -48,6 +48,23 @@ class AuroraBorealis extends utils.Adapter {
 	}
 
 	/**
+	 * Parses a NOAA payload timestamp field into unix timestamp (ms).
+	 *
+	 * @param {string} datestring - NOAA timestamp string, expected to be in ISO format (e.g. "2024-06-01T12:00:00Z")
+	 * @returns {number} Unix timestamp in milliseconds
+	 */
+	parseNoaaTimestamp(datestring) {
+		if (typeof datestring !== "string") {
+			throw new Error(`Invalid NOAA date: ${datestring}`);
+		}
+		const timestamp = new Date(datestring).getTime();
+		if (!Number.isFinite(timestamp)) {
+			throw new Error(`Invalid NOAA payload: malformed timestamp ${timestamp}`);
+		}
+		return timestamp;
+	}
+
+	/**
 	 * Fetches aurora borealis ovation data from NOAA.
 	 *
 	 * @async
@@ -142,15 +159,15 @@ class AuroraBorealis extends utils.Adapter {
 				native: {},
 			});
 
-			let lat;
-			let lon;
+			let lat = NaN;
+			let lon = NaN;
 
 			// get system coordinates if configured, otherwise use adapter config
 			if (this.config.useSystemLocation) {
 				const sysConfig = await this.getForeignObjectAsync("system.config");
-				if (sysConfig?.common?.latitude && sysConfig?.common?.longitude) {
-					lat = sysConfig.common.latitude;
-					lon = sysConfig.common.longitude;
+				if (Number.isFinite(sysConfig?.common?.latitude) && Number.isFinite(sysConfig?.common?.longitude)) {
+					lat = Number(sysConfig?.common?.latitude);
+					lon = Number(sysConfig?.common?.longitude);
 				} else {
 					this.log.error("System coordinates are configured to be used, but not set. Aborting.");
 					return;
@@ -178,11 +195,11 @@ class AuroraBorealis extends utils.Adapter {
 
 			await this.setState("probability", { val: probability, ack: true });
 			await this.setState("observation_time", {
-				val: new Date(ovationJson["Observation Time"]).getTime(),
+				val: this.parseNoaaTimestamp(ovationJson["Observation Time"]),
 				ack: true,
 			});
 			await this.setState("forecast_time", {
-				val: new Date(ovationJson["Forecast Time"]).getTime(),
+				val: this.parseNoaaTimestamp(ovationJson["Forecast Time"]),
 				ack: true,
 			});
 		} catch (e) {

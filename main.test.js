@@ -86,6 +86,34 @@ describe("main.js helper methods", () => {
 		).to.throw("NOAA grid lookup failed");
 	});
 
+	it("parses NOAA observation and forecast times", () => {
+		const adapter = createAdapter({});
+		const payload = {
+			"Observation Time": "2026-02-25T09:12:00Z",
+			"Forecast Time": "2026-02-25T10:00:00Z",
+		};
+
+		// @ts-ignore
+		expect(adapter.parseNoaaTimestamp(payload["Observation Time"])).to.equal(1772010720000);
+		// @ts-ignore
+		expect(adapter.parseNoaaTimestamp(payload["Forecast Time"])).to.equal(1772013600000);
+	});
+
+	it("throws for missing or malformed NOAA timestamps", () => {
+		const adapter = createAdapter({});
+
+		expect(() =>
+			// @ts-ignore
+			adapter.parseNoaaTimestamp({}, "Observation Time"),
+		).to.throw("Invalid NOAA payload: missing Observation Time");
+
+		expect(() =>
+			// @ts-ignore
+			adapter.parseNoaaTimestamp({ "Observation Time": "invalid" }, "Observation Time"),
+		).to.throw("Invalid NOAA payload: malformed Observation Time");
+	});
+
+
 	it("fetches ovation JSON with user agent header", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
