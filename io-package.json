@@ -1,70 +1,70 @@
 {
-	"common": {
-		"name": "aurora-borealis",
-		"version": "0.0.1",
-		"news": {
-			"1.0.0": {
-				"en": "First stable release. Improved NOAA timestamp validation and hardened error handling.",
-				"de": "Erstes stabiles Release. Verbesserte NOAA-Zeitstempel-Validierung und robustere Fehlerbehandlung."
-			},
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung"
-			}
-		},
-		"titleLang": {
-			"en": "Aurora Borealis Nowcast",
-			"de": "Aurora Borealis Nowcast"
-		},
-		"desc": {
-			"en": "Provides current (nowcast) data on aurora borealis (northern lights) activity for a given location, based on NOAA information. This is not a forecast.",
-			"de": "Stellt aktuelle (Nowcast-)Daten zur Aktivität der Aurora Borealis (Nordlichter) für einen bestimmten Standort auf Basis von NOAA-Informationen bereit. Es handelt sich nicht um eine Vorhersage."
-		},
-		"authors": [
-			"Christian Menne <publicdevelopment@christianmenne.de>"
-		],
-		"keywords": [
-			"noaa",
-			"northern lights",
-			"aurora borealis",
-			"space weather"
-		],
-		"licenseInformation": {
-			"type": "free",
-			"license": "GPL-3.0-only"
-		},
-		"platform": "Javascript/Node.js",
-		"icon": "aurora-borealis.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/chrmenne/ioBroker.aurora-borealis/main/admin/aurora-borealis.png",
-		"readme": "https://github.com/chrmenne/ioBroker.aurora-borealis/blob/main/README.md",
-		"loglevel": "info",
-		"tier": 3,
-		"mode": "schedule",
-		"schedule": "*/5 * * * *",
-		"allowInit": true,
-		"type": "weather",
-		"compact": true,
-		"connectionType": "cloud",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "json"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=6.0.11"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=7.0.23"
-			}
-		]
-	},
-	"native": {
-		"useSystemLocation": true,
-		"ovationUrl": "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json",
-		"latitude": null,
-		"longitude": null
-	}
+  "common": {
+    "name": "aurora-borealis",
+    "version": "1.0.0",
+    "news": {
+      "1.0.0": {
+        "en": "First stable release. Improved NOAA timestamp validation and hardened error handling.",
+        "de": "Erstes stabiles Release. Verbesserte NOAA-Zeitstempel-Validierung und robustere Fehlerbehandlung."
+      },
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung"
+      }
+    },
+    "titleLang": {
+      "en": "Aurora Borealis Nowcast",
+      "de": "Aurora Borealis Nowcast"
+    },
+    "desc": {
+      "en": "Provides current (nowcast) data on aurora borealis (northern lights) activity for a given location, based on NOAA information. This is not a forecast.",
+      "de": "Stellt aktuelle (Nowcast-)Daten zur Aktivität der Aurora Borealis (Nordlichter) für einen bestimmten Standort auf Basis von NOAA-Informationen bereit. Es handelt sich nicht um eine Vorhersage."
+    },
+    "authors": [
+      "Christian Menne <publicdevelopment@christianmenne.de>"
+    ],
+    "keywords": [
+      "noaa",
+      "northern lights",
+      "aurora borealis",
+      "space weather"
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "license": "GPL-3.0-only"
+    },
+    "platform": "Javascript/Node.js",
+    "icon": "aurora-borealis.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/chrmenne/ioBroker.aurora-borealis/main/admin/aurora-borealis.png",
+    "readme": "https://github.com/chrmenne/ioBroker.aurora-borealis/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "mode": "schedule",
+    "schedule": "*/5 * * * *",
+    "allowInit": true,
+    "type": "weather",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.0.23"
+      }
+    ]
+  },
+  "native": {
+    "useSystemLocation": true,
+    "ovationUrl": "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json",
+    "latitude": null,
+    "longitude": null
+  }
 }

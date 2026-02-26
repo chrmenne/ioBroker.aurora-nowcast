@@ -1,6 +1,6 @@
 {
   "name": "iobroker.aurora-borealis",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Provides forecast data for the appearances of aurora borealis (northern lights) for a given location, based on NOAA information.",
   "author": "Christian Menne <publicdevelopment@christianmenne.de>",
   "contributors": [],
