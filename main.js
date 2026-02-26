@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable jsdoc/check-tag-names */
 "use strict";
 
