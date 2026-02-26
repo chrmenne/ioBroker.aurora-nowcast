@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "aurora-borealis",
-		"version": "1.0.0",
+		"version": "0.0.1",
 		"news": {
 			"1.0.0": {
 				"en": "First stable release. Improved NOAA timestamp validation and hardened error handling.",
