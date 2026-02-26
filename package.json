@@ -16,7 +16,7 @@
     "url": "git+https://github.com/chrmenne/ioBroker.aurora-borealis.git"
   },
   "engines": {
-    "node": ">= 22"
+    "node": ">= 20"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.3.2"
