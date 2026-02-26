@@ -1,47 +1,24 @@
 {
 	"common": {
 		"name": "aurora-borealis",
-		"version": "0.0.1",
+		"version": "1.0.0",
 		"news": {
+			"1.0.0": {
+				"en": "First stable release. Improved NOAA timestamp validation and hardened error handling.",
+				"de": "Erstes stabiles Release. Verbesserte NOAA-Zeitstempel-Validierung und robustere Fehlerbehandlung."
+			},
 			"0.0.1": {
 				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"uk": "Початкова версія",
-				"zh-cn": "首次出版"
+				"de": "Erstveröffentlichung"
 			}
 		},
 		"titleLang": {
 			"en": "Aurora Borealis Nowcast",
-			"de": "Aurora Borealis Nowcast",
-			"ru": "Текущая активность северного сияния (nowcast)",
-			"pt": "Atividade atual da aurora boreal (nowcast)",
-			"nl": "Actuele noorderlichtactiviteit (nowcast)",
-			"fr": "Activité actuelle des aurores boréales (nowcast)",
-			"it": "Attività attuale dell'aurora boreale (nowcast)",
-			"es": "Actividad actual de la aurora boreal (nowcast)",
-			"pl": "Bieżąca aktywność zorzy polarnej (nowcast)",
-			"uk": "Поточна активність полярного сяйва (nowcast)",
-		  	"zh-cn": "北极光当前活动（nowcast）"
+			"de": "Aurora Borealis Nowcast"
 		},
 		"desc": {
-		  	"en": "Provides current (nowcast) data on aurora borealis (northern lights) activity for a given location, based on NOAA information. This is not a forecast.",
-		  	"de": "Stellt aktuelle (Nowcast-)Daten zur Aktivität der Aurora Borealis (Nordlichter) für einen bestimmten Standort auf Basis von NOAA-Informationen bereit. Es handelt sich nicht um eine Vorhersage.",
-		  	"ru": "Предоставляет текущие данные (nowcast) об активности северного сияния для заданного местоположения на основе информации NOAA. Это не прогноз.",
-		  	"pt": "Fornece dados atuais (nowcast) sobre a atividade da aurora boreal para um determinado local, com base nas informações da NOAA. Não é uma previsão.",
-		  	"nl": "Biedt actuele (nowcast-)gegevens over de activiteit van het noorderlicht voor een bepaalde locatie, op basis van NOAA-informatie. Dit is geen voorspelling.",
-		  	"fr": "Fournit des données actuelles (nowcast) sur l'activité des aurores boréales pour un emplacement donné, basées sur les informations de la NOAA. Il ne s'agit pas d'une prévision.",
-		  	"it": "Fornisce dati attuali (nowcast) sull'attività dell'aurora boreale per una determinata località, in base alle informazioni NOAA. Non si tratta di una previsione.",
-		  	"es": "Proporciona datos actuales (nowcast) sobre la actividad de las auroras boreales para una ubicación determinada, según información de la NOAA. No es un pronóstico.",
-		  	"pl": "Dostarcza aktualne dane (nowcast) o aktywności zorzy polarnej dla danej lokalizacji na podstawie informacji NOAA. Nie jest to prognoza.",
-		  	"uk": "Надає поточні дані (nowcast) про активність полярного сяйва для певного місця на основі інформації NOAA. Це не прогноз.",
-		  	"zh-cn": "根据 NOAA 信息，提供指定位置的北极光活动当前（nowcast）数据。这不是预测。"
+			"en": "Provides current (nowcast) data on aurora borealis (northern lights) activity for a given location, based on NOAA information. This is not a forecast.",
+			"de": "Stellt aktuelle (Nowcast-)Daten zur Aktivität der Aurora Borealis (Nordlichter) für einen bestimmten Standort auf Basis von NOAA-Informationen bereit. Es handelt sich nicht um eine Vorhersage."
 		},
 		"authors": [
 			"Christian Menne <publicdevelopment@christianmenne.de>"
@@ -64,7 +41,7 @@
 		"loglevel": "info",
 		"tier": 3,
 		"mode": "schedule",
-                "schedule": "*/5 * * * *",
+		"schedule": "*/5 * * * *",
 		"allowInit": true,
 		"type": "weather",
 		"compact": true,
