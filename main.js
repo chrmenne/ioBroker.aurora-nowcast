@@ -18,14 +18,14 @@ const utils = require("@iobroker/adapter-core");
  * @property {Array.<[number, number, number]>} coordinates - Array of [lon, lat, probability] triplets
  */
 
-class AuroraBorealis extends utils.Adapter {
+class AuroraNowcast extends utils.Adapter {
 	/**
 	 * @param {Partial<utils.AdapterOptions>} [options] - Adapter options
 	 */
 	constructor(options) {
 		super({
 			...options,
-			name: "aurora-borealis",
+			name: "aurora-nowcast",
 		});
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
@@ -65,7 +65,7 @@ class AuroraBorealis extends utils.Adapter {
 	}
 
 	/**
-	 * Fetches aurora borealis ovation data from NOAA.
+	 * Fetches aurora ovation data from NOAA.
 	 *
 	 * @async
 	 * @throws Will throw an error if the request fails or times out
@@ -79,7 +79,7 @@ class AuroraBorealis extends utils.Adapter {
 			const res = await fetch(this.config.ovationUrl, {
 				signal: controller.signal,
 				headers: {
-					"User-Agent": "ioBroker-aurora-borealis",
+					"User-Agent": "ioBroker-aurora-nowcast",
 				},
 			});
 			if (!res.ok) {
@@ -230,8 +230,8 @@ if (require.main !== module) {
 	/**
 	 * @param {Partial<utils.AdapterOptions>} [options] - Adapter options
 	 */
-	module.exports = options => new AuroraBorealis(options);
+	module.exports = options => new AuroraNowcast(options);
 } else {
 	// otherwise start the instance directly
-	new AuroraBorealis();
+	new AuroraNowcast();
 }

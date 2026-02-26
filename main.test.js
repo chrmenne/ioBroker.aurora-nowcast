@@ -139,7 +139,7 @@ describe("main.js helper methods", () => {
 			const data = await adapter.fetchOvation();
 			expect(data).to.deep.equal(expected);
 			// @ts-ignore
-			expect(requestedOptions.headers["User-Agent"]).to.equal("ioBroker-aurora-borealis");
+			expect(requestedOptions.headers["User-Agent"]).to.equal("ioBroker-aurora-nowcast");
 			// @ts-ignore
 			expect(requestedOptions.signal).to.exist;
 		} finally {

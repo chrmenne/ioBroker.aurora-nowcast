@@ -1,13 +1,17 @@
 {
 	"cli": true,
 	"target": "directory",
-	"adapterName": "aurora-borealis",
-	"title": "Aurora Borealis Forecast",
-	"description": "Provides forecast data for the appearances of aurora borealis (northern lights) for a given location, based on NOAA information.",
+	"adapterName": "aurora-nowcast",
+	"title": "Aurora Nowcast",
+	"description": "Provides current (nowcast) data on aurora (northern and southern lights) activity for a given location, based on NOAA information. This is not a forecast.",
 	"keywords": [
 		"noaa",
+		"aurora",
 		"northern lights",
-		"aurora borealis"
+		"aurora borealis",
+		"aurora australis",
+		"space weather",
+		"nowcast"
 	],
 	"expert": "yes",
 	"features": [
