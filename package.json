@@ -1,22 +1,26 @@
 {
-  "name": "iobroker.aurora-borealis",
+  "name": "iobroker.aurora-nowcast",
   "version": "1.0.0",
-  "description": "Provides forecast data for the appearances of aurora borealis (northern lights) for a given location, based on NOAA information.",
+  "description": "Provides current (nowcast) data on aurora (northern and southern lights) activity for a given location, based on NOAA information. This is not a forecast.",
   "author": "Christian Menne <publicdevelopment@christianmenne.de>",
   "contributors": [],
-  "homepage": "https://github.com/chrmenne/ioBroker.aurora-borealis",
+  "homepage": "https://github.com/chrmenne/ioBroker.aurora-nowcast",
   "license": "GPL-3.0-only",
   "keywords": [
-    "noaa",
-    "northern lights",
-    "aurora borealis"
+			"noaa",
+			"aurora",
+			"northern lights",
+			"aurora borealis",
+			"aurora australis",
+			"space weather",
+			"nowcast"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrmenne/ioBroker.aurora-borealis.git"
+    "url": "git+https://github.com/chrmenne/ioBroker.aurora-nowcast.git"
   },
   "engines": {
-    "node": ">= 22"
+    "node": ">= 20"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.3.2"
@@ -60,7 +64,7 @@
     "dev-server": "dev-server"
   },
   "bugs": {
-    "url": "https://github.com/chrmenne/ioBroker.aurora-borealis/issues"
+    "url": "https://github.com/chrmenne/ioBroker.aurora-nowcast/issues"
   },
   "directories": {
     "lib": "lib",
