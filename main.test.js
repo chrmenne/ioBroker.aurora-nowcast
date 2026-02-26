@@ -104,15 +104,19 @@ describe("main.js helper methods", () => {
 
 		expect(() =>
 			// @ts-ignore
-			adapter.parseNoaaTimestamp({}, "Observation Time"),
-		).to.throw("Invalid NOAA payload: missing Observation Time");
+			adapter.parseNoaaTimestamp(undefined),
+		).to.throw("Invalid NOAA payload: missing timestamp");
 
 		expect(() =>
 			// @ts-ignore
-			adapter.parseNoaaTimestamp({ "Observation Time": "invalid" }, "Observation Time"),
-		).to.throw("Invalid NOAA payload: malformed Observation Time");
-	});
+			adapter.parseNoaaTimestamp(""),
+		).to.throw("Invalid NOAA payload: missing timestamp");
 
+		expect(() =>
+			// @ts-ignore
+			adapter.parseNoaaTimestamp("invalid"),
+		).to.throw("Invalid NOAA payload: malformed timestamp");
+	});
 
 	it("fetches ovation JSON with user agent header", async () => {
 		// @ts-ignore

@@ -48,18 +48,18 @@ class AuroraBorealis extends utils.Adapter {
 	}
 
 	/**
-	 * Parses a NOAA payload timestamp field into unix timestamp (ms).
+	 * Parses a NOAA timestamp into unix timestamp (ms).
 	 *
 	 * @param {string} datestring - NOAA timestamp string, expected to be in ISO format (e.g. "2024-06-01T12:00:00Z")
 	 * @returns {number} Unix timestamp in milliseconds
 	 */
 	parseNoaaTimestamp(datestring) {
-		if (typeof datestring !== "string") {
-			throw new Error(`Invalid NOAA date: ${datestring}`);
+		if (typeof datestring !== "string" || datestring.trim() === "") {
+			throw new Error("Invalid NOAA payload: missing timestamp");
 		}
 		const timestamp = new Date(datestring).getTime();
 		if (!Number.isFinite(timestamp)) {
-			throw new Error(`Invalid NOAA payload: malformed timestamp ${timestamp}`);
+			throw new Error("Invalid NOAA payload: malformed timestamp");
 		}
 		return timestamp;
 	}
