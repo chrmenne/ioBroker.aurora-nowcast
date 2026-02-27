@@ -7,13 +7,13 @@
   "homepage": "https://github.com/chrmenne/ioBroker.aurora-nowcast",
   "license": "GPL-3.0-only",
   "keywords": [
-			"noaa",
-			"aurora",
-			"northern lights",
-			"aurora borealis",
-			"aurora australis",
-			"space weather",
-			"nowcast"
+    "noaa",
+    "aurora",
+    "northern lights",
+    "aurora borealis",
+    "aurora australis",
+    "space weather",
+    "nowcast"
   ],
   "repository": {
     "type": "git",
@@ -37,9 +37,14 @@
     "@tsconfig/node22": "^22.0.5",
     "@types/iobroker": "npm:@iobroker/types@^7.1.0",
     "@types/node": "^22.19.11",
+    "chai": "^4.3.10",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^9.39.3",
     "eslint-plugin-import": "^2.32.0",
+    "mocha": "^10.8.2",
     "nodemon": "^3.1.14",
+    "sinon": "^15.2.0",
+    "sinon-chai": "^3.7.0",
     "typescript": "~5.9.3"
   },
   "main": "main.js",

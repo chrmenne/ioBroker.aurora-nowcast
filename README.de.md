@@ -98,6 +98,8 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 ### **WORK IN PROGRESS**
 
+- Adapter umbenannt. Kleinere Bereinigungen.
+
 ### 1.0.0 (2026-02-26)
 
 - Erstes stabiles Release
