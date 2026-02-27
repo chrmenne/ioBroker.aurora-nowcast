@@ -96,7 +96,11 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 ## Changelog
 
-### **WORK IN PROGRESS**
+### 2.0.1 (2026-02-27)
+
+- notwendige Anpassungen für offizielles ioBroker-Release
+
+### 2.0.0 (2026-02-27)
 
 - Adapter umbenannt. Kleinere Bereinigungen.
 
