@@ -6,14 +6,6 @@
       "2.0.0": {
         "en": "BREAKING: Renamed project from iobroker.aurora-borealis to iobroker.aurora-nowcast for more clarity. Minor house-keeping.",
         "de": "BREAKING: Projekt wurde zugunsten höherer Aussagekraft von iobroker.aurora-borealis in iobroker.aurora-nowcast umbenannt. Kleinere Bereinigungen."
-      },
-      "1.0.0": {
-        "en": "First stable release.",
-        "de": "Erstes stabiles Release."
-      },
-      "0.0.1": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung"
       }
     },
     "titleLang": {
@@ -64,7 +56,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.0.23"
+        "admin": ">=7.6.20"
       }
     ]
   },
