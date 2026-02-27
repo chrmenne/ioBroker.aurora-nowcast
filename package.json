@@ -1,6 +1,6 @@
 {
   "name": "iobroker.aurora-nowcast",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Provides current (nowcast) data on aurora (northern and southern lights) activity for a given location, based on NOAA information. This is not a forecast.",
   "author": "Christian Menne <publicdevelopment@christianmenne.de>",
   "contributors": [],

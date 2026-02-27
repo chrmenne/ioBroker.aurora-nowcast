@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "news": {
+      "2.0.2": {
+        "en": "fixed icon size to 512x512 (or less) for ioBroker release",
+        "de": "feste Icongröße auf 512x512 (oder weniger) für ioBroker Release"
+      },
       "2.0.1": {
         "en": "necessary adjustments for ioBroker official release",
         "de": "notwendige Anpassungen für ioBroker offizielle Veröffentlichung"
