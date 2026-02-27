@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "news": {
+      "2.0.1": {
+        "en": "necessary adjustments for ioBroker official release",
+        "de": "notwendige Anpassungen für ioBroker offizielle Veröffentlichung"
+      },
       "2.0.0": {
         "en": "BREAKING: Renamed project from iobroker.aurora-borealis to iobroker.aurora-nowcast for more clarity. Minor house-keeping.",
         "de": "BREAKING: Projekt wurde zugunsten höherer Aussagekraft von iobroker.aurora-borealis in iobroker.aurora-nowcast umbenannt. Kleinere Bereinigungen."
