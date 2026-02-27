@@ -96,6 +96,10 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 ## Changelog
 
+### 2.0.2 (2026-02-27)
+
+- notwendige Anpassung der Symbolgröße (512x512 oder kleiner) für ioBroker-Release
+
 ### 2.0.1 (2026-02-27)
 
 - notwendige Anpassungen für offizielles ioBroker-Release
