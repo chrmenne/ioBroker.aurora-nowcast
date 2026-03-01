@@ -112,6 +112,18 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 - Erstes stabiles Release
 
+---
+
+## ❤️ Support
+
+Falls **ioBroker.aurora-nowcast** für Sie nützlich ist und sie mich unterstützen möchten, dann spendieren Sie mir doch einen Kaffee ☕🙂
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=G6FRTZ5EAADFJ)
+
+Vielen Dank für Ihre Unterstützung!
+
+---
+
 ## License
 
 GNU General Public License v3.0
