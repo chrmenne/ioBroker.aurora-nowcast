@@ -111,6 +111,18 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 - First stable release
 
+---
+
+## ❤️ Support
+
+If you find **ioBroker.aurora-nowcast** useful and would like to support further development, you can buy me a coffee ☕🙂
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=G6FRTZ5EAADFJ)
+
+Thank you for your support!
+
+---
+
 ## License
 
 GNU General Public License v3.0
