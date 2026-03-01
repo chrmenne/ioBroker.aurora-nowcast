@@ -4,25 +4,70 @@
     "version": "2.0.2",
     "news": {
       "2.0.2": {
-        "en": "fixed icon size to 512x512 (or less) for ioBroker release",
-        "de": "feste Icongröße auf 512x512 (oder weniger) für ioBroker Release"
+        "en": "Fixed icon size to 512x512 (or less) for ioBroker release",
+        "de": "Icongröße für die ioBroker-Veröffentlichung auf 512x512 (oder kleiner) korrigiert",
+        "ru": "Исправлен размер значка до 512x512 (или меньше) для публикации в ioBroker",
+        "pt": "Tamanho do ícone corrigido para 512x512 (ou menor) para a publicação no ioBroker",
+        "nl": "Pictogramgrootte aangepast naar 512x512 (of kleiner) voor ioBroker-release",
+        "fr": "Taille de l’icône corrigée à 512x512 (ou moins) pour la publication ioBroker",
+        "it": "Dimensione dell'icona corretta a 512x512 (o inferiore) per il rilascio ioBroker",
+        "es": "Tamaño del icono corregido a 512x512 (o menor) para la publicación en ioBroker",
+        "pl": "Rozmiar ikony poprawiony do 512x512 (lub mniejszy) na potrzeby wydania ioBroker",
+        "uk": "Виправлено розмір іконки до 512x512 (або менше) для публікації в ioBroker",
+        "zh-cn": "已将图标大小修正为 512x512（或更小）以用于 ioBroker 发布"
       },
       "2.0.1": {
-        "en": "necessary adjustments for ioBroker official release",
-        "de": "notwendige Anpassungen für ioBroker offizielle Veröffentlichung"
+        "en": "Necessary adjustments for ioBroker official release",
+        "de": "Notwendige Anpassungen für die offizielle ioBroker-Veröffentlichung",
+        "ru": "Необходимые изменения для официального релиза ioBroker",
+        "pt": "Ajustes necessários para a publicação oficial no ioBroker",
+        "nl": "Benodigde aanpassingen voor de officiële ioBroker-release",
+        "fr": "Ajustements nécessaires pour la publication officielle sur ioBroker",
+        "it": "Adeguamenti necessari per il rilascio ufficiale su ioBroker",
+        "es": "Ajustes necesarios para la publicación oficial en ioBroker",
+        "pl": "Niezbędne poprawki do oficjalnego wydania ioBroker",
+        "uk": "Необхідні зміни для офіційного релізу ioBroker",
+        "zh-cn": "为 ioBroker 官方发布所做的必要调整"
       },
       "2.0.0": {
-        "en": "BREAKING: Renamed project from iobroker.aurora-borealis to iobroker.aurora-nowcast for more clarity. Minor house-keeping.",
-        "de": "BREAKING: Projekt wurde zugunsten höherer Aussagekraft von iobroker.aurora-borealis in iobroker.aurora-nowcast umbenannt. Kleinere Bereinigungen."
+        "en": "BREAKING: Renamed project from iobroker.aurora-borealis to iobroker.aurora-nowcast for better clarity. Minor housekeeping.",
+        "de": "BREAKING: Projekt zur besseren Verständlichkeit von iobroker.aurora-borealis in iobroker.aurora-nowcast umbenannt. Kleinere Aufräumarbeiten.",
+        "ru": "ВАЖНОЕ ИЗМЕНЕНИЕ: Проект переименован из iobroker.aurora-borealis в iobroker.aurora-nowcast для большей ясности. Небольшие внутренние улучшения.",
+        "pt": "ALTERAÇÃO IMPORTANTE: Projeto renomeado de iobroker.aurora-borealis para iobroker.aurora-nowcast para maior clareza. Pequenas melhorias internas.",
+        "nl": "BREAKING: Project hernoemd van iobroker.aurora-borealis naar iobroker.aurora-nowcast voor meer duidelijkheid. Kleine opschoning.",
+        "fr": "CHANGEMENT MAJEUR : Projet renommé de iobroker.aurora-borealis en iobroker.aurora-nowcast pour plus de clarté. Nettoyage mineur.",
+        "it": "MODIFICA IMPORTANTE: Progetto rinominato da iobroker.aurora-borealis a iobroker.aurora-nowcast per maggiore chiarezza. Piccole operazioni di pulizia.",
+        "es": "CAMBIO IMPORTANTE: Proyecto renombrado de iobroker.aurora-borealis a iobroker.aurora-nowcast para mayor claridad. Limpieza menor.",
+        "pl": "WAŻNA ZMIANA: Zmieniono nazwę projektu z iobroker.aurora-borealis na iobroker.aurora-nowcast dla większej przejrzystości. Drobne porządki.",
+        "uk": "ВАЖЛИВА ЗМІНА: Проєкт перейменовано з iobroker.aurora-borealis на iobroker.aurora-nowcast для кращої зрозумілості. Невеликі внутрішні покращення.",
+        "zh-cn": "重大变更：项目已从 iobroker.aurora-borealis 重命名为 iobroker.aurora-nowcast 以提高清晰度。小幅整理。"
       }
     },
     "titleLang": {
       "en": "Aurora Nowcast",
-      "de": "Aurora Nowcast"
+      "de": "Aurora Nowcast",
+      "ru": "Aurora Nowcast",
+      "pt": "Aurora Nowcast",
+      "nl": "Aurora Nowcast",
+      "fr": "Aurora Nowcast",
+      "it": "Aurora Nowcast",
+      "es": "Aurora Nowcast",
+      "pl": "Aurora Nowcast",
+      "uk": "Aurora Nowcast",
+      "zh-cn": "极光即时数据"
     },
     "desc": {
       "en": "Provides current (nowcast) data on aurora (northern and southern lights) activity for a given location, based on NOAA information. This is not a forecast.",
-      "de": "Stellt aktuelle (Nowcast-)Daten zur Aktivität der Polarlichter für einen bestimmten Standort auf Basis von NOAA-Informationen bereit. Es handelt sich nicht um eine Vorhersage."
+      "de": "Stellt aktuelle (Nowcast-)Daten zur Aktivität der Polarlichter für einen bestimmten Standort auf Basis von NOAA-Informationen bereit. Es handelt sich nicht um eine Vorhersage.",
+      "ru": "Предоставляет текущие (nowcast) данные об активности полярных сияний (северного и южного) для заданного местоположения на основе информации NOAA. Это не прогноз.",
+      "pt": "Fornece dados atuais (nowcast) sobre a atividade de auroras (luzes do norte e do sul) para um determinado local, com base em informações da NOAA. Isto não é uma previsão.",
+      "nl": "Biedt actuele (nowcast) gegevens over de activiteit van poollicht (noorder- en zuiderlicht) voor een opgegeven locatie, gebaseerd op NOAA-informatie. Dit is geen voorspelling.",
+      "fr": "Fournit des données actuelles (nowcast) sur l’activité des aurores (boréales et australes) pour un emplacement donné, basées sur les informations de la NOAA. Il ne s’agit pas d’une prévision.",
+      "it": "Fornisce dati attuali (nowcast) sull'attività delle aurore (boreali e australi) per una determinata località, basati sulle informazioni NOAA. Non si tratta di una previsione.",
+      "es": "Proporciona datos actuales (nowcast) sobre la actividad de las auroras (boreales y australes) para una ubicación determinada, basados en información de la NOAA. No es una previsión.",
+      "pl": "Udostępnia bieżące dane (nowcast) dotyczące aktywności zorzy polarnej (północnej i południowej) dla wybranej lokalizacji na podstawie informacji NOAA. Nie jest to prognoza.",
+      "uk": "Надає поточні (nowcast) дані про активність полярного сяйва (північного та південного) для заданого місця на основі інформації NOAA. Це не прогноз.",
+      "zh-cn": "基于 NOAA 信息，为指定位置提供当前（即时）极光（北极光和南极光）活动数据。这不是预测。"
     },
     "authors": [
       "Christian Menne <publicdevelopment@christianmenne.de>"
