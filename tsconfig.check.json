@@ -8,6 +8,7 @@
 	],
 	"exclude": [
 		"**/build",
+		"admin/words.js",
 		"node_modules/",
 		"widgets/"
 	]
