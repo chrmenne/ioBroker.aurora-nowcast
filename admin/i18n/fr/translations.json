@@ -1,0 +1,12 @@
+{
+  "latitudeDegrees": "Latitude (degrés)",
+  "latitudeHelp": "Latitude géographique en degrés décimaux. Le nord est positif, le sud est négatif. Exemple : 52,5 (N) pour Berlin, -34,6 (S) pour Buenos Aires.",
+  "latitudePlaceholder": "par exemple 52.2",
+  "latitudeRequiredWhenSystemLocationDisabled": "La latitude est requise lorsque la localisation du système est désactivée",
+  "longitudeDegrees": "Longitude (degrés)",
+  "longitudeHelp": "Longitude géographique en degrés décimaux. L'est est positif, l'ouest est négatif. Exemple : 13,4 (E) pour Berlin, -58,4 (W) pour Buenos Aires.",
+  "longitudePlaceholder": "par exemple 13.4",
+  "longitudeRequiredWhenSystemLocationDisabled": "La longitude est requise lorsque la localisation du système est désactivée",
+  "useSystemLocation": "Utiliser l'emplacement du système",
+  "useSystemLocationOrSpecifyCoordinates": "Utiliser l'emplacement du système ou spécifier les coordonnées"
+}

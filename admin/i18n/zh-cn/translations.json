@@ -1,0 +1,12 @@
+{
+  "latitudeDegrees": "纬度（度）",
+  "latitudeHelp": "以十进制度表示的地理纬度。北纬为正，南纬为负。例如52.5（北纬）表示柏林，-34.6（南纬）表示布宜诺斯艾利斯。",
+  "latitudePlaceholder": "例如：52.2",
+  "latitudeRequiredWhenSystemLocationDisabled": "禁用系统定位时需要纬度",
+  "longitudeDegrees": "经度（度）",
+  "longitudeHelp": "以十进制度表示的地理经度。东经为正数，西经为负数。例如：柏林为东经 13.4 度，布宜诺斯艾利斯为西经 -58.4 度。",
+  "longitudePlaceholder": "例如：13.4",
+  "longitudeRequiredWhenSystemLocationDisabled": "禁用系统定位时需要经度",
+  "useSystemLocation": "使用系统位置",
+  "useSystemLocationOrSpecifyCoordinates": "使用系统位置或指定坐标"
+}

@@ -1,0 +1,12 @@
+{
+  "latitudeDegrees": "Szerokość geograficzna (stopnie)",
+  "latitudeHelp": "Szerokość geograficzna w stopniach dziesiętnych. Północ jest dodatnia, południe jest ujemne. Przykład: 52,5 (N) dla Berlina, -34,6 (S) dla Buenos Aires.",
+  "latitudePlaceholder": "np. 52.2",
+  "latitudeRequiredWhenSystemLocationDisabled": "Szerokość geograficzna jest wymagana, gdy lokalizacja systemu jest wyłączona",
+  "longitudeDegrees": "Długość geograficzna (stopnie)",
+  "longitudeHelp": "Długość geograficzna w stopniach dziesiętnych. Wschód jest dodatni, zachód jest ujemny. Przykład: 13,4 (E) dla Berlina, -58,4 (W) dla Buenos Aires.",
+  "longitudePlaceholder": "np. 13.4",
+  "longitudeRequiredWhenSystemLocationDisabled": "Długość geograficzna jest wymagana, gdy lokalizacja systemu jest wyłączona",
+  "useSystemLocation": "Użyj lokalizacji systemu",
+  "useSystemLocationOrSpecifyCoordinates": "Użyj lokalizacji systemowej lub określ współrzędne"
+}

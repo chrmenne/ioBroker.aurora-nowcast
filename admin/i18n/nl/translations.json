@@ -1,0 +1,12 @@
+{
+  "latitudeDegrees": "Breedtegraad (graden)",
+  "latitudeHelp": "Geografische breedtegraad in decimale graden. Noord is positief, zuid is negatief. Voorbeeld: 52,5 (N) voor Berlijn, -34,6 (S) voor Buenos Aires.",
+  "latitudePlaceholder": "bijv. 52,2",
+  "latitudeRequiredWhenSystemLocationDisabled": "Breedtegraad is vereist wanneer systeemlocatie is uitgeschakeld",
+  "longitudeDegrees": "Lengtegraad (graden)",
+  "longitudeHelp": "Geografische lengtegraad in decimale graden. Oost is positief, west is negatief. Voorbeeld: 13,4 (E) voor Berlijn, -58,4 (W) voor Buenos Aires.",
+  "longitudePlaceholder": "e.g. 13.4",
+  "longitudeRequiredWhenSystemLocationDisabled": "Lengtegraad is vereist wanneer systeemlocatie is uitgeschakeld",
+  "useSystemLocation": "Systeemlocatie gebruiken",
+  "useSystemLocationOrSpecifyCoordinates": "Gebruik de systeemlocatie of geef coördinaten op"
+}
