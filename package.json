@@ -62,7 +62,8 @@
     "lint": "eslint -c eslint.config.mjs .",
     "translate": "translate-adapter",
     "release": "release-script",
-    "dev-server": "dev-server"
+    "dev-server": "dev-server",
+    "translate": "translate-adapter"
   },
   "bugs": {
     "url": "https://github.com/chrmenne/ioBroker.aurora-nowcast/issues"
