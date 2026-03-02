@@ -95,6 +95,12 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+- added internationalization (i18n)
+- further smaller adjustments to meet ioBroker standards
+
 ### 2.0.2 (2026-02-27)
 
 - fixed icon size to 512x512 (or less) for ioBroker release
