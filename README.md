@@ -95,8 +95,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 2.1.0 (2026-03-02)
 
 - added internationalization (i18n)
 - further smaller adjustments to meet ioBroker standards

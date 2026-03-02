@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.0.2",
+    "version": "2.1.0",
     "news": {
+      "2.1.0": {
+        "en": "added internationalization (i18n)\nfurther smaller adjustments to meet ioBroker standards",
+        "de": "Internationalisierung (i18n) hinzugefügt\nweitere kleinere Anpassungen an ioBroker-Standards",
+        "ru": "интернационализация (i18n)\nдальнейшие небольшие корректировки в соответствии со стандартами ioBroker",
+        "pt": "internacionalização adicionada (i18n)\noutros ajustamentos menores para cumprir as normas ioBroker",
+        "nl": "toegevoegde internationalisering (i18n)\nverdere kleinere aanpassingen om aan ioBroker-normen te voldoen",
+        "fr": "internationalisation supplémentaire (i18n)\nde nouveaux ajustements moins importants pour satisfaire aux normes ioBroker",
+        "it": "internazionalizzazione aggiunta (i18n)\nulteriori piccoli adattamenti per soddisfare gli standard ioBroker",
+        "es": "internacionalización (i18n)\najustes más pequeños para cumplir con las normas de ioBroker",
+        "pl": "dodana internacjonalizacja (i18n)\ndalsze mniejsze dostosowania w celu spełnienia norm joBroker",
+        "uk": "додана інтернаціоналізація (i18n)\nподальші менші налаштування, щоб відповідати стандартам ioBroker",
+        "zh-cn": "增加的国际化(i18n)\n为满足ioBroker标准而作的进一步小调整"
+      },
       "2.0.2": {
         "en": "Fixed icon size to 512x512 (or less) for ioBroker release",
         "de": "Icongröße für die ioBroker-Veröffentlichung auf 512x512 (oder kleiner) korrigiert",
