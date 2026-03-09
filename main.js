@@ -172,7 +172,7 @@ class AuroraNowcast extends utils.Adapter {
 					this.log.error("System coordinates are configured to be used, but not set. Aborting.");
 					return;
 				}
-			} else if (!isNaN(this.config.latitude) &&	!isNaN(this.config.longitude)) {
+			} else if (!isNaN(this.config.latitude) && !isNaN(this.config.longitude)) {
 				lat = this.config.latitude;
 				lon = this.config.longitude;
 			} else {
