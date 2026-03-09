@@ -95,6 +95,9 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 ---
 
 ## Changelog
+### 2.1.1 (2026-03-09)
+
+- Bug in der Validierung der Koordinaten behoben
 
 ### 2.1.0 (2026-03-02)
 

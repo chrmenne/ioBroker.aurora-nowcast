@@ -95,6 +95,10 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
+### **WORK IJN PROGRESS**
+
+- fixed a bug concerning the coordinates validation
+
 ### 2.1.0 (2026-03-02)
 
 - added internationalization (i18n)
