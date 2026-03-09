@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "news": {
+      "2.1.1": {
+        "en": "fixed a bug concerning the coordinates validation",
+        "de": "einen Fehler bezüglich der Koordinatenvalidierung behoben",
+        "ru": "исправлена ошибка, касающаяся проверки координат",
+        "pt": "fixou um erro relativo à validação das coordenadas",
+        "nl": "vast een bug betreffende de coördinatenvalidatie",
+        "fr": "correction d'un bug concernant la validation des coordonnées",
+        "it": "fisso un bug relativo alla convalida delle coordinate",
+        "es": "fijó un fallo sobre la validación de coordenadas",
+        "pl": "naprawiono błąd dotyczący walidacji współrzędnych",
+        "uk": "виправлено помилку щодо перевірки координат",
+        "zh-cn": "在坐标验证方面修补错误"
+      },
       "2.1.0": {
         "en": "added internationalization (i18n)\nfurther smaller adjustments to meet ioBroker standards",
         "de": "Internationalisierung (i18n) hinzugefügt\nweitere kleinere Anpassungen an ioBroker-Standards",
