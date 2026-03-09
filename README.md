@@ -95,7 +95,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 2.1.2 (2026-03-09)
 
 - fixed overlooked linter error regarding whitespace
 

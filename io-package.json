@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "news": {
+      "2.1.2": {
+        "en": "fixed overlooked linter error regarding whitespace",
+        "de": "Linter-Fehler behoben (Whitespace)",
+        "ru": "ошибка linter относительно белого пространства",
+        "pt": "erro de linter ignorado fixo em relação ao espaço em branco",
+        "nl": "vaste overgeslagen linterfout met betrekking tot witruimte",
+        "fr": "erreur de linter oubliée fixe concernant l'espace blanc",
+        "it": "errore linter fisso trascurato rispetto allo spazio bianco",
+        "es": "error ininterrumpido fijo con respecto al espacio blanco",
+        "pl": "stały błąd przeoczony linter dotyczący whitespace",
+        "uk": "фіксована з видом на linter помилка щодо білого простору",
+        "zh-cn": "关于白空空间的已固定忽略的间隙错误"
+      },
       "2.1.1": {
         "en": "fixed a bug concerning the coordinates validation",
         "de": "einen Fehler bezüglich der Koordinatenvalidierung behoben",
