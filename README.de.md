@@ -95,6 +95,10 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 ---
 
 ## Changelog
+### 2.1.2 (2026-03-09)
+
+- Fix für übersehene Linter-Meldung wegen Whitespace
+
 ### 2.1.1 (2026-03-09)
 
 - Bug in der Validierung der Koordinaten behoben
