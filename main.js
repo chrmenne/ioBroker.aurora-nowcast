@@ -58,7 +58,7 @@ class AuroraNowcast extends utils.Adapter {
 			throw new Error("Invalid NOAA payload: missing timestamp");
 		}
 		const timestamp = new Date(datestring).getTime();
-		if (!Number.isFinite(timestamp)) {
+		if (isNaN(timestamp)) {
 			throw new Error("Invalid NOAA payload: malformed timestamp");
 		}
 		return timestamp;
@@ -165,19 +165,14 @@ class AuroraNowcast extends utils.Adapter {
 			// get system coordinates if configured, otherwise use adapter config
 			if (this.config.useSystemLocation) {
 				const sysConfig = await this.getForeignObjectAsync("system.config");
-				if (Number.isFinite(sysConfig?.common?.latitude) && Number.isFinite(sysConfig?.common?.longitude)) {
+				if (!isNaN(sysConfig?.common?.latitude) && !isNaN(sysConfig?.common?.longitude)) {
 					lat = Number(sysConfig?.common?.latitude);
 					lon = Number(sysConfig?.common?.longitude);
 				} else {
 					this.log.error("System coordinates are configured to be used, but not set. Aborting.");
 					return;
 				}
-			} else if (
-				this.config.latitude != null &&
-				this.config.longitude != null &&
-				Number.isFinite(this.config.latitude) &&
-				Number.isFinite(this.config.longitude)
-			) {
+			} else if (!isNaN(this.config.latitude) &&	!isNaN(this.config.longitude)) {
 				lat = this.config.latitude;
 				lon = this.config.longitude;
 			} else {
