@@ -95,10 +95,10 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 2.1.3 (2026-03-11)
 
 - fixed iobroker-Bot warnings: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18
-- slightly retouched the icon 
+- slightly retouched the icon
 
 ### 2.1.2 (2026-03-09)
 

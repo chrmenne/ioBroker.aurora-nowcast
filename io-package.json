@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.1.2",
+    "version": "2.1.3",
     "news": {
+      "2.1.3": {
+        "en": "fixed iobroker-Bot warnings: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nslightly retouched the icon",
+        "de": "iobroker-Bot Warnings behoben: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nIcon etwas überarbeitet",
+        "ru": "фиксированные предупреждения iobroker-Bot: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nслегка ретушировали икону",
+        "pt": "advertências fixas de iobroker-Bot: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nretocou ligeiramente o ícone",
+        "nl": "fixed iobroker-Bot waarschuwingen: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nlicht geretoucheerd pictogram",
+        "fr": "avertissements iobroker-Bot fixes: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nlégèrement retouché l'icône",
+        "it": "ammortizzatori fissi: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nleggermente ritoccato l'icona",
+        "es": "iobroker-Bot fija advertencias: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nligeramente retocado el icono",
+        "pl": "stałe ostrzeżenia dotyczące iobroker- Bot: https: / / github.com / chrmenne / ioBroker.aurora- nowcast / issues / 18\nlekko zretuszował ikonę",
+        "uk": "фіксовані Іоброкер-Бот попередження: https://github.com/chrmenne/ioBroker.aurora-nowcast/products/18\nзлегка відреагувати іконку",
+        "zh-cn": "固定的 iobroster- bot 警告 : https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18 (中文(简体) )\n稍稍调整图标"
+      },
       "2.1.2": {
         "en": "fixed overlooked linter error regarding whitespace",
         "de": "Linter-Fehler behoben (Whitespace)",
