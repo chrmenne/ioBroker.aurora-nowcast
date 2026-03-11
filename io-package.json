@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "news": {
+      "2.1.4": {
+        "en": "disabled Sentry in GitHub workflow",
+        "de": "Sentry in GitHub-Workflow deaktiviert",
+        "ru": "отправка в GitHub-Workflow",
+        "pt": "desactivada a entrada no GitHub- Workflow",
+        "nl": "scherm in GitHub-Workflow uitgeschakeld",
+        "fr": "désactivé Entrée dans GitHub-Workflow",
+        "it": "sentry disabilitato in GitHub-Workflow",
+        "es": "discapacitados Sentry en GitHub-Workflow",
+        "pl": "nieaktywny wpis w GitHub- Workflow",
+        "uk": "відключено Sentry в GitHub-Workflow",
+        "zh-cn": "gitHub- Workflow 中已禁用的哨兵"
+      },
       "2.1.3": {
         "en": "fixed iobroker-Bot warnings: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nslightly retouched the icon",
         "de": "iobroker-Bot Warnings behoben: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18\nIcon etwas überarbeitet",
@@ -80,19 +93,6 @@
         "pl": "Niezbędne poprawki do oficjalnego wydania ioBroker",
         "uk": "Необхідні зміни для офіційного релізу ioBroker",
         "zh-cn": "为 ioBroker 官方发布所做的必要调整"
-      },
-      "2.0.0": {
-        "en": "BREAKING: Renamed project from iobroker.aurora-borealis to iobroker.aurora-nowcast for better clarity. Minor housekeeping.",
-        "de": "BREAKING: Projekt zur besseren Verständlichkeit von iobroker.aurora-borealis in iobroker.aurora-nowcast umbenannt. Kleinere Aufräumarbeiten.",
-        "ru": "ВАЖНОЕ ИЗМЕНЕНИЕ: Проект переименован из iobroker.aurora-borealis в iobroker.aurora-nowcast для большей ясности. Небольшие внутренние улучшения.",
-        "pt": "ALTERAÇÃO IMPORTANTE: Projeto renomeado de iobroker.aurora-borealis para iobroker.aurora-nowcast para maior clareza. Pequenas melhorias internas.",
-        "nl": "BREAKING: Project hernoemd van iobroker.aurora-borealis naar iobroker.aurora-nowcast voor meer duidelijkheid. Kleine opschoning.",
-        "fr": "CHANGEMENT MAJEUR : Projet renommé de iobroker.aurora-borealis en iobroker.aurora-nowcast pour plus de clarté. Nettoyage mineur.",
-        "it": "MODIFICA IMPORTANTE: Progetto rinominato da iobroker.aurora-borealis a iobroker.aurora-nowcast per maggiore chiarezza. Piccole operazioni di pulizia.",
-        "es": "CAMBIO IMPORTANTE: Proyecto renombrado de iobroker.aurora-borealis a iobroker.aurora-nowcast para mayor claridad. Limpieza menor.",
-        "pl": "WAŻNA ZMIANA: Zmieniono nazwę projektu z iobroker.aurora-borealis na iobroker.aurora-nowcast dla większej przejrzystości. Drobne porządki.",
-        "uk": "ВАЖЛИВА ЗМІНА: Проєкт перейменовано з iobroker.aurora-borealis на iobroker.aurora-nowcast для кращої зрозумілості. Невеликі внутрішні покращення.",
-        "zh-cn": "重大变更：项目已从 iobroker.aurora-borealis 重命名为 iobroker.aurora-nowcast 以提高清晰度。小幅整理。"
       }
     },
     "titleLang": {
