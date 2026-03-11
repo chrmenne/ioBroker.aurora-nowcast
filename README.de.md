@@ -95,6 +95,11 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 ---
 
 ## Changelog
+### 2.1.3 (2026-03-11)
+
+- Warnings vom iobroker-Bot behoben: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18
+- Icon ein wenig retuschiert
+
 ### 2.1.2 (2026-03-09)
 
 - Fix für übersehene Linter-Meldung wegen Whitespace
