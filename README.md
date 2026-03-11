@@ -95,7 +95,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
-### ** WORK IN PROGRESS**
+### **WORK IN PROGRESS**
 
 - disabled Sentry in GitHub-Workflow
 
