@@ -95,6 +95,10 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
+### ** WORK IN PROGRESS**
+
+- disabled Sentry in GitHub-Workflow
+
 ### 2.1.3 (2026-03-11)
 
 - fixed iobroker-Bot warnings: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18
