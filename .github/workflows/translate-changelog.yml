@@ -1,0 +1,102 @@
+name: Translate Changelog
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - README.md
+
+jobs:
+  translate-changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if WORK IN PROGRESS block exists
+        id: check_wip
+        run: |
+          if grep -q "### \*\*WORK IN PROGRESS\*\*" README.md; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Extract and translate WIP changelog entry
+        if: steps.check_wip.outputs.found == 'true'
+        env:
+          DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
+        run: |
+          # Extract the WORK IN PROGRESS block content (lines until next "### ")
+          WIP_CONTENT=$(awk '
+            /^### \*\*WORK IN PROGRESS\*\*/ { found=1; next }
+            found && /^### / { exit }
+            found { print }
+          ' README.md)
+
+          echo "WIP content:"
+          echo "$WIP_CONTENT"
+
+          # Skip if only "- tbd" or empty
+          STRIPPED=$(echo "$WIP_CONTENT" | sed '/^[[:space:]]*$/d' | sed 's/^- tbd$//')
+          if [ -z "$STRIPPED" ]; then
+            echo "Only placeholder content, skipping translation."
+            exit 0
+          fi
+
+          # Translate via DeepL
+          TRANSLATED=$(curl -s https://api-free.deepl.com/v2/translate \
+            -H "Authorization: DeepL-Auth-Key $DEEPL_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"text\": [$(jq -Rs . <<< "$WIP_CONTENT")],
+              \"source_lang\": \"EN\",
+              \"target_lang\": \"DE\",
+              \"preserve_formatting\": true
+            }" | jq -r '.translations[0].text')
+
+          echo "Translated:"
+          echo "$TRANSLATED"
+
+          # Update README.de.md
+          python3 - <<PYEOF
+          import re
+
+          with open('README.de.md', 'r') as f:
+              content = f.read()
+
+          wip_de = "### **WORK IN PROGRESS**\n\n${TRANSLATED}\n"
+
+          if '### **WORK IN PROGRESS**' in content:
+              content = re.sub(
+                  r'### \*\*WORK IN PROGRESS\*\*.*?(?=\n### )',
+                  wip_de,
+                  content,
+                  flags=re.DOTALL
+              )
+          else:
+              content = re.sub(
+                  r'(## Changelog\n\n)',
+                  r'\1' + wip_de + '\n',
+                  content
+              )
+
+          with open('README.de.md', 'w') as f:
+              f.write(content)
+
+          print("README.de.md updated")
+          PYEOF
+
+      - name: Commit updated README.de.md
+        if: steps.check_wip.outputs.found == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet README.de.md || (
+            git add README.de.md &&
+            git commit -m "chore: auto-translate WIP changelog to README.de.md [skip ci]" &&
+            git push
+          )

@@ -1,0 +1,77 @@
+name: Finalize Changelog
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-**"
+
+jobs:
+  finalize-changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+
+      - name: Replace WORK IN PROGRESS with version in both READMEs
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          DATE=$(date +%Y-%m-%d)
+
+          echo "Finalizing changelog for $VERSION ($DATE)"
+
+          python3 - <<PYEOF
+          import re
+
+          version = "${VERSION}"
+          date = "${DATE}"
+          heading = f"### {version} ({date})\n"
+
+          for filename in ["README.md", "README.de.md"]:
+              with open(filename, "r") as f:
+                  content = f.read()
+
+              if "### **WORK IN PROGRESS**" not in content:
+                  print(f"{filename}: no WIP block found, skipping")
+                  continue
+
+              content = re.sub(
+                  r"### \*\*WORK IN PROGRESS\*\*",
+                  heading.rstrip(),
+                  content
+              )
+
+              with open(filename, "w") as f:
+                  f.write(content)
+
+              print(f"{filename}: WIP replaced with {heading.rstrip()}")
+
+          # Add fresh WIP block to README.md after the new version heading
+          with open("README.md", "r") as f:
+              content = f.read()
+
+          new_wip = f"### **WORK IN PROGRESS**\n\n- tbd\n\n"
+          content = re.sub(
+              r"(## Changelog\n\n)",
+              r"\1" + new_wip,
+              content
+          )
+
+          with open("README.md", "w") as f:
+              f.write(content)
+
+          print("README.md: fresh WIP block added")
+          PYEOF
+
+      - name: Commit finalized changelogs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet || (
+            git add README.md README.de.md &&
+            git commit -m "chore: finalize changelog for ${GITHUB_REF_NAME} [skip ci]" &&
+            git push origin main
+          )
