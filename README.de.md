@@ -96,48 +96,7 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 ## Changelog
 
-### **WORK IN PROGRESS**
-
-- überprüfungsergebnisse korrigiert (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)
-- wIP/Changelog-Übersetzungsworkflow hinzugefügt
-
-### 2.1.4 (2026-03-11)
-
-- Sentry im GitHub-Workflow abgeschaltet
-
-### 2.1.3 (2026-03-11)
-
-- Warnings vom iobroker-Bot behoben: <https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18>
-- Icon ein wenig retuschiert
-
-### 2.1.2 (2026-03-09)
-
-- Fix für übersehene Linter-Meldung wegen Whitespace
-
-### 2.1.1 (2026-03-09)
-
-- Bug in der Validierung der Koordinaten behoben
-
-### 2.1.0 (2026-03-02)
-
-- Internationalisierung (i18n) hinzugefügt
-- weitere kleinere Anpassungen an die ioBroker-Standards
-
-### 2.0.2 (2026-02-27)
-
-- notwendige Anpassung der Symbolgröße (512x512 oder kleiner) für ioBroker-Release
-
-### 2.0.1 (2026-02-27)
-
-- notwendige Anpassungen für offizielles ioBroker-Release
-
-### 2.0.0 (2026-02-27)
-
-- Adapter umbenannt. Kleinere Bereinigungen.
-
-### 1.0.0 (2026-02-26)
-
-- Erstes stabiles Release
+Siehe [README.md](README.md#changelog) für den vollständigen Changelog.
 
 ---
 
