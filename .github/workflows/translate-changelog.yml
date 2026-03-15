@@ -48,7 +48,7 @@ jobs:
           fi
 
           # Translate via DeepL
-          TRANSLATED=$(curl -s https://api-free.deepl.com/v2/translate \
+          curl -s https://api-free.deepl.com/v2/translate \
             -H "Authorization: DeepL-Auth-Key $DEEPL_API_KEY" \
             -H "Content-Type: application/json" \
             -d "{
@@ -56,19 +56,22 @@ jobs:
               \"source_lang\": \"EN\",
               \"target_lang\": \"DE\",
               \"preserve_formatting\": true
-            }" | jq -r '.translations[0].text')
+            }" | jq -r '.translations[0].text' > /tmp/translated.txt
 
           echo "Translated:"
-          echo "$TRANSLATED"
+          cat /tmp/translated.txt
 
-          # Update README.de.md
-          python3 - <<PYEOF
+          # Update README.de.md - read translated text from file, not shell variable
+          python3 - <<'PYEOF'
           import re
+
+          with open('/tmp/translated.txt', 'r') as f:
+              translated = f.read().rstrip('\n')
 
           with open('README.de.md', 'r') as f:
               content = f.read()
 
-          wip_de = "### **WORK IN PROGRESS**\n\n${TRANSLATED}\n"
+          wip_de = "### **WORK IN PROGRESS**\n\n" + translated + "\n"
 
           if '### **WORK IN PROGRESS**' in content:
               content = re.sub(
