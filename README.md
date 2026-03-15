@@ -1,6 +1,6 @@
-![Logo](admin/aurora-nowcast.png)
-
 # ioBroker.aurora-nowcast
+
+![Logo](admin/aurora-nowcast.png)
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.aurora-nowcast.svg)](https://www.npmjs.com/package/iobroker.aurora-nowcast)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.aurora-nowcast.svg)](https://www.npmjs.com/package/iobroker.aurora-nowcast)
@@ -58,10 +58,10 @@ North/East values are positive, South/West values are negative.
 
 The adapter creates the following states:
 
-| State               | Type    | Description                                                                 |
-|---------------------|---------|-----------------------------------------------------------------------------|
-| `probability`       | number  | Estimated aurora visibility probability at the configured location (%)      |
-| `observation_time`  | number  | Time of the upstream solar wind observation used as model input (UTC, ms)  |
+| State               | Type    | Description                                                                        |
+|---------------------|---------|------------------------------------------------------------------------------------|
+| `probability`       | number  | Estimated aurora visibility probability at the configured location (%)             |
+| `observation_time`  | number  | Time of the upstream solar wind observation used as model input (UTC, ms)          |
 | `forecast_time`     | number  | Time for which the nowcasted geomagnetic response at Earth is calculated (UTC, ms) |
 
 These states can be used for:
@@ -77,7 +77,7 @@ These states can be used for:
 This adapter uses publicly available data provided by the:
 
 - NOAA Space Weather Prediction Center (SWPC)  
-  https://www.swpc.noaa.gov/
+  <https://www.swpc.noaa.gov/>
 
 In particular, the OVATION aurora nowcast model and related real-time geomagnetic indices are used to estimate auroral activity for the configured location.
 
@@ -95,9 +95,10 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
+
 ### **WORK IN PROGRESS**
 
-- fixed review findings (https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21)
+- fixed review findings (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)
 
 ### 2.1.4 (2026-03-11)
 
@@ -105,7 +106,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 ### 2.1.3 (2026-03-11)
 
-- fixed iobroker-Bot warnings: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18
+- fixed iobroker-Bot warnings: <https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18>
 - slightly retouched the icon
 
 ### 2.1.2 (2026-03-09)

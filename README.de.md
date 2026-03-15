@@ -1,6 +1,6 @@
-![Logo](admin/aurora-nowcast.png)
-
 # ioBroker.aurora-nowcast
+
+![Logo](admin/aurora-nowcast.png)
 
 [![NPM-Version](https://img.shields.io/npm/v/iobroker.aurora-nowcast.svg)](https://www.npmjs.com/package/iobroker.aurora-nowcast)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.aurora-nowcast.svg)](https://www.npmjs.com/package/iobroker.aurora-nowcast)
@@ -58,11 +58,11 @@ Die Gradangaben für Nord und Ost sind positiv, für Süd und West dagegen negat
 
 Der Adapter erstellt die folgenden Zustände:
 
-| Zustand             | Typ     | Beschreibung                                                                |
-|---------------------|---------|------------------------------------------------------------------------------|
+| Zustand             | Typ     | Beschreibung                                                                       |
+|---------------------|---------|------------------------------------------------------------------------------------|
 | `probability`       | number  | Geschätzte Wahrscheinlichkeit für sichtbare Polarlichter am konfigurierten Ort (%) |
-| `observation_time`  | number  | Zeitpunkt der verwendeten Sonnenwind-Beobachtung (UTC, ms) |
-| `forecast_time`     | number  | Zeitpunkt, für den die geomagnetische Reaktion der Erde berechnet wurde (UTC, ms) |
+| `observation_time`  | number  | Zeitpunkt der verwendeten Sonnenwind-Beobachtung (UTC, ms)                         |
+| `forecast_time`     | number  | Zeitpunkt, für den die geomagnetische Reaktion der Erde berechnet wurde (UTC, ms)  |
 
 Diese Zustände können verwendet werden für:
 
@@ -77,7 +77,7 @@ Diese Zustände können verwendet werden für:
 Dieser Adapter nutzt öffentlich verfügbare Daten von:
 
 - NOAA Space Weather Prediction Center (SWPC)  
-  https://www.swpc.noaa.gov/
+  <https://www.swpc.noaa.gov/>
 
 Insbesondere werden das OVATION-Aurora-Nowcast-Modell und zugehörige geomagnetische Echtzeitindizes verwendet, um die Polarlichtaktivität für den konfigurierten Standort zu schätzen.
 
@@ -95,13 +95,14 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 ---
 
 ## Changelog
+
 ### 2.1.4 (2026-03-11)
 
 - Sentry im GitHub-Workflow abgeschaltet
 
 ### 2.1.3 (2026-03-11)
 
-- Warnings vom iobroker-Bot behoben: https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18
+- Warnings vom iobroker-Bot behoben: <https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18>
 - Icon ein wenig retuschiert
 
 ### 2.1.2 (2026-03-09)
