@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
 name: Finalize Changelog
 
 on:
@@ -5,6 +7,9 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
       - "v[0-9]+.[0-9]+.[0-9]+-**"
+
+permissions:
+  contents: write
 
 jobs:
   finalize-changelog:
@@ -17,54 +22,19 @@ jobs:
           ref: main
 
       - name: Replace WORK IN PROGRESS with version in both READMEs
+        env:
+          VERSION: ${{ github.ref_name }}
         run: |
-          VERSION=${GITHUB_REF_NAME#v}
-          DATE=$(date +%Y-%m-%d)
-
+          export VERSION=${VERSION#v}
+          export DATE=$(date +%Y-%m-%d)
           echo "Finalizing changelog for $VERSION ($DATE)"
-
-          python3 - <<PYEOF
-          import re
-
-          version = "${VERSION}"
-          date = "${DATE}"
-          heading = f"### {version} ({date})\n"
-
-          for filename in ["README.md", "README.de.md"]:
-              with open(filename, "r") as f:
-                  content = f.read()
-
-              if "### **WORK IN PROGRESS**" not in content:
-                  print(f"{filename}: no WIP block found, skipping")
-                  continue
-
-              content = re.sub(
-                  r"### \*\*WORK IN PROGRESS\*\*",
-                  heading.rstrip(),
-                  content
-              )
-
-              with open(filename, "w") as f:
-                  f.write(content)
-
-              print(f"{filename}: WIP replaced with {heading.rstrip()}")
-
-          # Add fresh WIP block to README.md after the new version heading
-          with open("README.md", "r") as f:
-              content = f.read()
-
-          new_wip = f"### **WORK IN PROGRESS**\n\n- tbd\n\n"
-          content = re.sub(
-              r"(## Changelog\n\n)",
-              r"\1" + new_wip,
-              content
-          )
-
-          with open("README.md", "w") as f:
-              f.write(content)
-
-          print("README.md: fresh WIP block added")
-          PYEOF
+          echo "$VERSION" > /tmp/version.txt
+          echo "$DATE" > /tmp/date.txt
+          # The following line decodes and runs an embedded Python script (base64-encoded
+          # to avoid YAML/heredoc parsing issues). The script replaces the WORK IN PROGRESS
+          # heading in both READMEs with the release version and date, and adds a fresh
+          # WIP block to README.md.
+          echo "d2l0aCBvcGVuKCcvdG1wL3ZlcnNpb24udHh0JykgYXMgZjoKICAgIHZlcnNpb24gPSBmLnJlYWQoKS5zdHJpcCgpCndpdGggb3BlbignL3RtcC9kYXRlLnR4dCcpIGFzIGY6CiAgICBkYXRlID0gZi5yZWFkKCkuc3RyaXAoKQpoZWFkaW5nID0gIiMjIyAiICsgdmVyc2lvbiArICIgKCIgKyBkYXRlICsgIikiCmZvciBmaWxlbmFtZSBpbiBbIlJFQURNRS5tZCIsICJSRUFETUUuZGUubWQiXToKICAgIHdpdGggb3BlbihmaWxlbmFtZSwgInIiKSBhcyBmOgogICAgICAgIGNvbnRlbnQgPSBmLnJlYWQoKQogICAgaWYgIiMjIyAqKldPUksgSU4gUFJPR1JFU1MqKiIgbm90IGluIGNvbnRlbnQ6CiAgICAgICAgcHJpbnQoZmlsZW5hbWUgKyAiOiBubyBXSVAgYmxvY2sgZm91bmQsIHNraXBwaW5nIikKICAgICAgICBjb250aW51ZQogICAgY29udGVudCA9IGNvbnRlbnQucmVwbGFjZSgiIyMjICoqV09SSyBJTiBQUk9HUkVTUyoqIiwgaGVhZGluZykKICAgIHdpdGggb3BlbihmaWxlbmFtZSwgInciKSBhcyBmOgogICAgICAgIGYud3JpdGUoY29udGVudCkKICAgIHByaW50KGZpbGVuYW1lICsgIjogV0lQIHJlcGxhY2VkIHdpdGggIiArIGhlYWRpbmcpCndpdGggb3BlbigiUkVBRE1FLm1kIiwgInIiKSBhcyBmOgogICAgY29udGVudCA9IGYucmVhZCgpCm5ld193aXAgPSAiIyMjICoqV09SSyBJTiBQUk9HUkVTUyoqCgotIHRiZAoKIgpjb250ZW50ID0gY29udGVudC5yZXBsYWNlKGhlYWRpbmcsIG5ld193aXAgKyBoZWFkaW5nKQp3aXRoIG9wZW4oIlJFQURNRS5tZCIsICJ3IikgYXMgZjoKICAgIGYud3JpdGUoY29udGVudCkKcHJpbnQoIlJFQURNRS5tZDogZnJlc2ggV0lQIGJsb2NrIGFkZGVkIikK" | base64 -d | python3
 
       - name: Commit finalized changelogs
         run: |
@@ -72,6 +42,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git diff --quiet || (
             git add README.md README.de.md &&
-            git commit -m "chore: finalize changelog for ${GITHUB_REF_NAME} [skip ci]" &&
+            git commit -m "chore: finalize changelog for ${{ github.ref_name }} [skip ci]" &&
             git push origin main
           )
