@@ -69,7 +69,7 @@ jobs:
           import re
 
           with open('/tmp/translated.txt', 'r') as f:
-              translated = f.read().rstrip('\n')
+              translated = f.read().strip('\n')
 
           with open('README.de.md', 'r') as f:
               content = f.read()
