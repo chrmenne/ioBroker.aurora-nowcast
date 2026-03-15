@@ -98,8 +98,8 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 ### **WORK IN PROGRESS**
 
-
-- festgelegte Überprüfungsergebnisse (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)
+- überprüfungsergebnisse korrigiert (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)
+- wIP/Changelog-Übersetzungsworkflow hinzugefügt
 
 ### 2.1.4 (2026-03-11)
 
