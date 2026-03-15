@@ -96,6 +96,11 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 ## Changelog
 
+### **WORK IN PROGRESS**
+
+
+- festgelegte Überprüfungsergebnisse (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)
+
 ### 2.1.4 (2026-03-11)
 
 - Sentry im GitHub-Workflow abgeschaltet
