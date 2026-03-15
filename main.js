@@ -73,7 +73,7 @@ class AuroraNowcast extends utils.Adapter {
 	 */
 	async fetchOvation() {
 		const controller = new AbortController();
-		const timeout = setTimeout(() => controller.abort(), 10000);
+		const timeout = this.setTimeout(() => controller.abort(), 10000);
 		let json;
 		try {
 			const res = await fetch(this.config.ovationUrl, {
