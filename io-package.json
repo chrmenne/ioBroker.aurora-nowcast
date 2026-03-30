@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.1.4",
+    "version": "2.2.0",
     "news": {
+      "2.2.0": {
+        "en": "fixed review findings (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)",
+        "de": "Ergebnisse des Code Reviews behoben (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)",
+        "ru": "фиксированные результаты обзора (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)",
+        "pt": "conclusões de revisão fixa (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)",
+        "nl": "bevindingen van vaste toetsing (<https://github.com/chrmenne/ioBroker.auorra-nowcast/issues/21>)",
+        "fr": "conclusions de l'examen fixe (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)",
+        "it": "risultati delle revisioni fisse ( <https://github.com/chrmenne/ioBroker.aurora-nowcast/problems/21>)",
+        "es": "conclusiones del examen fijo (https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21]",
+        "pl": "stałe ustalenia z przeglądu (< https: / / github.com / chrmenne / ioBroker.aurora- nowcast / issues / 21 >)",
+        "uk": "виправлено результати рецензування (<https://github.com/chrmenne/ioBroker.aurora-nowcast/products/21>)",
+        "zh-cn": "固定审查结论(<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)"
+      },
       "2.1.4": {
         "en": "disabled Sentry in GitHub workflow",
         "de": "Sentry in GitHub-Workflow deaktiviert",
@@ -80,19 +93,6 @@
         "pl": "Rozmiar ikony poprawiony do 512x512 (lub mniejszy) na potrzeby wydania ioBroker",
         "uk": "Виправлено розмір іконки до 512x512 (або менше) для публікації в ioBroker",
         "zh-cn": "已将图标大小修正为 512x512（或更小）以用于 ioBroker 发布"
-      },
-      "2.0.1": {
-        "en": "Necessary adjustments for ioBroker official release",
-        "de": "Notwendige Anpassungen für die offizielle ioBroker-Veröffentlichung",
-        "ru": "Необходимые изменения для официального релиза ioBroker",
-        "pt": "Ajustes necessários para a publicação oficial no ioBroker",
-        "nl": "Benodigde aanpassingen voor de officiële ioBroker-release",
-        "fr": "Ajustements nécessaires pour la publication officielle sur ioBroker",
-        "it": "Adeguamenti necessari per il rilascio ufficiale su ioBroker",
-        "es": "Ajustes necesarios para la publicación oficial en ioBroker",
-        "pl": "Niezbędne poprawki do oficjalnego wydania ioBroker",
-        "uk": "Необхідні зміни для офіційного релізу ioBroker",
-        "zh-cn": "为 ioBroker 官方发布所做的必要调整"
       }
     },
     "titleLang": {
