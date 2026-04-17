@@ -10,6 +10,8 @@ class FakeAdapter extends EventEmitter {
 		super();
 		this.name = options.name;
 		this.config = options.config || {};
+		this.setTimeout = setTimeout;
+		this.clearTimeout = clearTimeout;
 		this.log = {
 			debug: () => {},
 			info: () => {},
@@ -166,5 +168,88 @@ describe("main.js helper methods", () => {
 		} finally {
 			global.fetch = originalFetch;
 		}
+	});
+
+	it("uses system coordinates and updates datapoints after successful NOAA request", async () => {
+		const adapter = createAdapter({
+			config: {
+				useSystemLocation: true,
+				ovationUrl: "https://example.invalid/noaa",
+			},
+		});
+		const stateCalls = [];
+		const objectCalls = [];
+		const terminateCalls = [];
+
+		adapter.setObjectNotExistsAsync = async (id, obj) => {
+			objectCalls.push({ id, obj });
+		};
+		adapter.getForeignObjectAsync = async (id) => {
+			expect(id).to.equal("system.config");
+			return { common: { latitude: -89.4, longitude: 0.2 } };
+		};
+		adapter.fetchOvation = async () => noaaResponseExample;
+		adapter.setState = async (id, state) => {
+			stateCalls.push({ id, state });
+		};
+		adapter.terminate = (code) => {
+			terminateCalls.push(code);
+		};
+
+		await adapter.onReady();
+
+		expect(objectCalls.map(call => call.id)).to.deep.equal([
+			"probability",
+			"observation_time",
+			"forecast_time",
+		]);
+		expect(stateCalls).to.deep.equal([
+			{ id: "probability", state: { val: 99, ack: true } },
+			{ id: "observation_time", state: { val: 1772010720000, ack: true } },
+			{ id: "forecast_time", state: { val: 1772013600000, ack: true } },
+		]);
+		expect(terminateCalls).to.deep.equal([0]);
+	});
+
+	it("uses adapter-configured coordinates and updates datapoints after successful NOAA request", async () => {
+		const adapter = createAdapter({
+			config: {
+				useSystemLocation: false,
+				latitude: -89.4,
+				longitude: 0.2,
+				ovationUrl: "https://example.invalid/noaa",
+			},
+		});
+		const stateCalls = [];
+		const objectCalls = [];
+		const terminateCalls = [];
+
+		adapter.setObjectNotExistsAsync = async (id, obj) => {
+			objectCalls.push({ id, obj });
+		};
+		adapter.getForeignObjectAsync = async () => {
+			throw new Error("system.config should not be read when adapter coordinates are configured");
+		};
+		adapter.fetchOvation = async () => noaaResponseExample;
+		adapter.setState = async (id, state) => {
+			stateCalls.push({ id, state });
+		};
+		adapter.terminate = (code) => {
+			terminateCalls.push(code);
+		};
+
+		await adapter.onReady();
+
+		expect(objectCalls.map(call => call.id)).to.deep.equal([
+			"probability",
+			"observation_time",
+			"forecast_time",
+		]);
+		expect(stateCalls).to.deep.equal([
+			{ id: "probability", state: { val: 99, ack: true } },
+			{ id: "observation_time", state: { val: 1772010720000, ack: true } },
+			{ id: "forecast_time", state: { val: 1772013600000, ack: true } },
+		]);
+		expect(terminateCalls).to.deep.equal([0]);
 	});
 });
