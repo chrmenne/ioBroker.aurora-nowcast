@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/chrmenne/ioBroker.aurora-nowcast"
+    "url": "git+https://github.com/chrmenne/ioBroker.aurora-nowcast.git"
   },
   "engines": {
     "node": ">= 22"
