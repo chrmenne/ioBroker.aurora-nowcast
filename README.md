@@ -96,7 +96,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 ## Changelog
 
-## **WORK IN PROGRESS**
+### **WORK IN PROGRESS**
 
 - more checks
 - fixed Readme link to a more stable direct link instead of an anchor
