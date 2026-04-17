@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "news": {
+      "2.2.1": {
+        "en": "more tests\nfixed Readme link to a more stable direct link instead of an anchor\nfixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\nfixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)",
+        "de": "mehr Tests\nfester Readme-Link zu einem stabileren Direktlink anstelle eines Ankers\nfeste Ausgabe (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\nfeste Ausgabe (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)",
+        "ru": "больше проверок\nфиксированная ссылка Readme на более стабильную прямую ссылку вместо якоря\nфиксированный выпуск (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\nфиксированный выпуск (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)",
+        "pt": "mais controlos\nfixo link Readme para um link direto mais estável em vez de uma âncora\nnúmero fixo (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\nnúmero fixo (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)",
+        "nl": "meer controles\nvaste Readme link naar een stabielere directe link in plaats van een anker\nvast nummer (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\nvast nummer (<https://github.com/chrmenne/ioBroker.auorra-nowcast/issues/27>)",
+        "fr": "contrôles supplémentaires\nfixe Lien Readme vers un lien direct plus stable au lieu d'une ancre\némission fixe (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\némission fixe (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)",
+        "it": "più controlli\ncollegamento fisso Readme ad un collegamento diretto più stabile invece di un ancoraggio\nemissione fissa ( <https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\nemissione fissa ( <https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)",
+        "es": "más cheques\nenlace de Readme fijo a un enlace directo más estable en lugar de un ancla\ncuestiones fijas (https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24 \" )\ncuestiones fijas (https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27 título)",
+        "pl": "więcej kontroli\nstałe łącze Readme do bardziej stabilnego połączenia bezpośredniego zamiast kotwicy\nwydanie stałe (< https: / / github.com / chrmenne / ioBroker.aurora- nowcast / issues / 24 >)\nwydanie stałe (< https: / / github.com / chrmenne / ioBroker.aurora- nowcast / issues / 27 >)",
+        "uk": "більше перевірок\nфіксована посилання для більш стабільного прямого посилання замість анкера\nвиправлено проблему (<https://github.com/chrmenne/ioBroker.aurora-nowcast/products/24>)\nвиправлено проблему (<https://github.com/chrmenne/ioBroker.aurora-nowcast/products/27>)",
+        "zh-cn": "更多检查\n固定 Readme 链接到更稳定的直接链接而不是锚\n(<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>) (中文(简体) )\n(<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>) (中文(简体) )"
+      },
       "2.2.0": {
         "en": "fixed review findings (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)",
         "de": "Ergebnisse des Code Reviews behoben (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)",
@@ -80,19 +93,6 @@
         "pl": "dodana internacjonalizacja (i18n)\ndalsze mniejsze dostosowania w celu spełnienia norm joBroker",
         "uk": "додана інтернаціоналізація (i18n)\nподальші менші налаштування, щоб відповідати стандартам ioBroker",
         "zh-cn": "增加的国际化(i18n)\n为满足ioBroker标准而作的进一步小调整"
-      },
-      "2.0.2": {
-        "en": "Fixed icon size to 512x512 (or less) for ioBroker release",
-        "de": "Icongröße für die ioBroker-Veröffentlichung auf 512x512 (oder kleiner) korrigiert",
-        "ru": "Исправлен размер значка до 512x512 (или меньше) для публикации в ioBroker",
-        "pt": "Tamanho do ícone corrigido para 512x512 (ou menor) para a publicação no ioBroker",
-        "nl": "Pictogramgrootte aangepast naar 512x512 (of kleiner) voor ioBroker-release",
-        "fr": "Taille de l’icône corrigée à 512x512 (ou moins) pour la publication ioBroker",
-        "it": "Dimensione dell'icona corretta a 512x512 (o inferiore) per il rilascio ioBroker",
-        "es": "Tamaño del icono corregido a 512x512 (o menor) para la publicación en ioBroker",
-        "pl": "Rozmiar ikony poprawiony do 512x512 (lub mniejszy) na potrzeby wydania ioBroker",
-        "uk": "Виправлено розмір іконки до 512x512 (або менше) для публікації в ioBroker",
-        "zh-cn": "已将图标大小修正为 512x512（或更小）以用于 ioBroker 发布"
       }
     },
     "titleLang": {
