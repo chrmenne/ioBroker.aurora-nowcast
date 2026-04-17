@@ -141,7 +141,7 @@
     "icon": "aurora-nowcast.png",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/chrmenne/ioBroker.aurora-nowcast/main/admin/aurora-nowcast.png",
-    "readme": "https://github.com/chrmenne/ioBroker.aurora-nowcast#readme",
+    "readme": "https://github.com/chrmenne/ioBroker.aurora-nowcast/blob/main/README.md",
     "loglevel": "info",
     "tier": 3,
     "mode": "schedule",
