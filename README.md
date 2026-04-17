@@ -95,6 +95,11 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+- re-added git-type URL because of npm linter
+
 ### 2.2.1 (2026-04-17)
 
 - more checks
