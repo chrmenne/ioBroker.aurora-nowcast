@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "aurora-nowcast",
-    "version": "2.2.1",
+    "version": "2.2.2",
     "news": {
+      "2.2.2": {
+        "en": "re-added git-type URL because of npm linter",
+        "de": "git-URL wegen npm-Linter wieder hinzugefügt",
+        "ru": "uRL-адрес с добавлением git-типа из-за npm linter",
+        "pt": "uRL do tipo git re- adicionado devido ao npm linter",
+        "nl": "opnieuw toegevoegde git-type URL vanwege npm linter",
+        "fr": "uRL de type git re-ajoutée à cause de npm linter",
+        "it": "uRL git-type aggiunto a causa di npm linter",
+        "es": "uRL tipo git re-added debido a npm linter",
+        "pl": "ponownie dodany adres URL typu git- z powodu lintera npm",
+        "uk": "re-added git-type URL через npm linter",
+        "zh-cn": "由于 npm linter 而重新添加 git 类型 URL"
+      },
       "2.2.1": {
         "en": "more tests\nfixed Readme link to a more stable direct link instead of an anchor\nfixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\nfixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)",
         "de": "mehr Tests\nfester Readme-Link zu einem stabileren Direktlink anstelle eines Ankers\nfeste Ausgabe (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)\nfeste Ausgabe (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)",
@@ -80,19 +93,6 @@
         "pl": "naprawiono błąd dotyczący walidacji współrzędnych",
         "uk": "виправлено помилку щодо перевірки координат",
         "zh-cn": "在坐标验证方面修补错误"
-      },
-      "2.1.0": {
-        "en": "added internationalization (i18n)\nfurther smaller adjustments to meet ioBroker standards",
-        "de": "Internationalisierung (i18n) hinzugefügt\nweitere kleinere Anpassungen an ioBroker-Standards",
-        "ru": "интернационализация (i18n)\nдальнейшие небольшие корректировки в соответствии со стандартами ioBroker",
-        "pt": "internacionalização adicionada (i18n)\noutros ajustamentos menores para cumprir as normas ioBroker",
-        "nl": "toegevoegde internationalisering (i18n)\nverdere kleinere aanpassingen om aan ioBroker-normen te voldoen",
-        "fr": "internationalisation supplémentaire (i18n)\nde nouveaux ajustements moins importants pour satisfaire aux normes ioBroker",
-        "it": "internazionalizzazione aggiunta (i18n)\nulteriori piccoli adattamenti per soddisfare gli standard ioBroker",
-        "es": "internacionalización (i18n)\najustes más pequeños para cumplir con las normas de ioBroker",
-        "pl": "dodana internacjonalizacja (i18n)\ndalsze mniejsze dostosowania w celu spełnienia norm joBroker",
-        "uk": "додана інтернаціоналізація (i18n)\nподальші менші налаштування, щоб відповідати стандартам ioBroker",
-        "zh-cn": "增加的国际化(i18n)\n为满足ioBroker标准而作的进一步小调整"
       }
     },
     "titleLang": {
