@@ -150,6 +150,8 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 ---
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## ❤️ Support
 
 If you find **ioBroker.aurora-nowcast** useful and would like to support further development, you can buy me a coffee ☕🙂
