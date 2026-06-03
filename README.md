@@ -33,6 +33,16 @@ Provides **current (nowcast) data** on aurora activity (northern and southern li
 
 ---
 
+## ❤️ Support
+
+If you find **ioBroker.aurora-nowcast** useful and would like to support further development, you might want to buy me a coffee. ☕🙂
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=G6FRTZ5EAADFJ)
+
+Thank you for your support!
+
+---
+
 ## Configuration
 
 You can either:
@@ -147,17 +157,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 - added internationalization (i18n)
 - further smaller adjustments to meet ioBroker standards
 
----
-
 [Older changelogs can be found there](CHANGELOG_OLD.md)
-
-## ❤️ Support
-
-If you find **ioBroker.aurora-nowcast** useful and would like to support further development, you can buy me a coffee ☕🙂
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=G6FRTZ5EAADFJ)
-
-Thank you for your support!
 
 ---
 

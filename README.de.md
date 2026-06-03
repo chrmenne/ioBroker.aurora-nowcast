@@ -33,6 +33,16 @@ Liefert **aktuelle (Nowcast) Daten** zur kurzfristigen Polarlicht-Aktivität an 
 
 ---
 
+## ❤️ Support
+
+Falls **ioBroker.aurora-nowcast** für Sie nützlich ist und Sie mich unterstützen möchten, dann spendieren Sie mir doch bitte einen Kaffee. ☕🙂
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=G6FRTZ5EAADFJ)
+
+Vielen Dank für Ihre Unterstützung!
+
+---
+
 ## Konfiguration
 
 Du kannst entweder:
@@ -103,16 +113,6 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 ## Changelog
 
 Siehe [README.md](README.md#changelog) für den vollständigen Changelog (englisch).
-
----
-
-## ❤️ Support
-
-Falls **ioBroker.aurora-nowcast** für Sie nützlich ist und sie mich unterstützen möchten, dann spendieren Sie mir doch einen Kaffee ☕🙂
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=G6FRTZ5EAADFJ)
-
-Vielen Dank für Ihre Unterstützung!
 
 ---
 
