@@ -106,6 +106,9 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 - switched from single-run to continuous interval-based polling (daemon mode)
 - configurable update interval (1–60 minutes, default: 5)
+- fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/32>)
+- fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/33>)
+- fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/35>)
 
 ### 2.2.2 (2026-04-17)
 
