@@ -8,5 +8,8 @@
   "longitudePlaceholder": "наприклад, 13.4",
   "longitudeRequiredWhenSystemLocationDisabled": "Довгота потрібна, якщо місцезнаходження системи вимкнено",
   "useSystemLocation": "Використовуйте розташування системи",
-  "useSystemLocationOrSpecifyCoordinates": "Використовуйте розташування системи або вкажіть координати"
+  "useSystemLocationOrSpecifyCoordinates": "Використовуйте розташування системи або вкажіть координати",
+  "pollingInterval": "Інтервал опитування",
+  "interval": "Інтервал (хвилини)",
+  "intervalHelp": "Інтервал у хвилинах, через який оновлюються дані NOAA."
 }

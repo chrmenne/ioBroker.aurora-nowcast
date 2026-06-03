@@ -8,5 +8,8 @@
   "longitudePlaceholder": "ad esempio 13.4",
   "longitudeRequiredWhenSystemLocationDisabled": "La longitudine è richiesta quando la localizzazione del sistema è disabilitata",
   "useSystemLocation": "Utilizzare la posizione del sistema",
-  "useSystemLocationOrSpecifyCoordinates": "Utilizzare la posizione del sistema o specificare le coordinate"
+  "useSystemLocationOrSpecifyCoordinates": "Utilizzare la posizione del sistema o specificare le coordinate",
+  "pollingInterval": "Intervallo di polling",
+  "interval": "Intervallo (minuti)",
+  "intervalHelp": "Intervallo in minuti con cui vengono aggiornati i dati NOAA."
 }

@@ -144,9 +144,7 @@
     "readme": "https://github.com/chrmenne/ioBroker.aurora-nowcast/blob/main/README.md",
     "loglevel": "info",
     "tier": 3,
-    "mode": "schedule",
-    "schedule": "*/5 * * * *",
-    "allowInit": true,
+    "mode": "daemon",
     "type": "weather",
     "compact": true,
     "connectionType": "cloud",
@@ -169,6 +167,7 @@
     "useSystemLocation": true,
     "ovationUrl": "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json",
     "latitude": null,
-    "longitude": null
+    "longitude": null,
+    "interval": 5
   }
 }

@@ -8,5 +8,8 @@
   "longitudePlaceholder": "z.B. 13.4",
   "longitudeRequiredWhenSystemLocationDisabled": "Der Längengrad ist erforderlich, wenn die Systemortung deaktiviert ist.",
   "useSystemLocation": "Systemstandort verwenden",
-  "useSystemLocationOrSpecifyCoordinates": "Systemstandort verwenden oder Koordinaten angeben"
+  "useSystemLocationOrSpecifyCoordinates": "Systemstandort verwenden oder Koordinaten angeben",
+  "pollingInterval": "Abfrageintervall",
+  "interval": "Intervall (Minuten)",
+  "intervalHelp": "Intervall in Minuten, in dem die NOAA-Daten aktualisiert werden."
 }

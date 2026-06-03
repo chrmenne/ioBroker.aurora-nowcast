@@ -8,5 +8,8 @@
   "longitudePlaceholder": "例如：13.4",
   "longitudeRequiredWhenSystemLocationDisabled": "禁用系统定位时需要经度",
   "useSystemLocation": "使用系统位置",
-  "useSystemLocationOrSpecifyCoordinates": "使用系统位置或指定坐标"
+  "useSystemLocationOrSpecifyCoordinates": "使用系统位置或指定坐标",
+  "pollingInterval": "轮询间隔",
+  "interval": "间隔（分钟）",
+  "intervalHelp": "更新NOAA数据的间隔时间（分钟）。"
 }

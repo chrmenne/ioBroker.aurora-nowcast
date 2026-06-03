@@ -29,6 +29,8 @@ class AuroraNowcast extends utils.Adapter {
 		});
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
+		this.updateInterval = null;
+		this.ovationIndex = null;
 	}
 
 	/**
@@ -117,10 +119,34 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
+	 * Fetches current ovation data and updates all states.
+	 *
+	 * @async
+	 * @returns {Promise<void>}
+	 */
+	async updateData() {
+		try {
+			const ovationJson = await this.fetchOvation();
+			const probability = this.getAuroraProbabilityFromOvationData(ovationJson, this.ovationIndex);
+			this.log.debug(`Probability: ${probability}`);
+			await this.setState("probability", { val: probability, ack: true });
+			await this.setState("observation_time", {
+				val: this.parseNoaaTimestamp(ovationJson["Observation Time"]),
+				ack: true,
+			});
+			await this.setState("forecast_time", {
+				val: this.parseNoaaTimestamp(ovationJson["Forecast Time"]),
+				ack: true,
+			});
+		} catch (e) {
+			this.log.error(e);
+		}
+	}
+
+	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
-		// Initializing the adapter by creating the data points if not already present.
 		try {
 			await this.setObjectNotExistsAsync("probability", {
 				type: "state",
@@ -170,39 +196,28 @@ class AuroraNowcast extends utils.Adapter {
 					lon = Number(sysConfig?.common?.longitude);
 				} else {
 					this.log.error("System coordinates are configured to be used, but not set. Aborting.");
-					return;
+					this.terminate(1);
 				}
 			} else if (!isNaN(this.config.latitude) && !isNaN(this.config.longitude)) {
 				lat = this.config.latitude;
 				lon = this.config.longitude;
 			} else {
 				this.log.error("Neither system nor specific coordinates are set. Aborting");
-				return;
+				this.terminate(1);
 			}
 
-			const ovationIndex = this.getNoaaIndex(lat, lon);
+			this.ovationIndex = this.getNoaaIndex(lat, lon);
 			this.log.debug(`Latitude: ${lat}, Longitude: ${lon}`);
-			this.log.debug(`Index: ${ovationIndex}`);
+			this.log.debug(`Index: ${this.ovationIndex}`);
 
-			const ovationJson = await this.fetchOvation();
-			const probability = this.getAuroraProbabilityFromOvationData(ovationJson, ovationIndex);
-			this.log.debug(`Probability: ${probability}`);
+			await this.updateData();
 
-			await this.setState("probability", { val: probability, ack: true });
-			await this.setState("observation_time", {
-				val: this.parseNoaaTimestamp(ovationJson["Observation Time"]),
-				ack: true,
-			});
-			await this.setState("forecast_time", {
-				val: this.parseNoaaTimestamp(ovationJson["Forecast Time"]),
-				ack: true,
-			});
+			const intervalMs = (this.config.interval || 5) * 60 * 1000;
+			this.updateInterval = this.setInterval(() => this.updateData(), intervalMs);
 		} catch (e) {
 			this.log.error(e);
 			this.terminate(1);
 		}
-
-		this.terminate(0);
 	}
 
 	/**
@@ -212,6 +227,9 @@ class AuroraNowcast extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
+			if (this.updateInterval) {
+				this.clearInterval(this.updateInterval);
+			}
 			callback();
 		} catch (error) {
 			this.log.error(`Error during unloading: ${error.message}`);

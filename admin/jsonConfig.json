@@ -60,6 +60,32 @@
 			"md": 6,
 			"lg": 4,
 			"xl": 4
+		},
+		"intervalSection": {
+			"newLine": true,
+			"type": "header",
+			"text": "pollingInterval",
+			"size": 3,
+			"xs": 12,
+			"sm": 12,
+			"md": 12,
+			"lg": 12,
+			"xl": 12
+		},
+		"interval": {
+			"newLine": true,
+			"type": "number",
+			"label": "interval",
+			"help": "intervalHelp",
+			"min": 1,
+			"max": 60,
+			"step": 1,
+			"default": 5,
+			"xs": 12,
+			"sm": 12,
+			"md": 6,
+			"lg": 4,
+			"xl": 4
 		}
 	}
 }
