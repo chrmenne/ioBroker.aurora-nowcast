@@ -52,6 +52,12 @@ Beispiele:
 
 Die Gradangaben für Nord und Ost sind positiv, für Süd und West dagegen negativ.
 
+### Aktualisierungsintervall
+
+| Einstellung | Standard | Bereich | Beschreibung                                                        |
+|-------------|----------|---------|---------------------------------------------------------------------|
+| Intervall   | 5        | 1-60    | Wie oft der Adapter neue Daten von NOAA abruft (Minuten)            |
+
 ---
 
 ## Zustände

@@ -52,6 +52,12 @@ Examples:
 
 North/East values are positive, South/West values are negative.
 
+### Update Interval
+
+| Setting  | Default | Range  | Description                                                |
+|----------|---------|--------|------------------------------------------------------------|
+| Interval | 5       | 1-60   | How often the adapter fetches new data from NOAA (minutes) |
+
 ---
 
 ## States
@@ -95,6 +101,12 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+- switched from single-run to continuous interval-based polling (daemon mode)
+- configurable update interval (1–60 minutes, default: 5)
+
 ### 2.2.2 (2026-04-17)
 
 - re-added git-type URL because of npm linter
