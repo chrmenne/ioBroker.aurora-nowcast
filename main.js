@@ -197,6 +197,7 @@ class AuroraNowcast extends utils.Adapter {
 				} else {
 					this.log.error("System coordinates are configured to be used, but not set. Aborting.");
 					this.terminate(1);
+					return;
 				}
 			} else if (!isNaN(this.config.latitude) && !isNaN(this.config.longitude)) {
 				lat = this.config.latitude;
@@ -204,6 +205,7 @@ class AuroraNowcast extends utils.Adapter {
 			} else {
 				this.log.error("Neither system nor specific coordinates are set. Aborting");
 				this.terminate(1);
+				return;
 			}
 
 			this.ovationIndex = this.getNoaaIndex(lat, lon);
