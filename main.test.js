@@ -12,6 +12,8 @@ class FakeAdapter extends EventEmitter {
 		this.config = options.config || {};
 		this.setTimeout = setTimeout;
 		this.clearTimeout = clearTimeout;
+		this.setInterval = setInterval;
+		this.clearInterval = clearInterval;
 		this.log = {
 			debug: () => {},
 			info: () => {},
@@ -175,11 +177,13 @@ describe("main.js helper methods", () => {
 			config: {
 				useSystemLocation: true,
 				ovationUrl: "https://example.invalid/noaa",
+				interval: 10,
 			},
 		});
 		const stateCalls = [];
 		const objectCalls = [];
 		const terminateCalls = [];
+		const intervalDelays = [];
 
 		adapter.setObjectNotExistsAsync = async (id, obj) => {
 			objectCalls.push({ id, obj });
@@ -195,6 +199,10 @@ describe("main.js helper methods", () => {
 		adapter.terminate = (code) => {
 			terminateCalls.push(code);
 		};
+		adapter.setInterval = (_fn, ms) => {
+			intervalDelays.push(ms);
+			return null;
+		};
 
 		await adapter.onReady();
 
@@ -208,7 +216,8 @@ describe("main.js helper methods", () => {
 			{ id: "observation_time", state: { val: 1772010720000, ack: true } },
 			{ id: "forecast_time", state: { val: 1772013600000, ack: true } },
 		]);
-		expect(terminateCalls).to.deep.equal([0]);
+		expect(terminateCalls).to.deep.equal([]);
+		expect(intervalDelays).to.deep.equal([600000]); // 10 min * 60s * 1000ms
 	});
 
 	it("uses adapter-configured coordinates and updates datapoints after successful NOAA request", async () => {
@@ -218,11 +227,13 @@ describe("main.js helper methods", () => {
 				latitude: -89.4,
 				longitude: 0.2,
 				ovationUrl: "https://example.invalid/noaa",
+				interval: 5,
 			},
 		});
 		const stateCalls = [];
 		const objectCalls = [];
 		const terminateCalls = [];
+		const intervalDelays = [];
 
 		adapter.setObjectNotExistsAsync = async (id, obj) => {
 			objectCalls.push({ id, obj });
@@ -237,6 +248,10 @@ describe("main.js helper methods", () => {
 		adapter.terminate = (code) => {
 			terminateCalls.push(code);
 		};
+		adapter.setInterval = (_fn, ms) => {
+			intervalDelays.push(ms);
+			return null;
+		};
 
 		await adapter.onReady();
 
@@ -250,6 +265,65 @@ describe("main.js helper methods", () => {
 			{ id: "observation_time", state: { val: 1772010720000, ack: true } },
 			{ id: "forecast_time", state: { val: 1772013600000, ack: true } },
 		]);
-		expect(terminateCalls).to.deep.equal([0]);
+		expect(terminateCalls).to.deep.equal([]);
+		expect(intervalDelays).to.deep.equal([300000]); // 5 min * 60s * 1000ms
+	});
+
+	it("terminates with code 1 and skips NOAA fetch when system coordinates are not set", async () => {
+		const adapter = createAdapter({
+			config: {
+				useSystemLocation: true,
+				ovationUrl: "https://example.invalid/noaa",
+			},
+		});
+		const terminateCalls = [];
+		let fetchCalled = false;
+
+		adapter.setObjectNotExistsAsync = async () => {};
+		adapter.getForeignObjectAsync = async () => ({ common: {} });
+		adapter.fetchOvation = async () => {
+			fetchCalled = true;
+			return noaaResponseExample;
+		};
+		adapter.setState = async () => {};
+		adapter.terminate = (code) => {
+			terminateCalls.push(code);
+		};
+		adapter.setInterval = () => null;
+
+		await adapter.onReady();
+
+		expect(terminateCalls).to.deep.equal([1]);
+		expect(fetchCalled).to.equal(false);
+	});
+
+	it("terminates with code 1 and skips NOAA fetch when no coordinates are configured", async () => {
+		const adapter = createAdapter({
+			config: {
+				useSystemLocation: false,
+				ovationUrl: "https://example.invalid/noaa",
+			},
+		});
+		const terminateCalls = [];
+		let fetchCalled = false;
+
+		adapter.setObjectNotExistsAsync = async () => {};
+		adapter.getForeignObjectAsync = async () => {
+			throw new Error("system.config should not be read when useSystemLocation is false");
+		};
+		adapter.fetchOvation = async () => {
+			fetchCalled = true;
+			return noaaResponseExample;
+		};
+		adapter.setState = async () => {};
+		adapter.terminate = (code) => {
+			terminateCalls.push(code);
+		};
+		adapter.setInterval = () => null;
+
+		await adapter.onReady();
+
+		expect(terminateCalls).to.deep.equal([1]);
+		expect(fetchCalled).to.equal(false);
 	});
 });
