@@ -93,6 +93,7 @@ North/East values are positive, South/West values are negative.
 |------------------------|---------|--------------------------------------------------------|
 | `kp.value`             | number  | Current Kp index (0–9, decimal, 1-minute feed)         |
 | `kp.time`              | number  | Measurement time of the current Kp value (UTC, ms)     |
+| `kp.g_scale`           | number  | Derived NOAA G-scale (0 = none, 1–5 = G1–G5)           |
 | `kp.forecast_max`      | number  | Maximum Kp value in the 72-hour forecast               |
 | `kp.forecast_max_time` | number  | Time at which the forecast maximum occurs (UTC, ms)    |
 | `kp.forecast`          | string  | Full 72-hour Kp forecast as JSON array `[{time, kp}]`  |

@@ -233,6 +233,26 @@ describe("main.js helper methods", () => {
 		expect(() => adapter.getKpForecastFromData(null)).to.throw("Invalid Kp forecast payload");
 	});
 
+	// --- Kp G-scale ---
+
+	it("computes G-scale 0 for Kp below 5", () => {
+		const adapter = createAdapter({});
+		expect(adapter.computeGScaleFromKp(0)).to.equal(0);
+		expect(adapter.computeGScaleFromKp(4.99)).to.equal(0);
+		expect(adapter.computeGScaleFromKp(4)).to.equal(0);
+	});
+
+	it("computes correct G-scale for storm conditions", () => {
+		const adapter = createAdapter({});
+		expect(adapter.computeGScaleFromKp(5)).to.equal(1);
+		expect(adapter.computeGScaleFromKp(5.67)).to.equal(1);
+		expect(adapter.computeGScaleFromKp(6)).to.equal(2);
+		expect(adapter.computeGScaleFromKp(6.67)).to.equal(2);
+		expect(adapter.computeGScaleFromKp(7)).to.equal(3);
+		expect(adapter.computeGScaleFromKp(8)).to.equal(4);
+		expect(adapter.computeGScaleFromKp(9)).to.equal(5);
+	});
+
 	// --- Solar wind ---
 
 	it("extracts Bz and Bt from real mag fixture (newest-first array)", () => {
@@ -367,6 +387,7 @@ describe("main.js helper methods", () => {
 			"solar_wind.plasma_time",
 			"kp.value",
 			"kp.time",
+			"kp.g_scale",
 			"kp.forecast_max",
 			"kp.forecast_max_time",
 			"kp.forecast",
@@ -431,6 +452,7 @@ describe("main.js helper methods", () => {
 			"solar_wind.plasma_time",
 			"kp.value",
 			"kp.time",
+			"kp.g_scale",
 			"kp.forecast_max",
 			"kp.forecast_max_time",
 			"kp.forecast",

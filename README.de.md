@@ -93,6 +93,7 @@ Die Gradangaben für Nord und Ost sind positiv, für Süd und West dagegen negat
 |------------------------|---------|------------------------------------------------------------|
 | `kp.value`             | number  | Aktueller Kp-Index (0–9, Dezimalwert, 1-Minuten-Feed)      |
 | `kp.time`              | number  | Messzeitpunkt des aktuellen Kp-Wertes (UTC, ms)            |
+| `kp.g_scale`           | number  | Abgeleitete NOAA G-Stufe (0 = kein Sturm, 1–5 = G1–G5)     |
 | `kp.forecast_max`      | number  | Maximaler Kp-Wert in der 72-Stunden-Vorhersage             |
 | `kp.forecast_max_time` | number  | Zeitpunkt des Vorhersage-Maximums (UTC, ms)                |
 | `kp.forecast`          | string  | Vollständige 72h-Kp-Vorhersage als JSON `[{time, kp}]`     |

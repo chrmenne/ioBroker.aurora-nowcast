@@ -217,6 +217,14 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
+	 * @param {number} kp - Kp index value (0–9)
+	 * @returns {number} NOAA G-scale (0 = no storm, 1–5 = G1–G5)
+	 */
+	computeGScaleFromKp(kp) {
+		return Math.max(0, Math.floor(kp) - 4);
+	}
+
+	/**
 	 * @param {KpEntry[]} data - Array of 1-minute Kp entries from NOAA
 	 * @returns {{ value: number, time: string }} The latest valid Kp value and its timestamp
 	 */
@@ -301,6 +309,7 @@ class AuroraNowcast extends utils.Adapter {
 			const { value, time } = this.getKpValueFromData(data);
 			await this.setState("kp.value", { val: value, ack: true });
 			await this.setState("kp.time", { val: this.parseNoaaTimestamp(time), ack: true });
+			await this.setState("kp.g_scale", { val: this.computeGScaleFromKp(value), ack: true });
 		} catch (e) {
 			this.log.error(`Kp index update failed: ${e.message || e}`);
 		}
@@ -451,6 +460,19 @@ class AuroraNowcast extends utils.Adapter {
 					name: "Kp measurement time",
 					type: "number",
 					role: "date",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("kp.g_scale", {
+				type: "state",
+				common: {
+					name: "Geomagnetic storm scale (G0–G5)",
+					type: "number",
+					role: "value",
+					min: 0,
+					max: 5,
 					read: true,
 					write: false,
 				},
