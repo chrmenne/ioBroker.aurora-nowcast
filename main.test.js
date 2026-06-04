@@ -6,6 +6,8 @@ const Module = require("node:module");
 const noaaResponseExample = require("./test/resources/noaa_response_example.json");
 const kp1mExample = require("./test/resources/kp_1m_example.json");
 const kpForecastExample = require("./test/resources/kp_forecast_example.json");
+const solarWindMagExample = require("./test/resources/solar_wind_mag_example.json");
+const solarWindPlasmaExample = require("./test/resources/solar_wind_plasma_example.json");
 
 class FakeAdapter extends EventEmitter {
 	constructor(options = {}) {
@@ -231,6 +233,88 @@ describe("main.js helper methods", () => {
 		expect(() => adapter.getKpForecastFromData(null)).to.throw("Invalid Kp forecast payload");
 	});
 
+	// --- Solar wind ---
+
+	it("extracts Bz and Bt from real mag fixture (newest-first array)", () => {
+		const adapter = createAdapter({});
+		const result = adapter.getSolarWindMagFromData(solarWindMagExample);
+		expect(result.bz).to.equal(4.58);
+		expect(result.bt).to.equal(4.78);
+		expect(result.time).to.equal("2026-06-04T22:13:00");
+	});
+
+	it("skips null bz_gsm entries and returns first valid one", () => {
+		const adapter = createAdapter({});
+		const data = [
+			{ time_tag: "2026-06-04T10:01:00", bt: 5.0, bz_gsm: null },
+			{ time_tag: "2026-06-04T10:00:00", bt: 4.5, bz_gsm: -3.2 },
+		];
+		const result = adapter.getSolarWindMagFromData(data);
+		expect(result.bz).to.equal(-3.2);
+		expect(result.bt).to.equal(4.5);
+		expect(result.time).to.equal("2026-06-04T10:00:00");
+	});
+
+	it("throws for empty mag payload", () => {
+		const adapter = createAdapter({});
+		expect(() => adapter.getSolarWindMagFromData([])).to.throw("Invalid solar wind mag payload");
+	});
+
+	it("throws when all bz_gsm entries are null", () => {
+		const adapter = createAdapter({});
+		const data = [{ time_tag: "2026-06-04T10:00:00", bt: 5.0, bz_gsm: null }];
+		expect(() => adapter.getSolarWindMagFromData(data)).to.throw("No valid solar wind mag data found");
+	});
+
+	it("throws for non-array mag payload", () => {
+		const adapter = createAdapter({});
+		// @ts-ignore
+		expect(() => adapter.getSolarWindMagFromData(null)).to.throw("Invalid solar wind mag payload");
+	});
+
+	it("extracts speed and density from real plasma fixture (newest-first array)", () => {
+		const adapter = createAdapter({});
+		const result = adapter.getSolarWindPlasmaFromData(solarWindPlasmaExample);
+		expect(result.speed).to.equal(430.6);
+		expect(result.density).to.equal(4.16);
+		expect(result.time).to.equal("2026-06-04T22:14:00");
+	});
+
+	it("skips null proton_speed entries and returns first valid one", () => {
+		const adapter = createAdapter({});
+		const data = [
+			{ time_tag: "2026-06-04T10:01:00", proton_speed: null, proton_density: null },
+			{ time_tag: "2026-06-04T10:00:00", proton_speed: 450.5, proton_density: 5.3 },
+		];
+		const result = adapter.getSolarWindPlasmaFromData(data);
+		expect(result.speed).to.equal(450.5);
+		expect(result.density).to.equal(5.3);
+		expect(result.time).to.equal("2026-06-04T10:00:00");
+	});
+
+	it("returns null density when proton_density is null", () => {
+		const adapter = createAdapter({});
+		const data = [{ time_tag: "2026-06-04T10:00:00", proton_speed: 400.0, proton_density: null }];
+		expect(adapter.getSolarWindPlasmaFromData(data).density).to.equal(null);
+	});
+
+	it("throws for empty plasma payload", () => {
+		const adapter = createAdapter({});
+		expect(() => adapter.getSolarWindPlasmaFromData([])).to.throw("Invalid solar wind plasma payload");
+	});
+
+	it("throws when all proton_speed entries are null", () => {
+		const adapter = createAdapter({});
+		const data = [{ time_tag: "2026-06-04T10:00:00", proton_speed: null, proton_density: null }];
+		expect(() => adapter.getSolarWindPlasmaFromData(data)).to.throw("No valid solar wind plasma data found");
+	});
+
+	it("throws for non-array plasma payload", () => {
+		const adapter = createAdapter({});
+		// @ts-ignore
+		expect(() => adapter.getSolarWindPlasmaFromData(null)).to.throw("Invalid solar wind plasma payload");
+	});
+
 	// --- onReady integration ---
 
 	it("uses system coordinates and updates datapoints after successful NOAA request", async () => {
@@ -256,6 +340,8 @@ describe("main.js helper methods", () => {
 		adapter.fetchOvation = async () => noaaResponseExample;
 		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
 		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
+		adapter.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
+		adapter.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
 		adapter.setState = async (id, state) => {
 			stateCalls.push({ id, state });
 		};
@@ -273,6 +359,12 @@ describe("main.js helper methods", () => {
 			"probability",
 			"observation_time",
 			"forecast_time",
+			"solar_wind.bz",
+			"solar_wind.bt",
+			"solar_wind.speed",
+			"solar_wind.density",
+			"solar_wind.mag_time",
+			"solar_wind.plasma_time",
 			"kp.value",
 			"kp.time",
 			"kp.forecast_max",
@@ -312,6 +404,8 @@ describe("main.js helper methods", () => {
 		adapter.fetchOvation = async () => noaaResponseExample;
 		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
 		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
+		adapter.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
+		adapter.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
 		adapter.setState = async (id, state) => {
 			stateCalls.push({ id, state });
 		};
@@ -329,6 +423,12 @@ describe("main.js helper methods", () => {
 			"probability",
 			"observation_time",
 			"forecast_time",
+			"solar_wind.bz",
+			"solar_wind.bt",
+			"solar_wind.speed",
+			"solar_wind.density",
+			"solar_wind.mag_time",
+			"solar_wind.plasma_time",
 			"kp.value",
 			"kp.time",
 			"kp.forecast_max",
@@ -364,6 +464,8 @@ describe("main.js helper methods", () => {
 		adapter.fetchOvation = async () => noaaResponseExample;
 		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
 		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
+		adapter.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
+		adapter.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
 		adapter.setState = async () => {};
 		adapter.terminate = () => {};
 		adapter.setInterval = (_fn, ms) => {

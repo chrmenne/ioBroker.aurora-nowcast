@@ -25,6 +25,20 @@ const utils = require("@iobroker/adapter-core");
  */
 
 /**
+ * @typedef {object} MagEntry
+ * @property {string} time_tag - ISO timestamp of the measurement
+ * @property {number} bt - Total magnetic field strength in nT
+ * @property {number|null} bz_gsm - Bz component in GSM coordinates (nT), negative = southward = aurora-favorable
+ */
+
+/**
+ * @typedef {object} PlasmaEntry
+ * @property {string} time_tag - ISO timestamp of the measurement
+ * @property {number|null} proton_speed - Solar wind proton speed in km/s
+ * @property {number|null} proton_density - Proton density in p/cm³
+ */
+
+/**
  * @typedef {object} KpForecastResult
  * @property {number} max - Maximum Kp value in the forecast period
  * @property {string} maxTime - ISO timestamp of the forecast maximum
@@ -125,6 +139,20 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
+	 * @returns {Promise<MagEntry[]>} Array of 1-minute solar wind magnetometer entries (newest first)
+	 */
+	async fetchSolarWindMag() {
+		return /** @type {MagEntry[]} */ (await this._fetchJson(this.config.solarWindMagUrl));
+	}
+
+	/**
+	 * @returns {Promise<PlasmaEntry[]>} Array of 1-minute solar wind plasma entries (newest first)
+	 */
+	async fetchSolarWindPlasma() {
+		return /** @type {PlasmaEntry[]} */ (await this._fetchJson(this.config.solarWindPlasmaUrl));
+	}
+
+	/**
 	 * @returns {Promise<Array.<{time_tag: string, kp: number, observed: string, noaa_scale: string|null}>>} 72-hour Kp forecast entries
 	 */
 	async fetchKpForecast() {
@@ -150,6 +178,42 @@ class AuroraNowcast extends utils.Adapter {
 			throw new Error("NOAA grid lookup failed");
 		}
 		return cell[2]; // probability %
+	}
+
+	/**
+	 * @param {MagEntry[]} data - Solar wind magnetometer entries from NOAA (newest first)
+	 * @returns {{ bz: number, bt: number, time: string }} Latest valid Bz, total field and timestamp
+	 */
+	getSolarWindMagFromData(data) {
+		if (!Array.isArray(data) || data.length === 0) {
+			throw new Error("Invalid solar wind mag payload");
+		}
+		for (const entry of data) {
+			if (entry && typeof entry.bz_gsm === "number" && !isNaN(entry.bz_gsm)) {
+				return { bz: entry.bz_gsm, bt: entry.bt, time: entry.time_tag };
+			}
+		}
+		throw new Error("No valid solar wind mag data found");
+	}
+
+	/**
+	 * @param {PlasmaEntry[]} data - Solar wind plasma entries from NOAA (newest first)
+	 * @returns {{ speed: number, density: number|null, time: string }} Latest valid speed, density and timestamp
+	 */
+	getSolarWindPlasmaFromData(data) {
+		if (!Array.isArray(data) || data.length === 0) {
+			throw new Error("Invalid solar wind plasma payload");
+		}
+		for (const entry of data) {
+			if (entry && typeof entry.proton_speed === "number" && !isNaN(entry.proton_speed)) {
+				return {
+					speed: entry.proton_speed,
+					density: typeof entry.proton_density === "number" ? entry.proton_density : null,
+					time: entry.time_tag,
+				};
+			}
+		}
+		throw new Error("No valid solar wind plasma data found");
 	}
 
 	/**
@@ -193,7 +257,7 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	async updateRealtimeData() {
-		await Promise.allSettled([this._updateKpIndex()]);
+		await Promise.allSettled([this._updateKpIndex(), this._updateSolarWind()]);
 	}
 
 	async _updateOvation() {
@@ -212,6 +276,22 @@ class AuroraNowcast extends utils.Adapter {
 			});
 		} catch (e) {
 			this.log.error(`Ovation update failed: ${e.message || e}`);
+		}
+	}
+
+	async _updateSolarWind() {
+		try {
+			const [magData, plasmaData] = await Promise.all([this.fetchSolarWindMag(), this.fetchSolarWindPlasma()]);
+			const { bz, bt, time: magTime } = this.getSolarWindMagFromData(magData);
+			await this.setState("solar_wind.bz", { val: bz, ack: true });
+			await this.setState("solar_wind.bt", { val: bt, ack: true });
+			await this.setState("solar_wind.mag_time", { val: this.parseNoaaTimestamp(magTime), ack: true });
+			const { speed, density, time: plasmaTime } = this.getSolarWindPlasmaFromData(plasmaData);
+			await this.setState("solar_wind.speed", { val: speed, ack: true });
+			await this.setState("solar_wind.density", { val: density, ack: true });
+			await this.setState("solar_wind.plasma_time", { val: this.parseNoaaTimestamp(plasmaTime), ack: true });
+		} catch (e) {
+			this.log.error(`Solar wind update failed: ${e.message || e}`);
 		}
 	}
 
@@ -272,6 +352,79 @@ class AuroraNowcast extends utils.Adapter {
 				type: "state",
 				common: {
 					name: "Forecast time",
+					type: "number",
+					role: "date",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("solar_wind.bz", {
+				type: "state",
+				common: {
+					name: "Solar wind Bz (GSM)",
+					type: "number",
+					role: "value",
+					unit: "nT",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("solar_wind.bt", {
+				type: "state",
+				common: {
+					name: "Solar wind total field (Bt)",
+					type: "number",
+					role: "value",
+					unit: "nT",
+					min: 0,
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("solar_wind.speed", {
+				type: "state",
+				common: {
+					name: "Solar wind proton speed",
+					type: "number",
+					role: "value",
+					unit: "km/s",
+					min: 0,
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("solar_wind.density", {
+				type: "state",
+				common: {
+					name: "Solar wind proton density",
+					type: "number",
+					role: "value",
+					unit: "p/cm³",
+					min: 0,
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("solar_wind.mag_time", {
+				type: "state",
+				common: {
+					name: "Solar wind magnetometer measurement time",
+					type: "number",
+					role: "date",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("solar_wind.plasma_time", {
+				type: "state",
+				common: {
+					name: "Solar wind plasma measurement time",
 					type: "number",
 					role: "date",
 					read: true,

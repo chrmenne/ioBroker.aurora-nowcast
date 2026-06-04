@@ -168,6 +168,8 @@
     "ovationUrl": "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json",
     "kpIndexUrl": "https://services.swpc.noaa.gov/json/planetary_k_index_1m.json",
     "kpForecastUrl": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json",
+    "solarWindMagUrl": "https://services.swpc.noaa.gov/json/rtsw/rtsw_mag_1m.json",
+    "solarWindPlasmaUrl": "https://services.swpc.noaa.gov/json/rtsw/rtsw_wind_1m.json",
     "latitude": null,
     "longitude": null,
     "interval": 5,

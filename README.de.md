@@ -28,6 +28,7 @@ Liefert **aktuelle (Nowcast) Daten** zur kurzfristigen Polarlicht-Aktivität an 
 - Liefert Echtzeitdaten zur Polarlichtaktivität (NOAA-OVATION-Modell) für die Nord- und Südhalbkugel
 - Berechnet die lokale Wahrscheinlichkeit, Polarlichter am konfigurierten Standort zu sehen
 - Liefert den aktuellen Kp-Index (1-Minuten-Feed) und eine 72-Stunden-Kp-Vorhersage
+- Liefert Echtzeit-Sonnenwinddaten (Bz, Gesamtfeld, Geschwindigkeit, Dichte) als Frühwarnindikatoren für Polarlichter
 - Stellt ioBroker-States für Automatisierung, Visualisierung und Benachrichtigungen bereit
 - Optional nutzbar mit Systemstandort oder manueller Eingabe von Breiten-/Längengrad
 - Geeignet für Dashboards, Benachrichtigungen und Smart-Home-Szenarien
@@ -96,9 +97,22 @@ Die Gradangaben für Nord und Ost sind positiv, für Süd und West dagegen negat
 | `kp.forecast_max_time` | number  | Zeitpunkt des Vorhersage-Maximums (UTC, ms)                |
 | `kp.forecast`          | string  | Vollständige 72h-Kp-Vorhersage als JSON `[{time, kp}]`     |
 
+### Sonnenwind
+
+**Bz (GSM)** — Die z-Komponente des interplanetaren Magnetfeldes in GSM-Koordinaten. Ein stark negativer Bz-Wert (südwärts gerichtet) öffnet die Erdmagnetosphäre für einströmende Sonnenwindenergie und ist der zuverlässigste kurzfristige Vorläufer sichtbarer Polarlichter — typischerweise 15–60 Minuten im Voraus. **Bt** ist die Gesamtfeldstärke; Bz in Relation zu Bt zeigt, wie stark südwärts das Feld orientiert ist.
+
+| Zustand                  | Typ    | Einheit | Beschreibung                                                  |
+|--------------------------|--------|---------|---------------------------------------------------------------|
+| `solar_wind.bz`          | number | nT      | Bz-Komponente in GSM-Koordinaten (negativ = südwärts)         |
+| `solar_wind.bt`          | number | nT      | Gesamtstärke des interplanetaren Magnetfeldes                 |
+| `solar_wind.speed`       | number | km/s    | Proton-Geschwindigkeit des Sonnenwinds                        |
+| `solar_wind.density`     | number | p/cm³   | Proton-Dichte des Sonnenwinds                                 |
+| `solar_wind.mag_time`    | number | ms      | Zeitstempel der Magnetfeld-Messung (UTC)                      |
+| `solar_wind.plasma_time` | number | ms      | Zeitstempel der Plasma-Messung (UTC)                          |
+
 Diese Zustände können verwendet werden für:
 
-- Benachrichtigungen (z. B. Push-Nachrichten bei Kp ≥ 5)
+- Benachrichtigungen (z. B. Push-Nachrichten bei Kp ≥ 5 oder Bz ≤ −10 nT)
 - Dashboard-Visualisierungen
 - Automatisierungsregeln (z. B. Kamera aktivieren, wenn die Polarlichtwahrscheinlichkeit hoch ist)
 
@@ -128,7 +142,7 @@ Die Sichtbarkeit von Polarlichtern hängt von mehreren externen Faktoren ab (z. 
 
 ## Changelog
 
-Siehe [README.md](README.md#changelog) für den vollständigen Changelog (englisch).
+Siehe [README.md](README.md#changelog) für den vollständigen Changelog (Englisch).
 
 ---
 

@@ -28,6 +28,7 @@ Provides **current (nowcast) data** on aurora activity (northern and southern li
 - Retrieves real-time aurora activity data (NOAA OVATION model) for both northern and southern hemisphere
 - Calculates local aurora visibility likelihood for a configured location
 - Provides current Kp index (1-minute feed) and a 72-hour Kp forecast
+- Provides real-time solar wind data (Bz, total field, speed, density) as aurora early-warning indicators
 - Provides ioBroker states for automation, visualization and alerts
 - Optional usage of system location or manual latitude/longitude input
 - Suitable for dashboards, notifications and smart home scenarios
@@ -96,9 +97,22 @@ North/East values are positive, South/West values are negative.
 | `kp.forecast_max_time` | number  | Time at which the forecast maximum occurs (UTC, ms)    |
 | `kp.forecast`          | string  | Full 72-hour Kp forecast as JSON array `[{time, kp}]`  |
 
+### Solar wind
+
+**Bz (GSM)** — The z-component of the interplanetary magnetic field in GSM coordinates. A strongly negative Bz (southward orientation) opens the Earth's magnetosphere to incoming solar wind energy and is the most reliable short-term aurora precursor — typically 15–60 minutes ahead of visible activity. **Bt** is the total field magnitude; Bz relative to Bt indicates how strongly southward the field is oriented.
+
+| State                   | Type   | Unit   | Description                                              |
+|-------------------------|--------|--------|----------------------------------------------------------|
+| `solar_wind.bz`         | number | nT     | Bz component in GSM coordinates (negative = southward)   |
+| `solar_wind.bt`         | number | nT     | Total interplanetary magnetic field strength             |
+| `solar_wind.speed`      | number | km/s   | Solar wind proton speed                                  |
+| `solar_wind.density`    | number | p/cm³  | Solar wind proton density                                |
+| `solar_wind.mag_time`   | number | ms     | Magnetometer measurement time (UTC)                      |
+| `solar_wind.plasma_time`| number | ms     | Plasma measurement time (UTC)                            |
+
 These states can be used for:
 
-- Notifications (e.g. push messages when Kp ≥ 5)
+- Notifications (e.g. push messages when Kp ≥ 5 or Bz ≤ −10 nT)
 - Dashboard visualizations
 - Automation rules (e.g. activate camera when aurora probability is high)
 
@@ -130,6 +144,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 ### **WORK IN PROGRESS**
 
+- added solar wind data: Bz, total field (Bt), proton speed and density as aurora early-warning indicators
 - added Kp index: current value (1-minute feed) and 72-hour forecast with maximum detection
 - added separate realtime polling interval for time-critical feeds (Kp, solar wind, X-ray)
 - switched from single-run to continuous interval-based polling (daemon mode)
