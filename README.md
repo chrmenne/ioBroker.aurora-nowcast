@@ -18,8 +18,8 @@
 Provides **current (nowcast) data** on aurora activity (northern and southern lights) for a given location, based on publicly available data from the NOAA Space Weather Prediction Center (SWPC).
 
 > **Note:**  
-> This adapter provides *current conditions / short-term nowcast data* based on real-time measurements and model outputs.  
-> It does **not** provide long-term forecasts.
+> The OVATION aurora data represents *current conditions (nowcast)* based on real-time solar wind measurements — not a long-range forecast.  
+> The Kp index feed additionally provides a **72-hour forecast** for planning purposes.
 
 ---
 
@@ -27,6 +27,7 @@ Provides **current (nowcast) data** on aurora activity (northern and southern li
 
 - Retrieves real-time aurora activity data (NOAA OVATION model) for both northern and southern hemisphere
 - Calculates local aurora visibility likelihood for a configured location
+- Provides current Kp index (1-minute feed) and a 72-hour Kp forecast
 - Provides ioBroker states for automation, visualization and alerts
 - Optional usage of system location or manual latitude/longitude input
 - Suitable for dashboards, notifications and smart home scenarios
@@ -62,17 +63,22 @@ Examples:
 
 North/East values are positive, South/West values are negative.
 
-### Update Interval
+### Update Intervals
 
-| Setting  | Default | Range  | Description                                                |
-|----------|---------|--------|------------------------------------------------------------|
-| Interval | 5       | 1-60   | How often the adapter fetches new data from NOAA (minutes) |
+| Setting           | Default | Range | Description                                                                        |
+|-------------------|---------|-------|------------------------------------------------------------------------------------|
+| Standard interval | 5       | 1–60  | How often OVATION aurora data, Kp forecast and storm scales are fetched (minutes)  |
+| Realtime interval | 1       | 1–60  | How often realtime feeds are fetched: current Kp index, solar wind, X-ray (minutes)|
 
 ---
 
 ## States
 
-The adapter creates the following states:
+### Background: Space Weather Indices
+
+**Kp index** — The planetary K index measures global geomagnetic activity on a scale of 0–9 (0 = quiet, 9 = extreme storm). Values ≥ 5 indicate geomagnetic storm conditions (G1 and above), under which aurora becomes visible at mid-latitudes such as Central Europe. The adapter provides both the current 1-minute Kp reading and a 72-hour forecast.
+
+### OVATION — Aurora probability
 
 | State               | Type    | Description                                                                        |
 |---------------------|---------|------------------------------------------------------------------------------------|
@@ -80,11 +86,21 @@ The adapter creates the following states:
 | `observation_time`  | number  | Time of the upstream solar wind observation used as model input (UTC, ms)          |
 | `forecast_time`     | number  | Time for which the nowcasted geomagnetic response at Earth is calculated (UTC, ms) |
 
+### Kp index
+
+| State                  | Type    | Description                                            |
+|------------------------|---------|--------------------------------------------------------|
+| `kp.value`             | number  | Current Kp index (0–9, decimal, 1-minute feed)         |
+| `kp.time`              | number  | Measurement time of the current Kp value (UTC, ms)     |
+| `kp.forecast_max`      | number  | Maximum Kp value in the 72-hour forecast               |
+| `kp.forecast_max_time` | number  | Time at which the forecast maximum occurs (UTC, ms)    |
+| `kp.forecast`          | string  | Full 72-hour Kp forecast as JSON array `[{time, kp}]`  |
+
 These states can be used for:
 
-- Notifications (e.g. push messages)
+- Notifications (e.g. push messages when Kp ≥ 5)
 - Dashboard visualizations
-- Automation rules (e.g. activate camera when activity is high)
+- Automation rules (e.g. activate camera when aurora probability is high)
 
 ---
 
@@ -114,6 +130,8 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 ### **WORK IN PROGRESS**
 
+- added Kp index: current value (1-minute feed) and 72-hour forecast with maximum detection
+- added separate realtime polling interval for time-critical feeds (Kp, solar wind, X-ray)
 - switched from single-run to continuous interval-based polling (daemon mode)
 - configurable update interval (1–60 minutes, default: 5)
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/32>)

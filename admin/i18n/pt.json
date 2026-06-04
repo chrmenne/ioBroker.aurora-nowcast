@@ -1,6 +1,8 @@
 {
-    "interval": "Intervalo (minutos)",
-    "intervalHelp": "Com que frequência os dados NOAA são buscados (a cada 1–60 minutos, padrão: 5).",
+    "interval": "Intervalo padrão (minutos)",
+    "intervalHelp": "Com que frequência os dados OVATION, a previsão de Kp e as escalas de tempestade são buscados (a cada 1–60 minutos, padrão: 5).",
+    "realtimeInterval": "Intervalo tempo real (minutos)",
+    "realtimeIntervalHelp": "Com que frequência os feeds em tempo real são buscados: vento solar Bz, índice Kp atual, fluxo de raios X (a cada 1–60 minutos, padrão: 1).",
     "latitudeDegrees": "Latitude (graus)",
     "latitudeHelp": "Latitude geográfica em graus decimais (-90 a 90). O Norte é positivo, o Sul é negativo. Exemplo: 52,5 (N) para Berlim, -34,6 (S) para Buenos Aires.",
     "latitudePlaceholder": "ex.: 52.2",

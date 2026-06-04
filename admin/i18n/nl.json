@@ -1,6 +1,8 @@
 {
-    "interval": "Interval (minuten)",
-    "intervalHelp": "Hoe vaak de NOAA-gegevens worden opgehaald (elke 1-60 minuten, standaard: 5).",
+    "interval": "Standaard interval (minuten)",
+    "intervalHelp": "Hoe vaak OVATION-auroregegevens, Kp-prognose en stormschalen worden opgehaald (elke 1-60 minuten, standaard: 5).",
+    "realtimeInterval": "Realtime interval (minuten)",
+    "realtimeIntervalHelp": "Hoe vaak realtime feeds worden opgehaald: zonnewind Bz, huidige Kp-index, röntgenflux (elke 1-60 minuten, standaard: 1).",
     "latitudeDegrees": "Breedtegraad (graden)",
     "latitudeHelp": "Geografische breedtegraad in decimale graden (-90 tot 90). Noord is positief, zuid is negatief. Voorbeeld: 52,5 (N) voor Berlijn, -34,6 (S) voor Buenos Aires.",
     "latitudePlaceholder": "bijv. 52,2",

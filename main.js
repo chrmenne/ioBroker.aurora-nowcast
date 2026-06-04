@@ -10,12 +10,25 @@
 const utils = require("@iobroker/adapter-core");
 
 /**
- * The structure of the NOAA ovation data response
- *
  * @typedef {object} OvationData
  * @property {string} observationTime - ISO timestamp of the observation time
  * @property {string} forecastTime - ISO timestamp of the forecast time
  * @property {Array.<[number, number, number]>} coordinates - Array of [lon, lat, probability] triplets
+ */
+
+/**
+ * @typedef {object} KpEntry
+ * @property {string} time_tag
+ * @property {number} kp_index
+ * @property {number|null} estimated_kp
+ * @property {string} kp
+ */
+
+/**
+ * @typedef {object} KpForecastResult
+ * @property {number} max
+ * @property {string} maxTime
+ * @property {Array.<{time: string, kp: number}>} forecast
  */
 
 class AuroraNowcast extends utils.Adapter {
@@ -30,6 +43,7 @@ class AuroraNowcast extends utils.Adapter {
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 		this.updateInterval = null;
+		this.realtimeUpdateInterval = null;
 		this.ovationIndex = null;
 	}
 
@@ -67,18 +81,15 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
-	 * Fetches aurora ovation data from NOAA.
-	 *
-	 * @async
-	 * @throws Will throw an error if the request fails or times out
-	 * @returns {Promise<OvationData>} The ovation data containing observation time, forecast time, and coordinates
+	 * @param {string} url
+	 * @returns {Promise<unknown>}
 	 */
-	async fetchOvation() {
+	async _fetchJson(url) {
 		const controller = new AbortController();
 		const timeout = this.setTimeout(() => controller.abort(), 10000);
 		let json;
 		try {
-			const res = await fetch(this.config.ovationUrl, {
+			const res = await fetch(url, {
 				signal: controller.signal,
 				headers: {
 					"User-Agent": "ioBroker-aurora-nowcast",
@@ -96,7 +107,28 @@ class AuroraNowcast extends utils.Adapter {
 		} finally {
 			clearTimeout(timeout);
 		}
-		return /** @type {OvationData} */ (json);
+		return json;
+	}
+
+	/**
+	 * @returns {Promise<OvationData>}
+	 */
+	async fetchOvation() {
+		return /** @type {OvationData} */ (await this._fetchJson(this.config.ovationUrl));
+	}
+
+	/**
+	 * @returns {Promise<KpEntry[]>}
+	 */
+	async fetchKpIndex() {
+		return /** @type {KpEntry[]} */ (await this._fetchJson(this.config.kpIndexUrl));
+	}
+
+	/**
+	 * @returns {Promise<Array.<Array.<string>>>}
+	 */
+	async fetchKpForecast() {
+		return /** @type {Array.<Array.<string>>} */ (await this._fetchJson(this.config.kpForecastUrl));
 	}
 
 	/**
@@ -119,27 +151,93 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
+	 * @param {KpEntry[]} data
+	 * @returns {{ value: number, time: string }}
+	 */
+	getKpValueFromData(data) {
+		if (!Array.isArray(data) || data.length === 0) {
+			throw new Error("Invalid Kp payload");
+		}
+		for (let i = data.length - 1; i >= 0; i--) {
+			const entry = data[i];
+			if (entry && typeof entry.estimated_kp === "number" && !isNaN(entry.estimated_kp)) {
+				return { value: entry.estimated_kp, time: entry.time_tag };
+			}
+		}
+		throw new Error("No valid Kp data found");
+	}
+
+	/**
+	 * @param {Array.<{time_tag: string, kp: number, observed: string, noaa_scale: string|null}>} data
+	 * @returns {KpForecastResult}
+	 */
+	getKpForecastFromData(data) {
+		if (!Array.isArray(data) || data.length === 0) {
+			throw new Error("Invalid Kp forecast payload");
+		}
+		const forecast = data.map(entry => ({ time: entry.time_tag, kp: entry.kp }));
+		const maxEntry = forecast.reduce((a, b) => (b.kp > a.kp ? b : a));
+		return { max: maxEntry.kp, maxTime: maxEntry.time, forecast };
+	}
+
+	/**
 	 * Fetches current ovation data and updates all states.
 	 *
 	 * @async
 	 * @returns {Promise<void>}
 	 */
 	async updateData() {
+		await Promise.allSettled([
+			this._updateOvation(),
+			this._updateKpForecast(),
+		]);
+	}
+
+	async updateRealtimeData() {
+		await Promise.allSettled([
+			this._updateKpIndex(),
+		]);
+	}
+
+	async _updateOvation() {
 		try {
-			const ovationJson = await this.fetchOvation();
-			const probability = this.getAuroraProbabilityFromOvationData(ovationJson, this.ovationIndex);
+			const data = await this.fetchOvation();
+			const probability = this.getAuroraProbabilityFromOvationData(data, this.ovationIndex);
 			this.log.debug(`Probability: ${probability}`);
 			await this.setState("probability", { val: probability, ack: true });
 			await this.setState("observation_time", {
-				val: this.parseNoaaTimestamp(ovationJson["Observation Time"]),
+				val: this.parseNoaaTimestamp(data["Observation Time"]),
 				ack: true,
 			});
 			await this.setState("forecast_time", {
-				val: this.parseNoaaTimestamp(ovationJson["Forecast Time"]),
+				val: this.parseNoaaTimestamp(data["Forecast Time"]),
 				ack: true,
 			});
 		} catch (e) {
-			this.log.error(e);
+			this.log.error(`Ovation update failed: ${e.message || e}`);
+		}
+	}
+
+	async _updateKpIndex() {
+		try {
+			const data = await this.fetchKpIndex();
+			const { value, time } = this.getKpValueFromData(data);
+			await this.setState("kp.value", { val: value, ack: true });
+			await this.setState("kp.time", { val: this.parseNoaaTimestamp(time), ack: true });
+		} catch (e) {
+			this.log.error(`Kp index update failed: ${e.message || e}`);
+		}
+	}
+
+	async _updateKpForecast() {
+		try {
+			const data = await this.fetchKpForecast();
+			const { max, maxTime, forecast } = this.getKpForecastFromData(data);
+			await this.setState("kp.forecast_max", { val: max, ack: true });
+			await this.setState("kp.forecast_max_time", { val: this.parseNoaaTimestamp(maxTime), ack: true });
+			await this.setState("kp.forecast", { val: JSON.stringify(forecast), ack: true });
+		} catch (e) {
+			this.log.error(`Kp forecast update failed: ${e.message || e}`);
 		}
 	}
 
@@ -184,6 +282,65 @@ class AuroraNowcast extends utils.Adapter {
 				},
 				native: {},
 			});
+			await this.setObjectNotExistsAsync("kp.value", {
+				type: "state",
+				common: {
+					name: "Kp index",
+					type: "number",
+					role: "value",
+					min: 0,
+					max: 9,
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("kp.time", {
+				type: "state",
+				common: {
+					name: "Kp measurement time",
+					type: "number",
+					role: "date",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("kp.forecast_max", {
+				type: "state",
+				common: {
+					name: "Kp forecast maximum (72h)",
+					type: "number",
+					role: "value",
+					min: 0,
+					max: 9,
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("kp.forecast_max_time", {
+				type: "state",
+				common: {
+					name: "Kp forecast maximum time",
+					type: "number",
+					role: "date",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("kp.forecast", {
+				type: "state",
+				common: {
+					name: "Kp forecast 72h (JSON)",
+					type: "string",
+					role: "json",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
 
 			let lat = NaN;
 			let lon = NaN;
@@ -212,10 +369,12 @@ class AuroraNowcast extends utils.Adapter {
 			this.log.debug(`Latitude: ${lat}, Longitude: ${lon}`);
 			this.log.debug(`Index: ${this.ovationIndex}`);
 
-			await this.updateData();
+			await Promise.allSettled([this.updateData(), this.updateRealtimeData()]);
 
 			const intervalMs = (this.config.interval || 5) * 60 * 1000;
+			const realtimeIntervalMs = (this.config.realtimeInterval || 1) * 60 * 1000;
 			this.updateInterval = this.setInterval(() => this.updateData(), intervalMs);
+			this.realtimeUpdateInterval = this.setInterval(() => this.updateRealtimeData(), realtimeIntervalMs);
 		} catch (e) {
 			this.log.error(e);
 			this.terminate(1);
@@ -231,6 +390,9 @@ class AuroraNowcast extends utils.Adapter {
 		try {
 			if (this.updateInterval) {
 				this.clearInterval(this.updateInterval);
+			}
+			if (this.realtimeUpdateInterval) {
+				this.clearInterval(this.realtimeUpdateInterval);
 			}
 			callback();
 		} catch (error) {

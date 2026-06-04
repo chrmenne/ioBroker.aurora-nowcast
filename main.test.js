@@ -4,6 +4,8 @@ const { expect } = require("chai");
 const { EventEmitter } = require("node:events");
 const Module = require("node:module");
 const noaaResponseExample = require("./test/resources/noaa_response_example.json");
+const kp1mExample = require("./test/resources/kp_1m_example.json");
+const kpForecastExample = require("./test/resources/kp_forecast_example.json");
 
 class FakeAdapter extends EventEmitter {
 	constructor(options = {}) {
@@ -172,6 +174,65 @@ describe("main.js helper methods", () => {
 		}
 	});
 
+	// --- Kp index ---
+
+	it("extracts latest valid Kp value from real 1-minute fixture", () => {
+		const adapter = createAdapter({});
+		const result = adapter.getKpValueFromData(kp1mExample);
+		expect(result.value).to.equal(0);
+		expect(result.time).to.equal("2026-06-04T21:44:00");
+	});
+
+	it("skips null estimated_kp entries and returns last valid one", () => {
+		const adapter = createAdapter({});
+		const data = [
+			{ time_tag: "2026-06-04T09:00:00", kp_index: 2, estimated_kp: 2.0, kp: "2o" },
+			{ time_tag: "2026-06-04T10:00:00", kp_index: 0, estimated_kp: null, kp: "0P" },
+		];
+		const result = adapter.getKpValueFromData(data);
+		expect(result.value).to.equal(2.0);
+		expect(result.time).to.equal("2026-06-04T09:00:00");
+	});
+
+	it("throws for empty Kp payload", () => {
+		const adapter = createAdapter({});
+		expect(() => adapter.getKpValueFromData([])).to.throw("Invalid Kp payload");
+	});
+
+	it("throws when all estimated_kp entries are null", () => {
+		const adapter = createAdapter({});
+		const data = [{ time_tag: "2026-06-04T09:00:00", kp_index: 0, estimated_kp: null, kp: "0P" }];
+		expect(() => adapter.getKpValueFromData(data)).to.throw("No valid Kp data found");
+	});
+
+	it("throws for non-array Kp payload", () => {
+		const adapter = createAdapter({});
+		// @ts-ignore
+		expect(() => adapter.getKpValueFromData(null)).to.throw("Invalid Kp payload");
+	});
+
+	it("builds forecast list and finds max from real forecast fixture", () => {
+		const adapter = createAdapter({});
+		const result = adapter.getKpForecastFromData(kpForecastExample);
+		expect(result.max).to.equal(6.67);
+		expect(result.maxTime).to.equal("2026-06-05T03:00:00");
+		expect(result.forecast).to.have.length(81);
+		expect(result.forecast[0]).to.deep.equal({ time: "2026-05-28T00:00:00", kp: 2 });
+	});
+
+	it("throws for empty forecast payload", () => {
+		const adapter = createAdapter({});
+		expect(() => adapter.getKpForecastFromData([])).to.throw("Invalid Kp forecast payload");
+	});
+
+	it("throws for non-array forecast payload", () => {
+		const adapter = createAdapter({});
+		// @ts-ignore
+		expect(() => adapter.getKpForecastFromData(null)).to.throw("Invalid Kp forecast payload");
+	});
+
+	// --- onReady integration ---
+
 	it("uses system coordinates and updates datapoints after successful NOAA request", async () => {
 		const adapter = createAdapter({
 			config: {
@@ -193,6 +254,8 @@ describe("main.js helper methods", () => {
 			return { common: { latitude: -89.4, longitude: 0.2 } };
 		};
 		adapter.fetchOvation = async () => noaaResponseExample;
+		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
+		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
 		adapter.setState = async (id, state) => {
 			stateCalls.push({ id, state });
 		};
@@ -210,6 +273,11 @@ describe("main.js helper methods", () => {
 			"probability",
 			"observation_time",
 			"forecast_time",
+			"kp.value",
+			"kp.time",
+			"kp.forecast_max",
+			"kp.forecast_max_time",
+			"kp.forecast",
 		]);
 		expect(stateCalls).to.deep.equal([
 			{ id: "probability", state: { val: 99, ack: true } },
@@ -217,7 +285,7 @@ describe("main.js helper methods", () => {
 			{ id: "forecast_time", state: { val: 1772013600000, ack: true } },
 		]);
 		expect(terminateCalls).to.deep.equal([]);
-		expect(intervalDelays).to.deep.equal([600000]); // 10 min * 60s * 1000ms
+		expect(intervalDelays).to.deep.equal([600000, 60000]); // 10 min standard + 1 min realtime (default)
 	});
 
 	it("uses adapter-configured coordinates and updates datapoints after successful NOAA request", async () => {
@@ -242,6 +310,8 @@ describe("main.js helper methods", () => {
 			throw new Error("system.config should not be read when adapter coordinates are configured");
 		};
 		adapter.fetchOvation = async () => noaaResponseExample;
+		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
+		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
 		adapter.setState = async (id, state) => {
 			stateCalls.push({ id, state });
 		};
@@ -259,6 +329,11 @@ describe("main.js helper methods", () => {
 			"probability",
 			"observation_time",
 			"forecast_time",
+			"kp.value",
+			"kp.time",
+			"kp.forecast_max",
+			"kp.forecast_max_time",
+			"kp.forecast",
 		]);
 		expect(stateCalls).to.deep.equal([
 			{ id: "probability", state: { val: 99, ack: true } },
@@ -266,7 +341,39 @@ describe("main.js helper methods", () => {
 			{ id: "forecast_time", state: { val: 1772013600000, ack: true } },
 		]);
 		expect(terminateCalls).to.deep.equal([]);
-		expect(intervalDelays).to.deep.equal([300000]); // 5 min * 60s * 1000ms
+		expect(intervalDelays).to.deep.equal([300000, 60000]); // 5 min standard + 1 min realtime (default)
+	});
+
+	it("uses configured realtimeInterval for realtime polling", async () => {
+		const adapter = createAdapter({
+			config: {
+				useSystemLocation: false,
+				latitude: -89.4,
+				longitude: 0.2,
+				ovationUrl: "https://example.invalid/noaa",
+				interval: 15,
+				realtimeInterval: 2,
+			},
+		});
+		const intervalDelays = [];
+
+		adapter.setObjectNotExistsAsync = async () => {};
+		adapter.getForeignObjectAsync = async () => {
+			throw new Error("should not be called");
+		};
+		adapter.fetchOvation = async () => noaaResponseExample;
+		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
+		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
+		adapter.setState = async () => {};
+		adapter.terminate = () => {};
+		adapter.setInterval = (_fn, ms) => {
+			intervalDelays.push(ms);
+			return null;
+		};
+
+		await adapter.onReady();
+
+		expect(intervalDelays).to.deep.equal([900000, 120000]); // 15 min standard + 2 min realtime
 	});
 
 	it("terminates with code 1 and skips NOAA fetch when system coordinates are not set", async () => {

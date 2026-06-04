@@ -1,6 +1,8 @@
 {
-    "interval": "Intervall (Minuten)",
-    "intervalHelp": "Wie oft die NOAA-Daten abgerufen werden (alle 1–60 Minuten, Standard: 5).",
+    "interval": "Standard-Intervall (Minuten)",
+    "intervalHelp": "Wie oft OVATION-Aurora-Daten, Kp-Vorhersage und Geostorm-Skalen abgerufen werden (alle 1–60 Minuten, Standard: 5).",
+    "realtimeInterval": "Echtzeit-Intervall (Minuten)",
+    "realtimeIntervalHelp": "Wie oft Echtzeit-Feeds abgerufen werden: Sonnenwind Bz, aktueller Kp-Index, Röntgenfluss (alle 1–60 Minuten, Standard: 1).",
     "latitudeDegrees": "Breitengrad (Grad)",
     "latitudeHelp": "Geografische Breite in Dezimalgraden (-90 bis 90). Norden ist positiv, Süden ist negativ. Beispiel: 52,5 (N) für Berlin, -34,6 (S) für Buenos Aires.",
     "latitudePlaceholder": "z.B. 52,2",

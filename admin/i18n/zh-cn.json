@@ -1,6 +1,8 @@
 {
-    "interval": "间隔（分钟）",
-    "intervalHelp": "获取 NOAA 数据的频率（每 1-60 分钟一次，默认值：5）。",
+    "interval": "标准间隔（分钟）",
+    "intervalHelp": "获取 OVATION 极光数据、Kp 预报和地磁暴等级的频率（每 1-60 分钟一次，默认值：5）。",
+    "realtimeInterval": "实时间隔（分钟）",
+    "realtimeIntervalHelp": "获取实时数据的频率：太阳风 Bz、当前 Kp 指数、X 射线通量（每 1-60 分钟一次，默认值：1）。",
     "latitudeDegrees": "纬度（度）",
     "latitudeHelp": "以十进制度数表示的地理纬度（-90 到 90）。北为正，南为负。例如：柏林为 52.5（北），布宜诺斯艾利斯为 -34.6（南）。",
     "latitudePlaceholder": "例如：52.2",

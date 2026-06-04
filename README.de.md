@@ -18,8 +18,8 @@
 Liefert **aktuelle (Nowcast) Daten** zur kurzfristigen Polarlicht-Aktivität an einem vorgegebenen Ort, basierend auf den öffentlich verfügbaren Daten des NOAA Space Weather Prediction Center (SWPC).
 
 > **Hinweis:**  
-> Dieser Adapter liefert *aktuelle/kurzfristige Nowcast-Informationen* basierend auf Echtzeitmessungen und Modellen.  
-> Er liefert **keine** längerfristigen Vorhersagen.
+> Die OVATION-Polarlichtwerte sind *aktuelle Messwerte (Nowcast)* basierend auf Echtzeit-Sonnenwinddaten — keine Langfristvorhersage.  
+> Der Kp-Index-Feed liefert zusätzlich eine **72-Stunden-Vorhersage** zur Planung.
 
 ---
 
@@ -27,6 +27,7 @@ Liefert **aktuelle (Nowcast) Daten** zur kurzfristigen Polarlicht-Aktivität an 
 
 - Liefert Echtzeitdaten zur Polarlichtaktivität (NOAA-OVATION-Modell) für die Nord- und Südhalbkugel
 - Berechnet die lokale Wahrscheinlichkeit, Polarlichter am konfigurierten Standort zu sehen
+- Liefert den aktuellen Kp-Index (1-Minuten-Feed) und eine 72-Stunden-Kp-Vorhersage
 - Stellt ioBroker-States für Automatisierung, Visualisierung und Benachrichtigungen bereit
 - Optional nutzbar mit Systemstandort oder manueller Eingabe von Breiten-/Längengrad
 - Geeignet für Dashboards, Benachrichtigungen und Smart-Home-Szenarien
@@ -62,17 +63,22 @@ Beispiele:
 
 Die Gradangaben für Nord und Ost sind positiv, für Süd und West dagegen negativ.
 
-### Aktualisierungsintervall
+### Aktualisierungsintervalle
 
-| Einstellung | Standard | Bereich | Beschreibung                                                        |
-|-------------|----------|---------|---------------------------------------------------------------------|
-| Intervall   | 5        | 1-60    | Wie oft der Adapter neue Daten von NOAA abruft (Minuten)            |
+| Einstellung         | Standard | Bereich | Beschreibung                                                                            |
+|---------------------|----------|---------|-----------------------------------------------------------------------------------------|
+| Standard-Intervall  | 5        | 1–60    | Wie oft OVATION-Aurora-Daten, Kp-Vorhersage und Geostorm-Skalen abgerufen werden (Min.) |
+| Echtzeit-Intervall  | 1        | 1–60    | Wie oft Echtzeit-Feeds abgerufen werden: aktueller Kp-Index, Sonnenwind, Röntgen (Min.) |
 
 ---
 
 ## Zustände
 
-Der Adapter erstellt die folgenden Zustände:
+### Hintergrund: Weltraumwetter-Indizes
+
+**Kp-Index** — Der planetarische K-Index misst die globale geomagnetische Aktivität auf einer Skala von 0–9 (0 = ruhig, 9 = extremer Sturm). Werte ≥ 5 bedeuten geomagnetischen Sturm (G1 und höher), bei dem Polarlichter in mittleren Breiten wie Mitteleuropa sichtbar werden. Der Adapter liefert sowohl den aktuellen 1-Minuten-Messwert als auch eine 72-Stunden-Vorhersage.
+
+### OVATION — Polarlicht-Wahrscheinlichkeit
 
 | Zustand             | Typ     | Beschreibung                                                                       |
 |---------------------|---------|------------------------------------------------------------------------------------|
@@ -80,11 +86,21 @@ Der Adapter erstellt die folgenden Zustände:
 | `observation_time`  | number  | Zeitpunkt der verwendeten Sonnenwind-Beobachtung (UTC, ms)                         |
 | `forecast_time`     | number  | Zeitpunkt, für den die geomagnetische Reaktion der Erde berechnet wurde (UTC, ms)  |
 
+### Kp-Index
+
+| Zustand                | Typ     | Beschreibung                                               |
+|------------------------|---------|------------------------------------------------------------|
+| `kp.value`             | number  | Aktueller Kp-Index (0–9, Dezimalwert, 1-Minuten-Feed)      |
+| `kp.time`              | number  | Messzeitpunkt des aktuellen Kp-Wertes (UTC, ms)            |
+| `kp.forecast_max`      | number  | Maximaler Kp-Wert in der 72-Stunden-Vorhersage             |
+| `kp.forecast_max_time` | number  | Zeitpunkt des Vorhersage-Maximums (UTC, ms)                |
+| `kp.forecast`          | string  | Vollständige 72h-Kp-Vorhersage als JSON `[{time, kp}]`     |
+
 Diese Zustände können verwendet werden für:
 
-- Benachrichtigungen (z. B. Push-Nachrichten)
+- Benachrichtigungen (z. B. Push-Nachrichten bei Kp ≥ 5)
 - Dashboard-Visualisierungen
-- Automatisierungsregeln (z. B. Kamera aktivieren, wenn die Aktivität hoch ist)
+- Automatisierungsregeln (z. B. Kamera aktivieren, wenn die Polarlichtwahrscheinlichkeit hoch ist)
 
 ---
 
