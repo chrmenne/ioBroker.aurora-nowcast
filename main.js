@@ -18,17 +18,17 @@ const utils = require("@iobroker/adapter-core");
 
 /**
  * @typedef {object} KpEntry
- * @property {string} time_tag
- * @property {number} kp_index
- * @property {number|null} estimated_kp
- * @property {string} kp
+ * @property {string} time_tag - ISO timestamp of the measurement
+ * @property {number} kp_index - Integer Kp value (0–9)
+ * @property {number|null} estimated_kp - Decimal estimated Kp value, may be null
+ * @property {string} kp - Alphanumeric Kp notation (e.g. "3+", "0Z")
  */
 
 /**
  * @typedef {object} KpForecastResult
- * @property {number} max
- * @property {string} maxTime
- * @property {Array.<{time: string, kp: number}>} forecast
+ * @property {number} max - Maximum Kp value in the forecast period
+ * @property {string} maxTime - ISO timestamp of the forecast maximum
+ * @property {Array.<{time: string, kp: number}>} forecast - Full forecast as array of time/kp pairs
  */
 
 class AuroraNowcast extends utils.Adapter {
@@ -81,8 +81,8 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
-	 * @param {string} url
-	 * @returns {Promise<unknown>}
+	 * @param {string} url - The URL to fetch JSON data from
+	 * @returns {Promise<unknown>} Parsed JSON response body
 	 */
 	async _fetchJson(url) {
 		const controller = new AbortController();
@@ -111,24 +111,26 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
-	 * @returns {Promise<OvationData>}
+	 * @returns {Promise<OvationData>} Aurora ovation data from NOAA
 	 */
 	async fetchOvation() {
 		return /** @type {OvationData} */ (await this._fetchJson(this.config.ovationUrl));
 	}
 
 	/**
-	 * @returns {Promise<KpEntry[]>}
+	 * @returns {Promise<KpEntry[]>} Array of 1-minute Kp index entries
 	 */
 	async fetchKpIndex() {
 		return /** @type {KpEntry[]} */ (await this._fetchJson(this.config.kpIndexUrl));
 	}
 
 	/**
-	 * @returns {Promise<Array.<Array.<string>>>}
+	 * @returns {Promise<Array.<{time_tag: string, kp: number, observed: string, noaa_scale: string|null}>>} 72-hour Kp forecast entries
 	 */
 	async fetchKpForecast() {
-		return /** @type {Array.<Array.<string>>} */ (await this._fetchJson(this.config.kpForecastUrl));
+		return /** @type {Array.<{time_tag: string, kp: number, observed: string, noaa_scale: string|null}>} */ (
+			await this._fetchJson(this.config.kpForecastUrl)
+		);
 	}
 
 	/**
@@ -151,8 +153,8 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
-	 * @param {KpEntry[]} data
-	 * @returns {{ value: number, time: string }}
+	 * @param {KpEntry[]} data - Array of 1-minute Kp entries from NOAA
+	 * @returns {{ value: number, time: string }} The latest valid Kp value and its timestamp
 	 */
 	getKpValueFromData(data) {
 		if (!Array.isArray(data) || data.length === 0) {
@@ -168,8 +170,8 @@ class AuroraNowcast extends utils.Adapter {
 	}
 
 	/**
-	 * @param {Array.<{time_tag: string, kp: number, observed: string, noaa_scale: string|null}>} data
-	 * @returns {KpForecastResult}
+	 * @param {Array.<{time_tag: string, kp: number, observed: string, noaa_scale: string|null}>} data - 72-hour Kp forecast entries from NOAA
+	 * @returns {KpForecastResult} Maximum Kp value, its timestamp, and the full forecast array
 	 */
 	getKpForecastFromData(data) {
 		if (!Array.isArray(data) || data.length === 0) {
@@ -187,16 +189,11 @@ class AuroraNowcast extends utils.Adapter {
 	 * @returns {Promise<void>}
 	 */
 	async updateData() {
-		await Promise.allSettled([
-			this._updateOvation(),
-			this._updateKpForecast(),
-		]);
+		await Promise.allSettled([this._updateOvation(), this._updateKpForecast()]);
 	}
 
 	async updateRealtimeData() {
-		await Promise.allSettled([
-			this._updateKpIndex(),
-		]);
+		await Promise.allSettled([this._updateKpIndex()]);
 	}
 
 	async _updateOvation() {
