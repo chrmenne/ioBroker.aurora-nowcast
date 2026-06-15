@@ -114,7 +114,22 @@ class AuroraNowcast extends utils.Adapter {
 			if (!res.ok) {
 				throw new Error(`NOAA HTTP ${res.status}`);
 			}
-			json = await res.json();
+			const text = await res.text();
+			try {
+				json = JSON.parse(text);
+			} catch (parseErr) {
+				if (!(parseErr instanceof SyntaxError)) throw parseErr;
+				// NOAA occasionally appends garbage after a complete JSON value.
+				// The error position marks the first offending character — everything before it is valid.
+				const posMatch = parseErr.message.match(/position (\d+)/);
+				if (!posMatch) {
+					this.log.warn(`NOAA parse error (no position): ${parseErr.message} — tail: ${JSON.stringify(text.slice(-100))}`);
+					throw parseErr;
+				}
+				const pos = parseInt(posMatch[1]);
+				this.log.warn(`NOAA response had trailing garbage at position ${pos}: ${JSON.stringify(text.slice(pos, pos + 80))}`);
+				json = JSON.parse(text.slice(0, pos));
+			}
 		} catch (e) {
 			const isTimeout = e.name === "AbortError";
 			const isParseError = e instanceof SyntaxError;

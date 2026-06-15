@@ -21,6 +21,7 @@ class FakeAdapter extends EventEmitter {
 		this.log = {
 			debug: () => {},
 			info: () => {},
+			warn: () => {},
 			error: () => {},
 		};
 	}
@@ -139,7 +140,7 @@ describe("main.js helper methods", () => {
 			requestedOptions = options;
 			return {
 				ok: true,
-				json: async () => expected,
+				text: async () => JSON.stringify(expected),
 			};
 		};
 
@@ -218,7 +219,7 @@ describe("main.js helper methods", () => {
 		// @ts-ignore
 		global.fetch = async () => {
 			callCount++;
-			return { ok: true, json: async () => { throw new SyntaxError("Unexpected end of JSON input"); } };
+			return { ok: true, text: async () => '[{"a":1}' }; // truncated, no closing ]
 		};
 
 		try {
@@ -248,14 +249,36 @@ describe("main.js helper methods", () => {
 		global.fetch = async () => {
 			callCount++;
 			if (callCount === 1) {
-				return { ok: true, json: async () => { throw new SyntaxError("Unterminated string"); } };
+				return { ok: true, text: async () => '[{"a":1}' }; // truncated
 			}
-			return { ok: true, json: async () => expected };
+			return { ok: true, text: async () => JSON.stringify(expected) };
 		};
 
 		try {
 			const data = await adapter.fetchOvation();
 			expect(callCount).to.equal(2);
+			expect(data).to.deep.equal(expected);
+		} finally {
+			global.fetch = originalFetch;
+		}
+	});
+
+	it("recovers valid JSON when NOAA appends garbage after the closing bracket", async () => {
+		// @ts-ignore
+		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
+		adapter.setTimeout = () => 0;
+		adapter.clearTimeout = () => {};
+
+		const expected = [{ a: 1 }];
+		const originalFetch = global.fetch;
+		// @ts-ignore
+		global.fetch = async () => ({
+			ok: true,
+			text: async () => JSON.stringify(expected) + "\n[garbage]",
+		});
+
+		try {
+			const data = await adapter.fetchOvation();
 			expect(data).to.deep.equal(expected);
 		} finally {
 			global.fetch = originalFetch;
