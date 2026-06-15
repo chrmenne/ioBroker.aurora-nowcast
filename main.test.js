@@ -176,6 +176,92 @@ describe("main.js helper methods", () => {
 		}
 	});
 
+	it("retries up to 3 times on timeout then throws", async () => {
+		// @ts-ignore
+		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
+		adapter.setTimeout = (fn, _delay) => { fn(); return 0; };
+		adapter.clearTimeout = () => {};
+
+		const originalFetch = global.fetch;
+		let callCount = 0;
+		// @ts-ignore
+		global.fetch = async (_url, options) => {
+			callCount++;
+			options.signal.dispatchEvent(new Event("abort"));
+			const err = new Error("aborted");
+			err.name = "AbortError";
+			throw err;
+		};
+
+		try {
+			let error;
+			try {
+				await adapter.fetchOvation();
+			} catch (e) {
+				error = e;
+			}
+			expect(callCount).to.equal(3);
+			expect(error.message).to.equal("NOAA request timeout");
+		} finally {
+			global.fetch = originalFetch;
+		}
+	});
+
+	it("retries on truncated JSON (SyntaxError) then throws", async () => {
+		// @ts-ignore
+		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
+		adapter.setTimeout = (fn, _delay) => { fn(); return 0; };
+		adapter.clearTimeout = () => {};
+
+		const originalFetch = global.fetch;
+		let callCount = 0;
+		// @ts-ignore
+		global.fetch = async () => {
+			callCount++;
+			return { ok: true, json: async () => { throw new SyntaxError("Unexpected end of JSON input"); } };
+		};
+
+		try {
+			let error;
+			try {
+				await adapter.fetchOvation();
+			} catch (e) {
+				error = e;
+			}
+			expect(callCount).to.equal(3);
+			expect(error).to.be.instanceOf(SyntaxError);
+		} finally {
+			global.fetch = originalFetch;
+		}
+	});
+
+	it("succeeds on retry after one JSON parse failure", async () => {
+		// @ts-ignore
+		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
+		adapter.setTimeout = (fn, _delay) => { fn(); return 0; };
+		adapter.clearTimeout = () => {};
+
+		const originalFetch = global.fetch;
+		let callCount = 0;
+		const expected = { coordinates: [] };
+		// @ts-ignore
+		global.fetch = async () => {
+			callCount++;
+			if (callCount === 1) {
+				return { ok: true, json: async () => { throw new SyntaxError("Unterminated string"); } };
+			}
+			return { ok: true, json: async () => expected };
+		};
+
+		try {
+			const data = await adapter.fetchOvation();
+			expect(callCount).to.equal(2);
+			expect(data).to.deep.equal(expected);
+		} finally {
+			global.fetch = originalFetch;
+		}
+	});
+
 	// --- Kp index ---
 
 	it("extracts latest valid Kp value from real 1-minute fixture", () => {

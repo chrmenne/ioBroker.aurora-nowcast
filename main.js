@@ -96,11 +96,13 @@ class AuroraNowcast extends utils.Adapter {
 
 	/**
 	 * @param {string} url - The URL to fetch JSON data from
+	 * @param {number} [attempt] - Current attempt number (1-based), used for retry logic
 	 * @returns {Promise<unknown>} Parsed JSON response body
 	 */
-	async _fetchJson(url) {
+	async _fetchJson(url, attempt = 1) {
+		const maxAttempts = 3;
 		const controller = new AbortController();
-		const timeout = this.setTimeout(() => controller.abort(), 10000);
+		const timeout = this.setTimeout(() => controller.abort(), 30000);
 		let json;
 		try {
 			const res = await fetch(url, {
@@ -114,12 +116,20 @@ class AuroraNowcast extends utils.Adapter {
 			}
 			json = await res.json();
 		} catch (e) {
-			if (e.name === "AbortError") {
+			const isTimeout = e.name === "AbortError";
+			const isParseError = e instanceof SyntaxError;
+			if ((isTimeout || isParseError) && attempt < maxAttempts) {
+				this.clearTimeout(timeout);
+				const delay = attempt * 5000;
+				await new Promise((resolve) => this.setTimeout(resolve, delay));
+				return this._fetchJson(url, attempt + 1);
+			}
+			if (isTimeout) {
 				throw new Error("NOAA request timeout");
 			}
 			throw e;
 		} finally {
-			clearTimeout(timeout);
+			this.clearTimeout(timeout);
 		}
 		return json;
 	}
