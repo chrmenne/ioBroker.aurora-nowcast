@@ -121,7 +121,7 @@ class AuroraNowcast extends utils.Adapter {
 			if ((isTimeout || isParseError) && attempt < maxAttempts) {
 				this.clearTimeout(timeout);
 				const delay = attempt * 5000;
-				await new Promise((resolve) => this.setTimeout(resolve, delay));
+				await new Promise(resolve => this.setTimeout(resolve, delay));
 				return this._fetchJson(url, attempt + 1);
 			}
 			if (isTimeout) {
