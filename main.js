@@ -10,10 +10,7 @@
 const utils = require("@iobroker/adapter-core");
 
 /**
- * @typedef {object} OvationData
- * @property {string} observationTime - ISO timestamp of the observation time
- * @property {string} forecastTime - ISO timestamp of the forecast time
- * @property {Array.<[number, number, number]>} coordinates - Array of [lon, lat, probability] triplets
+ * @typedef {{ "Observation Time": string, "Forecast Time": string, coordinates: Array.<[number, number, number]> }} OvationData
  */
 
 /**
@@ -101,6 +98,7 @@ class AuroraNowcast extends utils.Adapter {
 	 */
 	async _fetchJson(url, attempt = 1) {
 		const maxAttempts = 3;
+		const maxTruncatedAttempts = 5;
 		const controller = new AbortController();
 		const timeout = this.setTimeout(() => controller.abort(), 30000);
 		let json;
@@ -121,25 +119,40 @@ class AuroraNowcast extends utils.Adapter {
 				if (!(parseErr instanceof SyntaxError)) {
 					throw parseErr;
 				}
-				// NOAA occasionally appends garbage after a complete JSON value.
-				// The error position marks the first offending character — everything before it is valid.
+				// NOAA occasionally appends garbage after a complete JSON value, and occasionally
+				// cuts the response off mid-stream. The error position tells these apart: if it
+				// points before the end of the text, everything past it is trailing garbage; if it
+				// points at (or past) the end, the response was truncated before completing.
 				const posMatch = parseErr.message.match(/position (\d+)/);
-				if (!posMatch) {
+				const pos = posMatch ? parseInt(posMatch[1]) : null;
+				if (pos !== null && pos < text.trimEnd().length) {
 					this.log.warn(
-						`NOAA parse error (no position): ${parseErr.message} — tail: ${JSON.stringify(text.slice(-100))}`,
+						`NOAA response had trailing garbage at position ${pos}: ${JSON.stringify(text.slice(pos, pos + 80))}`,
 					);
-					throw parseErr;
+					json = JSON.parse(text.slice(0, pos));
+				} else {
+					// Response was cut off mid-stream. If it's an array, recover by
+					// closing it at the last complete element and dropping the rest.
+					const repaired = this._repairTruncatedJsonArray(text);
+					if (repaired !== null) {
+						this.log.info(
+							`NOAA response was truncated, recovered by dropping incomplete trailing entries — tail: ${JSON.stringify(text.slice(-100))}`,
+						);
+						json = repaired;
+					} else {
+						this.log.warn(
+							`NOAA response was truncated and could not be recovered: ${parseErr.message} — tail: ${JSON.stringify(text.slice(-100))}`,
+						);
+						/** @type {any} */ (parseErr).noaaTruncated = true;
+						throw parseErr;
+					}
 				}
-				const pos = parseInt(posMatch[1]);
-				this.log.warn(
-					`NOAA response had trailing garbage at position ${pos}: ${JSON.stringify(text.slice(pos, pos + 80))}`,
-				);
-				json = JSON.parse(text.slice(0, pos));
 			}
 		} catch (e) {
 			const isTimeout = e.name === "AbortError";
 			const isParseError = e instanceof SyntaxError;
-			if ((isTimeout || isParseError) && attempt < maxAttempts) {
+			const limit = /** @type {any} */ (e).noaaTruncated ? maxTruncatedAttempts : maxAttempts;
+			if ((isTimeout || isParseError) && attempt < limit) {
 				this.clearTimeout(timeout);
 				const delay = attempt * 5000;
 				await new Promise(resolve => this.setTimeout(resolve, delay));
@@ -153,6 +166,29 @@ class AuroraNowcast extends utils.Adapter {
 			this.clearTimeout(timeout);
 		}
 		return json;
+	}
+
+	/**
+	 * Attempts to recover a JSON array that was cut off mid-stream by closing it
+	 * at the last complete top-level element, dropping any incomplete trailing entry.
+	 *
+	 * @param {string} text - Raw response body
+	 * @returns {unknown[]|null} Recovered array, or null if no complete array could be recovered
+	 */
+	_repairTruncatedJsonArray(text) {
+		const trimmed = text.trimEnd();
+		if (!trimmed.startsWith("[")) {
+			return null;
+		}
+		let idx = trimmed.length;
+		while ((idx = trimmed.lastIndexOf("}", idx - 1)) !== -1) {
+			try {
+				return JSON.parse(`${trimmed.slice(0, idx + 1)}]`);
+			} catch {
+				// keep searching further back for an earlier complete element
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -220,7 +256,13 @@ class AuroraNowcast extends utils.Adapter {
 			throw new Error("Invalid solar wind mag payload");
 		}
 		for (const entry of data) {
-			if (entry && typeof entry.bz_gsm === "number" && !isNaN(entry.bz_gsm)) {
+			if (
+				entry &&
+				typeof entry.bz_gsm === "number" &&
+				!isNaN(entry.bz_gsm) &&
+				typeof entry.bt === "number" &&
+				!isNaN(entry.bt)
+			) {
 				return { bz: entry.bz_gsm, bt: entry.bt, time: entry.time_tag };
 			}
 		}

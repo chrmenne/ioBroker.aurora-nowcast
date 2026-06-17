@@ -208,7 +208,7 @@ describe("main.js helper methods", () => {
 		}
 	});
 
-	it("retries on truncated JSON (SyntaxError) then throws", async () => {
+	it("retries on unrepairable truncated JSON (SyntaxError) with extended attempts then throws", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
 		adapter.setTimeout = (fn, _delay) => { fn(); return 0; };
@@ -219,7 +219,7 @@ describe("main.js helper methods", () => {
 		// @ts-ignore
 		global.fetch = async () => {
 			callCount++;
-			return { ok: true, text: async () => '[{"a":1}' }; // truncated, no closing ]
+			return { ok: true, text: async () => '[{"a":1' }; // truncated, no closing } or ] anywhere
 		};
 
 		try {
@@ -229,14 +229,60 @@ describe("main.js helper methods", () => {
 			} catch (e) {
 				error = e;
 			}
-			expect(callCount).to.equal(3);
+			expect(callCount).to.equal(5);
 			expect(error).to.be.instanceOf(SyntaxError);
 		} finally {
 			global.fetch = originalFetch;
 		}
 	});
 
-	it("succeeds on retry after one JSON parse failure", async () => {
+	it("repairs a truncated JSON array by closing it at the last complete element", async () => {
+		// @ts-ignore
+		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
+		adapter.setTimeout = () => 0;
+		adapter.clearTimeout = () => {};
+
+		const originalFetch = global.fetch;
+		let callCount = 0;
+		// @ts-ignore
+		global.fetch = async () => {
+			callCount++;
+			return { ok: true, text: async () => '[{"a":1}' }; // missing closing ]
+		};
+
+		try {
+			const data = await adapter.fetchOvation();
+			expect(callCount).to.equal(1);
+			expect(data).to.deep.equal([{ a: 1 }]);
+		} finally {
+			global.fetch = originalFetch;
+		}
+	});
+
+	it("repairs a truncated JSON array by dropping an incomplete trailing entry", async () => {
+		// @ts-ignore
+		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
+		adapter.setTimeout = () => 0;
+		adapter.clearTimeout = () => {};
+
+		const originalFetch = global.fetch;
+		let callCount = 0;
+		// @ts-ignore
+		global.fetch = async () => {
+			callCount++;
+			return { ok: true, text: async () => '[{"a":1},{"b":2' }; // second entry cut off mid-value
+		};
+
+		try {
+			const data = await adapter.fetchOvation();
+			expect(callCount).to.equal(1);
+			expect(data).to.deep.equal([{ a: 1 }]);
+		} finally {
+			global.fetch = originalFetch;
+		}
+	});
+
+	it("succeeds on retry after one unrepairable JSON parse failure", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
 		adapter.setTimeout = (fn, _delay) => { fn(); return 0; };
@@ -249,7 +295,7 @@ describe("main.js helper methods", () => {
 		global.fetch = async () => {
 			callCount++;
 			if (callCount === 1) {
-				return { ok: true, text: async () => '[{"a":1}' }; // truncated
+				return { ok: true, text: async () => '{"coordinates":' }; // truncated object, not an array
 			}
 			return { ok: true, text: async () => JSON.stringify(expected) };
 		};
