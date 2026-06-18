@@ -126,7 +126,7 @@ class AuroraNowcast extends utils.Adapter {
 				const posMatch = parseErr.message.match(/position (\d+)/);
 				const pos = posMatch ? parseInt(posMatch[1]) : null;
 				if (pos !== null && pos < text.trimEnd().length) {
-					this.log.warn(
+					this.log.info(
 						`NOAA response had trailing garbage at position ${pos}: ${JSON.stringify(text.slice(pos, pos + 80))}`,
 					);
 					json = JSON.parse(text.slice(0, pos));
