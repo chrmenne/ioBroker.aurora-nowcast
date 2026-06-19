@@ -180,7 +180,7 @@ describe("main.js helper methods", () => {
 	it("retries up to 3 times on timeout then throws", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
-		adapter.setTimeout = (fn, _delay) => { fn(); return 0; };
+		adapter.setTimeout = /** @type {any} */ ((fn, _delay) => { fn(); return 0; });
 		adapter.clearTimeout = () => {};
 
 		const originalFetch = global.fetch;
@@ -211,7 +211,7 @@ describe("main.js helper methods", () => {
 	it("retries on unrepairable truncated JSON (SyntaxError) with extended attempts then throws", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
-		adapter.setTimeout = (fn, _delay) => { fn(); return 0; };
+		adapter.setTimeout = /** @type {any} */ ((fn, _delay) => { fn(); return 0; });
 		adapter.clearTimeout = () => {};
 
 		const originalFetch = global.fetch;
@@ -239,7 +239,7 @@ describe("main.js helper methods", () => {
 	it("repairs a truncated JSON array by closing it at the last complete element", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
-		adapter.setTimeout = () => 0;
+		adapter.setTimeout = /** @type {any} */ (() => 0);
 		adapter.clearTimeout = () => {};
 
 		const originalFetch = global.fetch;
@@ -262,7 +262,7 @@ describe("main.js helper methods", () => {
 	it("repairs a truncated JSON array by dropping an incomplete trailing entry", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
-		adapter.setTimeout = () => 0;
+		adapter.setTimeout = /** @type {any} */ (() => 0);
 		adapter.clearTimeout = () => {};
 
 		const originalFetch = global.fetch;
@@ -285,7 +285,7 @@ describe("main.js helper methods", () => {
 	it("succeeds on retry after one unrepairable JSON parse failure", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
-		adapter.setTimeout = (fn, _delay) => { fn(); return 0; };
+		adapter.setTimeout = /** @type {any} */ ((fn, _delay) => { fn(); return 0; });
 		adapter.clearTimeout = () => {};
 
 		const originalFetch = global.fetch;
@@ -312,7 +312,7 @@ describe("main.js helper methods", () => {
 	it("recovers valid JSON when NOAA appends garbage after the closing bracket", async () => {
 		// @ts-ignore
 		const adapter = createAdapter({ config: { ovationUrl: "https://example.invalid/noaa" } });
-		adapter.setTimeout = () => 0;
+		adapter.setTimeout = /** @type {any} */ (() => 0);
 		adapter.clearTimeout = () => {};
 
 		const expected = [{ a: 1 }];
@@ -494,36 +494,37 @@ describe("main.js helper methods", () => {
 
 	it("uses system coordinates and updates datapoints after successful NOAA request", async () => {
 		const adapter = createAdapter({
-			config: {
+			config: /** @type {any} */ ({
 				useSystemLocation: true,
 				ovationUrl: "https://example.invalid/noaa",
 				interval: 10,
-			},
+			}),
 		});
 		const stateCalls = [];
 		const objectCalls = [];
 		const terminateCalls = [];
 		const intervalDelays = [];
+		const a = /** @type {any} */ (adapter);
 
-		adapter.setObjectNotExistsAsync = async (id, obj) => {
+		a.setObjectNotExistsAsync = async (id, obj) => {
 			objectCalls.push({ id, obj });
 		};
-		adapter.getForeignObjectAsync = async (id) => {
+		a.getForeignObjectAsync = async (id) => {
 			expect(id).to.equal("system.config");
 			return { common: { latitude: -89.4, longitude: 0.2 } };
 		};
-		adapter.fetchOvation = async () => noaaResponseExample;
-		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
-		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
-		adapter.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
-		adapter.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
-		adapter.setState = async (id, state) => {
+		a.fetchOvation = async () => noaaResponseExample;
+		a.fetchKpIndex = async () => { throw new Error("not mocked"); };
+		a.fetchKpForecast = async () => { throw new Error("not mocked"); };
+		a.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
+		a.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
+		a.setState = async (id, state) => {
 			stateCalls.push({ id, state });
 		};
-		adapter.terminate = (code) => {
+		a.terminate = (code) => {
 			terminateCalls.push(code);
 		};
-		adapter.setInterval = (_fn, ms) => {
+		a.setInterval = (_fn, ms) => {
 			intervalDelays.push(ms);
 			return null;
 		};
@@ -558,37 +559,38 @@ describe("main.js helper methods", () => {
 
 	it("uses adapter-configured coordinates and updates datapoints after successful NOAA request", async () => {
 		const adapter = createAdapter({
-			config: {
+			config: /** @type {any} */ ({
 				useSystemLocation: false,
 				latitude: -89.4,
 				longitude: 0.2,
 				ovationUrl: "https://example.invalid/noaa",
 				interval: 5,
-			},
+			}),
 		});
 		const stateCalls = [];
 		const objectCalls = [];
 		const terminateCalls = [];
 		const intervalDelays = [];
+		const a = /** @type {any} */ (adapter);
 
-		adapter.setObjectNotExistsAsync = async (id, obj) => {
+		a.setObjectNotExistsAsync = async (id, obj) => {
 			objectCalls.push({ id, obj });
 		};
-		adapter.getForeignObjectAsync = async () => {
+		a.getForeignObjectAsync = async () => {
 			throw new Error("system.config should not be read when adapter coordinates are configured");
 		};
-		adapter.fetchOvation = async () => noaaResponseExample;
-		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
-		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
-		adapter.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
-		adapter.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
-		adapter.setState = async (id, state) => {
+		a.fetchOvation = async () => noaaResponseExample;
+		a.fetchKpIndex = async () => { throw new Error("not mocked"); };
+		a.fetchKpForecast = async () => { throw new Error("not mocked"); };
+		a.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
+		a.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
+		a.setState = async (id, state) => {
 			stateCalls.push({ id, state });
 		};
-		adapter.terminate = (code) => {
+		a.terminate = (code) => {
 			terminateCalls.push(code);
 		};
-		adapter.setInterval = (_fn, ms) => {
+		a.setInterval = (_fn, ms) => {
 			intervalDelays.push(ms);
 			return null;
 		};
@@ -623,29 +625,30 @@ describe("main.js helper methods", () => {
 
 	it("uses configured realtimeInterval for realtime polling", async () => {
 		const adapter = createAdapter({
-			config: {
+			config: /** @type {any} */ ({
 				useSystemLocation: false,
 				latitude: -89.4,
 				longitude: 0.2,
 				ovationUrl: "https://example.invalid/noaa",
 				interval: 15,
 				realtimeInterval: 2,
-			},
+			}),
 		});
 		const intervalDelays = [];
+		const a = /** @type {any} */ (adapter);
 
-		adapter.setObjectNotExistsAsync = async () => {};
-		adapter.getForeignObjectAsync = async () => {
+		a.setObjectNotExistsAsync = async () => {};
+		a.getForeignObjectAsync = async () => {
 			throw new Error("should not be called");
 		};
-		adapter.fetchOvation = async () => noaaResponseExample;
-		adapter.fetchKpIndex = async () => { throw new Error("not mocked"); };
-		adapter.fetchKpForecast = async () => { throw new Error("not mocked"); };
-		adapter.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
-		adapter.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
-		adapter.setState = async () => {};
-		adapter.terminate = () => {};
-		adapter.setInterval = (_fn, ms) => {
+		a.fetchOvation = async () => noaaResponseExample;
+		a.fetchKpIndex = async () => { throw new Error("not mocked"); };
+		a.fetchKpForecast = async () => { throw new Error("not mocked"); };
+		a.fetchSolarWindMag = async () => { throw new Error("not mocked"); };
+		a.fetchSolarWindPlasma = async () => { throw new Error("not mocked"); };
+		a.setState = async () => {};
+		a.terminate = () => {};
+		a.setInterval = (_fn, ms) => {
 			intervalDelays.push(ms);
 			return null;
 		};
@@ -657,25 +660,26 @@ describe("main.js helper methods", () => {
 
 	it("terminates with code 1 and skips NOAA fetch when system coordinates are not set", async () => {
 		const adapter = createAdapter({
-			config: {
+			config: /** @type {any} */ ({
 				useSystemLocation: true,
 				ovationUrl: "https://example.invalid/noaa",
-			},
+			}),
 		});
 		const terminateCalls = [];
 		let fetchCalled = false;
+		const a = /** @type {any} */ (adapter);
 
-		adapter.setObjectNotExistsAsync = async () => {};
-		adapter.getForeignObjectAsync = async () => ({ common: {} });
-		adapter.fetchOvation = async () => {
+		a.setObjectNotExistsAsync = async () => {};
+		a.getForeignObjectAsync = async () => ({ common: {} });
+		a.fetchOvation = async () => {
 			fetchCalled = true;
 			return noaaResponseExample;
 		};
-		adapter.setState = async () => {};
-		adapter.terminate = (code) => {
+		a.setState = async () => {};
+		a.terminate = (code) => {
 			terminateCalls.push(code);
 		};
-		adapter.setInterval = () => null;
+		a.setInterval = () => null;
 
 		await adapter.onReady();
 
@@ -685,27 +689,28 @@ describe("main.js helper methods", () => {
 
 	it("terminates with code 1 and skips NOAA fetch when no coordinates are configured", async () => {
 		const adapter = createAdapter({
-			config: {
+			config: /** @type {any} */ ({
 				useSystemLocation: false,
 				ovationUrl: "https://example.invalid/noaa",
-			},
+			}),
 		});
 		const terminateCalls = [];
 		let fetchCalled = false;
+		const a = /** @type {any} */ (adapter);
 
-		adapter.setObjectNotExistsAsync = async () => {};
-		adapter.getForeignObjectAsync = async () => {
+		a.setObjectNotExistsAsync = async () => {};
+		a.getForeignObjectAsync = async () => {
 			throw new Error("system.config should not be read when useSystemLocation is false");
 		};
-		adapter.fetchOvation = async () => {
+		a.fetchOvation = async () => {
 			fetchCalled = true;
 			return noaaResponseExample;
 		};
-		adapter.setState = async () => {};
-		adapter.terminate = (code) => {
+		a.setState = async () => {};
+		a.terminate = (code) => {
 			terminateCalls.push(code);
 		};
-		adapter.setInterval = () => null;
+		a.setInterval = () => null;
 
 		await adapter.onReady();
 
