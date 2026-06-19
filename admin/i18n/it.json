@@ -2,7 +2,7 @@
     "interval": "Intervallo standard (minuti)",
     "intervalHelp": "La frequenza con cui vengono recuperati i dati OVATION, le previsioni Kp e le scale di tempesta (ogni 1–60 minuti, impostazione predefinita: 5).",
     "realtimeInterval": "Intervallo tempo reale (minuti)",
-    "realtimeIntervalHelp": "La frequenza con cui vengono recuperati i feed in tempo reale: vento solare Bz, indice Kp attuale, flusso di raggi X (ogni 1–60 minuti, impostazione predefinita: 1).",
+    "realtimeIntervalHelp": "La frequenza con cui vengono recuperati i feed in tempo reale: vento solare Bz, indice Kp attuale (ogni 1–60 minuti, impostazione predefinita: 1).",
     "latitudeDegrees": "Latitudine (gradi)",
     "latitudeHelp": "Latitudine geografica in gradi decimali (da -90 a 90). Il nord è positivo, il sud è negativo. Esempio: 52,5 (N) per Berlino, -34,6 (S) per Buenos Aires.",
     "latitudePlaceholder": "ad esempio 52.2",

@@ -2,7 +2,7 @@
     "interval": "Standard interval (minutes)",
     "intervalHelp": "How often OVATION aurora data, Kp forecast and storm scales are fetched (every 1–60 minutes, default: 5).",
     "realtimeInterval": "Realtime interval (minutes)",
-    "realtimeIntervalHelp": "How often realtime feeds are fetched: solar wind Bz, current Kp index, X-ray flux (every 1–60 minutes, default: 1).",
+    "realtimeIntervalHelp": "How often realtime feeds are fetched: solar wind Bz, current Kp index (every 1–60 minutes, default: 1).",
     "latitudeDegrees": "Latitude (degrees)",
     "latitudeHelp": "Geographic latitude in decimal degrees (-90 to 90). North is positive, south is negative. Example: 52.5 (N) for Berlin, -34.6 (S) for Buenos Aires.",
     "latitudePlaceholder": "e.g. 52.2",

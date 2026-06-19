@@ -2,7 +2,7 @@
     "interval": "Intervalo estándar (minutos)",
     "intervalHelp": "Con qué frecuencia se obtienen los datos OVATION, las previsiones de Kp y las escalas de tormenta (cada 1 a 60 minutos, valor predeterminado: 5).",
     "realtimeInterval": "Intervalo tiempo real (minutos)",
-    "realtimeIntervalHelp": "Con qué frecuencia se obtienen los datos en tiempo real: viento solar Bz, índice Kp actual, flujo de rayos X (cada 1 a 60 minutos, valor predeterminado: 1).",
+    "realtimeIntervalHelp": "Con qué frecuencia se obtienen los datos en tiempo real: viento solar Bz, índice Kp actual (cada 1 a 60 minutos, valor predeterminado: 1).",
     "latitudeDegrees": "Latitud (grados)",
     "latitudeHelp": "Latitud geográfica en grados decimales (-90 a 90). El norte es positivo, el sur es negativo. Ejemplo: 52,5 (N) para Berlín, -34,6 (S) para Buenos Aires.",
     "latitudePlaceholder": "Por ejemplo, 52,2",

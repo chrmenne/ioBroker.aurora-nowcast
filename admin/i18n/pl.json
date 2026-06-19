@@ -2,7 +2,7 @@
     "interval": "Standardowy interwał (minuty)",
     "intervalHelp": "Częstotliwość pobierania danych OVATION, prognozy Kp i skal burzowych (co 1–60 minut, domyślnie: 5).",
     "realtimeInterval": "Interwał czasu rzeczywistego (minuty)",
-    "realtimeIntervalHelp": "Częstotliwość pobierania danych w czasie rzeczywistym: wiatr słoneczny Bz, aktualny indeks Kp, strumień rentgenowski (co 1–60 minut, domyślnie: 1).",
+    "realtimeIntervalHelp": "Częstotliwość pobierania danych w czasie rzeczywistym: wiatr słoneczny Bz, aktualny indeks Kp (co 1–60 minut, domyślnie: 1).",
     "latitudeDegrees": "Szerokość geograficzna (stopnie)",
     "latitudeHelp": "Szerokość geograficzna w stopniach dziesiętnych (-90 do 90). Północ jest dodatnia, południe jest ujemna. Przykład: 52,5 (N) dla Berlina, -34,6 (S) dla Buenos Aires.",
     "latitudePlaceholder": "np. 52.2",

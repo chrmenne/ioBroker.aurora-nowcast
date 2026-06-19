@@ -69,7 +69,7 @@ North/East values are positive, South/West values are negative.
 | Setting           | Default | Range | Description                                                                        |
 |-------------------|---------|-------|------------------------------------------------------------------------------------|
 | Standard interval | 5       | 1–60  | How often OVATION aurora data, Kp forecast and storm scales are fetched (minutes)  |
-| Realtime interval | 1       | 1–60  | How often realtime feeds are fetched: current Kp index, solar wind, X-ray (minutes)|
+| Realtime interval | 1       | 1–60  | How often realtime feeds are fetched: current Kp index, solar wind (minutes)       |
 
 ---
 
@@ -147,7 +147,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 - added solar wind data: Bz, total field (Bt), proton speed and density as aurora early-warning indicators
 - added Kp index: current value (1-minute feed) and 72-hour forecast with maximum detection
-- added separate realtime polling interval for time-critical feeds (Kp, solar wind, X-ray)
+- added separate realtime polling interval for time-critical feeds (Kp, solar wind)
 - switched from single-run to continuous interval-based polling (daemon mode)
 - configurable update interval (1–60 minutes, default: 5)
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/32>)
