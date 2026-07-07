@@ -119,6 +119,76 @@ These states can be used for:
 
 ---
 
+## Practical guide: catching the aurora
+
+Aurora chasing works in two stages: **planning ahead** using the Kp forecast, and **reacting in real time** using solar wind and OVATION data.
+
+### Stage 1 — Plan: is a storm expected?
+
+Use `kp.forecast_max` to check whether a geomagnetic storm is expected in the next 72 hours. Rough visibility thresholds by geographic latitude:
+
+| `kp.forecast_max` | Storm level | Visible down to ~                               |
+|-------------------|-------------|-------------------------------------------------|
+| < 5               | None        | High latitudes only                             |
+| 5 (G1)            | Minor       | ~60°N — northern Scotland, southern Scandinavia |
+| 6 (G2)            | Moderate    | ~55°N — northern Germany, Poland                |
+| 7 (G3)            | Strong      | ~50°N — London, Frankfurt, Warsaw               |
+| 8 (G4)            | Severe      | ~45°N — Switzerland, Austria, northern Italy    |
+| 9 (G5)            | Extreme     | ~40°N — central France, northern Spain          |
+
+`kp.forecast_max_time` tells you *when* the peak is expected — useful for a notification like "G2 storm forecast for tonight."
+
+`kp.g_scale` reflects the current storm level in real time (0 = quiet, 1–5 = G1–G5).
+
+> **Note:** These are approximate geographic latitudes for Europe. Actual visibility depends strongly on `solar_wind.bz` (see below), cloud cover, and light pollution.
+
+### Stage 2 — React: is aurora active right now?
+
+Even with a high Kp, aurora only becomes visible when the interplanetary magnetic field (IMF) turns **southward** — shown by a strongly negative `solar_wind.bz`. This is the most reliable short-term trigger.
+
+| `solar_wind.bz` | Meaning                                                  |
+|-----------------|----------------------------------------------------------|
+| > 0 nT          | Northward — magnetosphere largely closed, little aurora  |
+| 0 to −5 nT      | Weakly southward — marginal conditions                   |
+| −5 to −10 nT    | Southward — aurora activity begins to build              |
+| ≤ −10 nT        | Strongly southward — significant aurora likely           |
+| ≤ −20 nT        | Extreme — intense aurora well into mid-latitudes         |
+
+**Lead time:** Bz is measured at the L1 observation point between Earth and Sun. The solar wind takes **15–60 minutes** to travel from L1 to Earth — this is your warning window.
+
+`solar_wind.bt` is the total field strength. When `|bz|` approaches `bt`, the field is nearly fully southward. For example, bz = −18 nT with bt = 20 nT is a stronger signal than bz = −10 nT with bt = 30 nT.
+
+`solar_wind.speed` amplifies the effect: fast wind (> 400 km/s) combined with negative Bz delivers more energy to the magnetosphere. Very high speeds (> 600 km/s) can drive aurora even with moderate Bz.
+
+`solar_wind.density` plays a supporting role: high density (> 10 p/cm³) increases dynamic pressure and can enhance activity.
+
+### Location-specific confirmation: what does `probability` add?
+
+Kp is a global index — it describes overall geomagnetic activity, not what is happening above your location. `probability` is different: it is calculated specifically for your configured coordinates using the **NOAA OVATION model**, which takes real-time solar wind measurements as direct input and models the actual extent and intensity of the aurora oval. It therefore reacts faster and more precisely to changes in Bz than the derived Kp value.
+
+For Central Europe (around 50–55°N), realistic ranges during active conditions:
+
+| `probability` | Interpretation                                         |
+|---------------|--------------------------------------------------------|
+| < 5 %         | No meaningful activity at your location                |
+| 5–15 %        | Elevated — worth watching, especially away from cities |
+| 15–30 %       | Active — aurora likely visible if skies are clear      |
+| > 30 %        | Strong activity overhead                               |
+
+Use `probability` as the location-specific confirmation on top of Kp and Bz. A rising value alongside a strongly negative Bz is the clearest sign that it is worth going outside.
+
+### Example automation logic
+
+A practical three-layer alert strategy:
+
+1. **Watch mode** — `kp.forecast_max` ≥ 5: "Storm expected in the next 72 hours — monitor conditions tonight"
+2. **Alert** — `kp.value` ≥ 5 AND `solar_wind.bz` ≤ −10: "Storm active and Bz strongly southward — aurora likely in 15–60 minutes"
+3. **Overhead confirmation** — `probability` ≥ 15: "Aurora likely visible at your location right now"
+
+Combining all three layers avoids false alarms: the Kp filter confirms a real storm, the Bz filter confirms the magnetosphere is open, and the probability filter confirms activity at your exact location.
+
+---
+
 ## Data Source
 
 This adapter uses publicly available data provided by the:
@@ -145,6 +215,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 ### **WORK IN PROGRESS**
 
+- when upgrading from version 2.2.2 or earlier to version 2.3.0 or later, any instance should be manually deleted and recreated. Otherwise they will remain registered as CRON-type adapters. As the datapoints don't include any IDs or other dynamic values, they will be recreated exactly as they were and no script adjustments will be necessary.
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/38>)
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/37>)
 

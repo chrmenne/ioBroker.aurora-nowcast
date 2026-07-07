@@ -119,6 +119,76 @@ Diese Zustände können verwendet werden für:
 
 ---
 
+## Praxisanleitung: Polarlichter beobachten
+
+Polarlichter beobachten funktioniert in zwei Schritten: **vorausplanen** mit der Kp-Vorhersage und **in Echtzeit reagieren** mit Sonnenwind- und OVATION-Daten.
+
+### Schritt 1 — Planen: Ist ein Sturm zu erwarten?
+
+Mit `kp.forecast_max` lässt sich prüfen, ob in den nächsten 72 Stunden ein geomagnetischer Sturm erwartet wird. Grobe Sichtbarkeitsschwellen nach geografischem Breitengrad:
+
+| `kp.forecast_max` | Sturmstufe | Sichtbar bis ca.                                       |
+|-------------------|------------|-------------------------------------------------------|
+| < 5               | Keiner     | Nur in hohen Breiten                                  |
+| 5 (G1)            | Schwach    | ~60°N — Nordschottland, Südskandinavien               |
+| 6 (G2)            | Mäßig      | ~55°N — Norddeutschland, Polen                        |
+| 7 (G3)            | Stark      | ~50°N — London, Frankfurt, Warschau                   |
+| 8 (G4)            | Heftig     | ~45°N — Schweiz, Österreich, Norditalien              |
+| 9 (G5)            | Extrem     | ~40°N — Zentralfrankreich, Nordspanien                |
+
+`kp.forecast_max_time` gibt an, *wann* das Maximum erwartet wird — nützlich für eine Benachrichtigung wie „G2-Sturm heute Nacht vorhergesagt".
+
+`kp.g_scale` spiegelt die aktuelle Sturmstufe in Echtzeit wider (0 = ruhig, 1–5 = G1–G5).
+
+> **Hinweis:** Dies sind Näherungswerte für geografische Breitengrade in Europa. Die tatsächliche Sichtbarkeit hängt stark von `solar_wind.bz` (siehe unten), Bewölkung und Lichtverschmutzung ab.
+
+### Schritt 2 — Reagieren: Ist gerade Polarlicht aktiv?
+
+Selbst bei hohem Kp werden Polarlichter erst sichtbar, wenn das interplanetare Magnetfeld (IMF) **südwärts** dreht — erkennbar an einem stark negativen `solar_wind.bz`. Das ist der zuverlässigste kurzfristige Auslöser.
+
+| `solar_wind.bz` | Bedeutung                                                           |
+|-----------------|---------------------------------------------------------------------|
+| > 0 nT          | Nordwärts — Magnetosphäre weitgehend geschlossen, kaum Polarlichter |
+| 0 bis −5 nT     | Schwach südwärts — marginale Bedingungen                            |
+| −5 bis −10 nT   | Südwärts — Polarlichtaktivität beginnt aufzubauen                   |
+| ≤ −10 nT        | Stark südwärts — deutliche Polarlichtaktivität wahrscheinlich       |
+| ≤ −20 nT        | Extrem — intensive Polarlichter weit in mittlere Breiten            |
+
+**Vorwarnzeit:** Bz wird am L1-Messpunkt zwischen Erde und Sonne gemessen. Der Sonnenwind benötigt **15–60 Minuten** von L1 bis zur Erde — das ist das Warnfenster.
+
+`solar_wind.bt` ist die gesamte Feldstärke. Wenn `|bz|` nahe an `bt` herankommt, ist das Feld nahezu vollständig südwärts ausgerichtet. Beispiel: bz = −18 nT bei bt = 20 nT ist ein stärkeres Signal als bz = −10 nT bei bt = 30 nT.
+
+`solar_wind.speed` verstärkt den Effekt: Schneller Sonnenwind (> 400 km/s) zusammen mit negativem Bz überträgt mehr Energie auf die Magnetosphäre. Bei sehr hohen Geschwindigkeiten (> 600 km/s) kann auch ein moderater Bz Polarlichter auslösen.
+
+`solar_wind.density` spielt eine unterstützende Rolle: Hohe Dichte (> 10 p/cm³) erhöht den dynamischen Druck auf die Magnetosphäre und kann die Aktivität verstärken.
+
+### Ortsgebundene Bestätigung: Was fügt `probability` hinzu?
+
+Kp ist ein globaler Index — er beschreibt die allgemeine geomagnetische Aktivität, nicht was gerade über dem eigenen Standort passiert. `probability` ist anders: Der Wert wird speziell für die konfigurierten Koordinaten mit dem **NOAA OVATION-Modell** berechnet. Dieses Modell verwendet die Echtzeit-Sonnenwindmessungen direkt als Eingabe und modelliert die tatsächliche Ausdehnung und Intensität des Polarlichtbogens. Es reagiert daher schneller und präziser auf Bz-Änderungen als der abgeleitete Kp-Wert.
+
+Für Mitteleuropa (ca. 50–55°N) sind folgende Bereiche während aktiver Bedingungen realistisch:
+
+| `probability` | Bedeutung                                                            |
+|---------------|----------------------------------------------------------------------|
+| < 5 %         | Keine nennenswerte Aktivität am Standort                            |
+| 5–15 %        | Erhöht — beobachtenswert, besonders außerhalb von Städten           |
+| 15–30 %       | Aktiv — Polarlichter bei klarem Himmel wahrscheinlich sichtbar      |
+| > 30 %        | Starke Aktivität direkt über dem Standort                           |
+
+`probability` ist die ortsgebundene Bestätigung ergänzend zu Kp und Bz. Ein steigender Wert zusammen mit einem stark negativen Bz ist das deutlichste Zeichen, nach draußen zu gehen.
+
+### Beispiel-Automatisierung
+
+Eine praktische dreistufige Benachrichtigungsstrategie:
+
+1. **Beobachtungsmodus** — `kp.forecast_max` ≥ 5: „Sturm in den nächsten 72 Stunden vorhergesagt — heute Abend auf Bedingungen achten"
+2. **Alarm** — `kp.value` ≥ 5 UND `solar_wind.bz` ≤ −10: „Sturm aktiv und Bz stark südwärts — Polarlichter in 15–60 Minuten wahrscheinlich"
+3. **Standortbestätigung** — `probability` ≥ 15: „Polarlichter am Standort gerade wahrscheinlich sichtbar"
+
+Die Kombination aller drei Ebenen vermeidet Fehlalarme: Kp bestätigt einen echten Sturm, Bz bestätigt eine offene Magnetosphäre, und probability bestätigt Aktivität genau am eigenen Standort.
+
+---
+
 ## Datenquelle
 
 Dieser Adapter nutzt öffentlich verfügbare Daten von:
