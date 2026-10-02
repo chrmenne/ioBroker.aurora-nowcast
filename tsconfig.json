@@ -7,6 +7,9 @@
 		// do not compile anything, this file is just to configure type checking
 		"noEmit": true,
 
+		// include Node.js and Mocha globals for source and test files
+		"types": ["node", "mocha"],
+
 		// check JS files
 		"allowJs": true,
 		"checkJs": true,
