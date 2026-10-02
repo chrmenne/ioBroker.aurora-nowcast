@@ -221,6 +221,6 @@ Siehe [README.md](README.md#changelog) für den vollständigen Changelog (Englis
 
 GNU General Public License v3.0
 
-Copyright (c) 2026 Christian Menne
+Copyright (c) 2026 Christian Menne <publicdevelopment@christianmenne.de>
 
 See LICENSE file for full license text.

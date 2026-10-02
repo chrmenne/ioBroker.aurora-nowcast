@@ -257,6 +257,6 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 GNU General Public License v3.0
 
-Copyright (c) 2026 Christian Menne
+Copyright (c) 2026 Christian Menne <publicdevelopment@christianmenne.de>
 
 See [LICENSE](LICENSE) for the full license text.
