@@ -220,6 +220,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/37>)
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/39>)
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/41>)
+- fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/44>)
 - fixed various vulnerabilities
 
 ### 2.3.0 (2026-06-19)
