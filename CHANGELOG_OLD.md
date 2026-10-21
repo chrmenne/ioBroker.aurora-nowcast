@@ -1,4 +1,12 @@
 # Older changes
+## 2.1.4 (2026-03-11)
+
+- disabled Sentry in GitHub workflow
+
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
+---
+
 ## 2.1.3 (2026-03-11)
 
 - fixed iobroker-Bot warnings: <https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/18>
