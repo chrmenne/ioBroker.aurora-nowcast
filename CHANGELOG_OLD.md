@@ -3,8 +3,6 @@
 
 - disabled Sentry in GitHub workflow
 
-[Older changelogs can be found there](CHANGELOG_OLD.md)
-
 ---
 
 ## 2.1.3 (2026-03-11)
