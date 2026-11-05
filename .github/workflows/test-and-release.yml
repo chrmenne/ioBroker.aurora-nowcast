@@ -107,7 +107,7 @@ jobs:
             }
             const newline = readme.includes('\r\n') ? '\r\n' : '\n';
             const updated = readme.replace(heading, match =>
-              match.trimEnd() + newline + newline + '### **WORK IN PROGRESS**');
+              match.trimEnd() + newline + newline + '### **WORK IN PROGRESS**' + newline);
             await github.rest.repos.createOrUpdateFileContents({
               ...file,
               branch: 'main',
