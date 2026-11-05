@@ -212,8 +212,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 ---
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 2.3.2 (2026-11-05)
 
 - Re-release of version 2.3.1 with provenance, with no changes to the actual adapter code.
 
@@ -248,10 +247,6 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 - fixed Readme link to a more stable direct link instead of an anchor
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/24>)
 - fixed issue (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/27>)
-
-### 2.2.0 (2026-03-30)
-
-- fixed review findings (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)
 
 ### Older changelogs
 
