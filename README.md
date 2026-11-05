@@ -215,7 +215,7 @@ Aurora visibility depends on multiple external factors (e.g. cloud cover, light 
 
 ### **WORK IN PROGRESS**
 
-- (chrmenne) Restored the link to older changelogs and kept it outside version entries.
+- Re-release of version 2.3.1 with provenance, with no changes to the actual adapter code.
 
 ### 2.3.1 (2026-10-21)
 
