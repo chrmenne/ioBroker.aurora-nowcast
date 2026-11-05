@@ -1,4 +1,5 @@
 # Older changes
+
 ## 2.2.0 (2026-03-30)
 
 - fixed review findings (<https://github.com/chrmenne/ioBroker.aurora-nowcast/issues/21>)
